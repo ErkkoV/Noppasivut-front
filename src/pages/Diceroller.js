@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
 
 function DiceRoller() {
@@ -6,10 +6,27 @@ function DiceRoller() {
     const [genRoll, setGenRoll] = useState();
     const [idNum, setIdNum] = useState(0);
 
+    const deleteRoll = (id) => {
+        const newRolls = rolls.filter((roll) => roll.id !== Number(id));
+        setRolls(newRolls);
+    };
+
     const rollGen = () => {
         const list = [];
         rolls.forEach((roll) => {
-            list.push(<Card key={`Card${roll.id}`}>Test</Card>);
+            list.push(
+                <Card key={`Card${roll.id}`} id={roll.id}>
+                    <Button
+                        id={roll.id}
+                        variant="danger"
+                        onClick={(e) => {
+                            deleteRoll(e.target.id);
+                        }}
+                    >
+                        Delete Roll
+                    </Button>
+                </Card>
+            );
         });
         console.log(list);
         return list;
@@ -31,11 +48,15 @@ function DiceRoller() {
         console.log(rolls);
     };
 
+    useEffect(() => {
+        setGenRoll(rollGen());
+    }, [rolls]);
+
     return (
-        <>
+        <div>
             <Button onClick={addRoll}>Add Roll</Button>
             {genRoll}
-        </>
+        </div>
     );
 }
 
