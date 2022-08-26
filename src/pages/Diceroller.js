@@ -17,12 +17,13 @@ function DiceRoller() {
     const addRoll = () => {
         const rollList = rolls;
         rollList.push({
-            id: rolls + 1,
+            id: rolls.length + 1,
             attackskill: 0,
             defenceskill: 0,
             attackroll: 0,
             defenceroll: 0,
         });
+        rollList.sort((a, b) => a.id - b.id);
         setRolls(rollList);
         setGenRoll(rollGen());
         console.log(rolls);
