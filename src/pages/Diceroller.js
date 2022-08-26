@@ -28,7 +28,6 @@ function DiceRoller() {
                 </Card>
             );
         });
-        console.log(list);
         return list;
     };
 
@@ -45,7 +44,6 @@ function DiceRoller() {
         rollList.sort((a, b) => a.id - b.id);
         setRolls(rollList);
         setGenRoll(rollGen());
-        console.log(rolls);
     };
 
     useEffect(() => {
