@@ -4,6 +4,7 @@ import { Button, Card } from 'react-bootstrap';
 function DiceRoller() {
     const [rolls, setRolls] = useState([]);
     const [genRoll, setGenRoll] = useState();
+    const [idNum, setIdNum] = useState(0);
 
     const rollGen = () => {
         const list = [];
@@ -15,9 +16,10 @@ function DiceRoller() {
     };
 
     const addRoll = () => {
+        setIdNum(idNum + 1);
         const rollList = rolls;
         rollList.push({
-            id: rolls.length + 1,
+            id: idNum,
             attackskill: 0,
             defenceskill: 0,
             attackroll: 0,
