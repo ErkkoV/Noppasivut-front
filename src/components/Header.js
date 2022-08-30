@@ -9,13 +9,11 @@ function Header() {
     const setStart = () => {
         const keys = { home: false, DiceRoller: false, ProbCalc: false, CharCreator: false };
         const key = location.pathname.replace(location.pathname[0], '');
-        console.log(key);
         if (key === '') {
             keys.home = true;
         } else {
             keys[key] = true;
         }
-        console.log(keys);
         return keys;
     };
 
