@@ -1,18 +1,30 @@
 import { useState } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Header() {
     const navigate = useNavigate();
+    const location = useLocation();
 
-    const [activeKey, setActiveKey] = useState({ home: true, roller: false, prob: false, creator: false });
+    const setStart = () => {
+        const keys = { home: false, DiceRoller: false, ProbCalc: false, CharCreator: false };
+        const key = location.pathname.replace(location.pathname[0], '');
+        if (key === '') {
+            keys.home = true;
+        } else {
+            keys[key] = true;
+        }
+        return keys;
+    };
+
+    const [activeKey, setActiveKey] = useState(setStart());
 
     const setAct = (key) => {
         const keys = activeKey;
         keys.home = false;
-        keys.roller = false;
-        keys.prob = false;
-        keys.creator = false;
+        keys.DiceRoller = false;
+        keys.ProbCalc = false;
+        keys.CharCreator = false;
         keys[key] = true;
         setActiveKey(keys);
     };
@@ -32,27 +44,27 @@ function Header() {
                 <Nav.Link
                     onClick={() => {
                         navigate('/DiceRoller', { replace: false });
-                        setAct('roller');
+                        setAct('DiceRoller');
                     }}
-                    active={activeKey.roller}
+                    active={activeKey.DiceRoller}
                 >
                     Dice Roller
                 </Nav.Link>
                 <Nav.Link
                     onClick={() => {
                         navigate('/ProbCalc', { replace: false });
-                        setAct('prob');
+                        setAct('ProbCalc');
                     }}
-                    active={activeKey.prob}
+                    active={activeKey.ProbCalc}
                 >
                     Probability Calculator
                 </Nav.Link>
                 <Nav.Link
                     onClick={() => {
                         navigate('/CharCreator', { replace: false });
-                        setAct('creator');
+                        setAct('CharCreator');
                     }}
-                    active={activeKey.creator}
+                    active={activeKey.CharCreator}
                 >
                     Character Creator
                 </Nav.Link>
