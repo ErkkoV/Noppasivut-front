@@ -21,7 +21,11 @@ const roller = (roll) => {
 
     const resultNumber = (list, type, skill) => {
         list.sort((a, b) => b - a);
+
+        console.log(list);
+
         let result = 0;
+
         if (roll[type] > 0) {
             if (list.every((every) => every === 1)) {
                 result = result - 5 + list.length;
@@ -45,7 +49,9 @@ const roller = (roll) => {
             });
         }
 
-        result += roll[skill];
+        console.log(result);
+        result += Number(roll[skill]);
+        console.log(result);
 
         return result;
     };

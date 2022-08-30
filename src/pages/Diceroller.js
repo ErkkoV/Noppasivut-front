@@ -18,8 +18,6 @@ function DiceRoller() {
         const restRolls = rolls.filter((roll) => roll.id !== Number(id));
         const targetRoll = rolls.filter((roll) => roll.id === Number(id));
 
-        console.log(targetRoll);
-
         targetRoll.result = roller(targetRoll[0]);
         restRolls.push(targetRoll[0]);
         restRolls.sort((a, b) => a.id - b.id);
