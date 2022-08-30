@@ -42,7 +42,7 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result }) {
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
-                            <Form.Label>Def Roll</Form.Label>
+                            <Form.Label>Att Roll</Form.Label>
                             <Form.Control
                                 id={id}
                                 required
@@ -55,7 +55,7 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result }) {
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
-                            <Form.Label>Att Roll</Form.Label>
+                            <Form.Label>Def Roll</Form.Label>
                             <Form.Control
                                 id={id}
                                 required
