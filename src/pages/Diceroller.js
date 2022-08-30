@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 
 import RollGen from '../components/RollGen';
+import roller from '../components/roller';
 
 function DiceRoller() {
     const [rolls, setRolls] = useState([]);
@@ -13,14 +14,31 @@ function DiceRoller() {
         setRolls(newRolls);
     };
 
-    const diceRoll = () => {
-        console.log('roll');
+    const diceRoll = (id) => {
+        const restRolls = rolls.filter((roll) => roll.id !== Number(id));
+        const targetRoll = rolls.filter((roll) => roll.id === Number(id));
+
+        console.log(targetRoll);
+
+        targetRoll.result = roller(targetRoll[0]);
+        restRolls.push(targetRoll[0]);
+        restRolls.sort((a, b) => a.id - b.id);
+        setRolls(restRolls);
+    };
+
+    const adjustRoll = (id, value, key) => {
+        const restRolls = rolls.filter((roll) => roll.id !== Number(id));
+        const targetRoll = rolls.filter((roll) => roll.id === Number(id));
+        targetRoll[0][key] = value;
+        restRolls.push(targetRoll[0]);
+        restRolls.sort((a, b) => a.id - b.id);
+        setRolls(restRolls);
     };
 
     const rollGen = () => {
         const list = [];
         rolls.forEach((roll) => {
-            list.push(<RollGen id={roll.id} diceRoll={diceRoll} deleteRoll={deleteRoll} />);
+            list.push(<RollGen id={roll.id} diceRoll={diceRoll} deleteRoll={deleteRoll} adjustRoll={adjustRoll} />);
         });
         return list;
     };
@@ -34,6 +52,7 @@ function DiceRoller() {
             defenceskill: 0,
             attackroll: 0,
             defenceroll: 0,
+            result: '',
         });
         rollList.sort((a, b) => a.id - b.id);
         setRolls(rollList);
@@ -41,6 +60,7 @@ function DiceRoller() {
     };
 
     useEffect(() => {
+        console.log(rolls);
         setGenRoll(rollGen());
     }, [rolls]);
 

@@ -1,11 +1,12 @@
 import { Button, Card, Form, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-function RollGen({ id, deleteRoll, diceRoll }) {
+function RollGen({ id, deleteRoll, diceRoll, adjustRoll }) {
     RollGen.propTypes = {
         id: PropTypes.number.isRequired,
         deleteRoll: PropTypes.func.isRequired,
         diceRoll: PropTypes.func.isRequired,
+        adjustRoll: PropTypes.func.isRequired,
     };
 
     return (
@@ -15,19 +16,55 @@ function RollGen({ id, deleteRoll, diceRoll }) {
                     <Row className="mb-3">
                         <Form.Group as={Col}>
                             <Form.Label>Att Skill</Form.Label>
-                            <Form.Control required type="number" placeholder="Attack Skill" defaultValue={0} />
+                            <Form.Control
+                                id={id}
+                                required
+                                type="number"
+                                placeholder="Attack Skill"
+                                defaultValue={0}
+                                onChange={(e) => {
+                                    adjustRoll(e.target.id, e.target.value, 'attackskill');
+                                }}
+                            />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Def Skill</Form.Label>
-                            <Form.Control required type="number" placeholder="Defense Skill" defaultValue={0} />
+                            <Form.Control
+                                id={id}
+                                required
+                                type="number"
+                                placeholder="Defense Skill"
+                                defaultValue={0}
+                                onChange={(e) => {
+                                    adjustRoll(e.target.id, e.target.value, 'defenceskill');
+                                }}
+                            />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Def Roll</Form.Label>
-                            <Form.Control required type="number" placeholder="Attack Roll" defaultValue={0} />
+                            <Form.Control
+                                id={id}
+                                required
+                                type="number"
+                                placeholder="Attack Roll"
+                                defaultValue={0}
+                                onChange={(e) => {
+                                    adjustRoll(e.target.id, e.target.value, 'attackroll');
+                                }}
+                            />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Att Roll</Form.Label>
-                            <Form.Control required type="number" placeholder="Defense Roll" defaultValue={0} />
+                            <Form.Control
+                                id={id}
+                                required
+                                type="number"
+                                placeholder="Defense Roll"
+                                defaultValue={0}
+                                onChange={(e) => {
+                                    adjustRoll(e.target.id, e.target.value, 'defenceroll');
+                                }}
+                            />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Button
