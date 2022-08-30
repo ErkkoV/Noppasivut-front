@@ -7,11 +7,11 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result }) {
         deleteRoll: PropTypes.func.isRequired,
         diceRoll: PropTypes.func.isRequired,
         adjustRoll: PropTypes.func.isRequired,
-        result: PropTypes.arrayOf(PropTypes.string).isRequired,
+        result: PropTypes.objectOf(PropTypes.string).isRequired,
     };
 
     return (
-        <Card key={`Card${id}`} id={id}>
+        <Card id={id}>
             <Card.Body>
                 <Form onSubmit={(e) => e.preventDefault}>
                     <Row className="mb-3">

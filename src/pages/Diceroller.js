@@ -38,6 +38,7 @@ function DiceRoller() {
         rolls.forEach((roll) => {
             list.push(
                 <RollGen
+                    key={`diceroll${roll.id}`}
                     id={roll.id}
                     result={roll.result}
                     diceRoll={diceRoll}
