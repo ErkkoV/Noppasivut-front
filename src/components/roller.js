@@ -75,12 +75,12 @@ const roller = (roll) => {
     };
 
     const results = {
-        attackroll: aRoll,
-        defenceroll: dRoll,
-        attackresult: aResult,
-        defenceresult: dResult,
-        finalResult: aResult - dResult,
-        finalsuccess: finalSuccess(aResult - dResult),
+        attackroll: String(aRoll),
+        defenceroll: String(dRoll),
+        attackresult: String(aResult),
+        defenceresult: String(dResult),
+        finalresult: String(aResult - dResult),
+        finalsuccess: String(finalSuccess(aResult - dResult)),
     };
 
     console.log(results);

@@ -18,7 +18,7 @@ function DiceRoller() {
         const restRolls = rolls.filter((roll) => roll.id !== Number(id));
         const targetRoll = rolls.filter((roll) => roll.id === Number(id));
 
-        targetRoll.result = roller(targetRoll[0]);
+        targetRoll[0].result = roller(targetRoll[0]);
         restRolls.push(targetRoll[0]);
         restRolls.sort((a, b) => a.id - b.id);
         setRolls(restRolls);
@@ -36,7 +36,15 @@ function DiceRoller() {
     const rollGen = () => {
         const list = [];
         rolls.forEach((roll) => {
-            list.push(<RollGen id={roll.id} diceRoll={diceRoll} deleteRoll={deleteRoll} adjustRoll={adjustRoll} />);
+            list.push(
+                <RollGen
+                    id={roll.id}
+                    result={roll.result}
+                    diceRoll={diceRoll}
+                    deleteRoll={deleteRoll}
+                    adjustRoll={adjustRoll}
+                />
+            );
         });
         return list;
     };
@@ -50,7 +58,14 @@ function DiceRoller() {
             defenceskill: 0,
             attackroll: 0,
             defenceroll: 0,
-            result: '',
+            result: {
+                attackroll: '',
+                defenceroll: '',
+                attackresult: '',
+                defenceresult: '',
+                finalresult: '',
+                finalsuccess: '',
+            },
         });
         rollList.sort((a, b) => a.id - b.id);
         setRolls(rollList);

@@ -1,12 +1,13 @@
 import { Button, Card, Form, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-function RollGen({ id, deleteRoll, diceRoll, adjustRoll }) {
+function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result }) {
     RollGen.propTypes = {
         id: PropTypes.number.isRequired,
         deleteRoll: PropTypes.func.isRequired,
         diceRoll: PropTypes.func.isRequired,
         adjustRoll: PropTypes.func.isRequired,
+        result: PropTypes.arrayOf(PropTypes.string).isRequired,
     };
 
     return (
@@ -80,7 +81,13 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll }) {
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Result</Form.Label>
-                            <Form.Control required type="number" placeholder="Result" defaultValue={0} />
+                            <Form.Control
+                                required
+                                type="text"
+                                placeholder="Result"
+                                defaultValue={result.finalresult}
+                                disabled
+                            />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Button>Results</Button>
