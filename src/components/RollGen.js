@@ -80,14 +80,15 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result }) {
                             </Button>
                         </Form.Group>
                         <Form.Group as={Col}>
-                            <Form.Label>Result</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                placeholder="Result"
-                                defaultValue={result.finalresult}
-                                disabled
-                            />
+                            <p>
+                                Att Roll: {result.attackroll} result: {result.attackresult}
+                            </p>
+                            <p>
+                                Def Roll: {result.defenceroll} result: {result.defenceresult}
+                            </p>
+                            <p>
+                                {result.finalresult} {result.finalsuccess}
+                            </p>
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Button>Results</Button>

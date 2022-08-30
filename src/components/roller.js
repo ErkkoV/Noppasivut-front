@@ -1,7 +1,7 @@
 const roller = (roll) => {
     const rollAmount = (dices) => {
         if (dices < 1) {
-            return 1 - dices;
+            return 2 - dices;
         }
         return Math.floor(dices / 2 + 1);
     };
@@ -63,13 +63,13 @@ const roller = (roll) => {
     const dResult = resultNumber(dRoll, 'defenceroll', 'defenceskill');
 
     const finalSuccess = (num) => {
-        const finalresults = {};
+        let finalresults = '';
         if (num > 0) {
-            finalresults.winner = 'attacker';
-            finalresults.critrate = Math.floor(-num / 5);
+            finalresults += 'attacker wins, crit ';
+            finalresults += Math.floor(num / 5);
         } else {
-            finalresults.winner = 'defender';
-            finalresults.critrate = Math.floor(-num / 5);
+            finalresults += 'defender wins, crit ';
+            finalresults += Math.floor(-num / 5);
         }
         return finalresults;
     };
@@ -83,7 +83,7 @@ const roller = (roll) => {
         finalsuccess: String(finalSuccess(aResult - dResult)),
     };
 
-    console.log(results);
+    console.log(results.finalsuccess);
 
     return results;
 };
