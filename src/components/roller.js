@@ -19,7 +19,9 @@ const roller = (roll) => {
         return rollList;
     };
 
-    const resultNumber = (list, type, skill) => {
+    const resultNumber = (rolled, type, skill) => {
+        const list = [...rolled]
+        
         list.sort((a, b) => b - a);
 
         console.log(list);
