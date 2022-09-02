@@ -14,6 +14,22 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
 
     const [resultBox, setResultBox] = useState(false);
 
+    const resultList = (res) => {
+        const renderList = [];
+        res.forEach((item, index) => {
+            renderList.push(
+                <li>
+                    Roll Number {index}:
+                    <br />
+                    Attack Roll: {item.attackroll} Defence Roll: {item.defenceroll}
+                    <br />
+                    Result: {item.finalresult} {item.finalsuccess}
+                </li>
+            );
+        });
+        return renderList;
+    };
+
     return (
         <Card id={id}>
             <Card.Body>
@@ -122,7 +138,7 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
                 <Modal show={resultBox} onHide={() => setResultBox(false)}>
                     <Modal.Header closeButton>
                         <Modal.Title>Rolls List</Modal.Title>
-                        <Modal.Body>{JSON.stringify(results)}</Modal.Body>
+                        <Modal.Body>{resultList(results)}</Modal.Body>
                     </Modal.Header>
                 </Modal>
             )}
