@@ -8,7 +8,7 @@ import { readRolls, changeRolls } from '../components/storage';
 function DiceRoller() {
     const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
-    const [idNum, setIdNum] = useState(0);
+    const [idNum, setIdNum] = useState(Date.now());
 
     const deleteRoll = (id) => {
         const newRolls = rolls.filter((roll) => roll.id !== Number(id));
@@ -55,7 +55,7 @@ function DiceRoller() {
     };
 
     const addRoll = () => {
-        setIdNum(idNum + 1);
+        setIdNum(Date.now());
         const rollList = rolls;
         rollList.push({
             id: idNum,
