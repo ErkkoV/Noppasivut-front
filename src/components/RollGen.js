@@ -1,13 +1,33 @@
-import { Button, Card, Form, Row, Col } from 'react-bootstrap';
+import { useState } from 'react';
+import { Button, Card, Form, Row, Col, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result }) {
+function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
     RollGen.propTypes = {
         id: PropTypes.number.isRequired,
         deleteRoll: PropTypes.func.isRequired,
         diceRoll: PropTypes.func.isRequired,
         adjustRoll: PropTypes.func.isRequired,
         result: PropTypes.objectOf(PropTypes.string).isRequired,
+        results: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+    };
+
+    const [resultBox, setResultBox] = useState(false);
+
+    const resultList = (res) => {
+        const renderList = [];
+        res.forEach((item, index) => {
+            renderList.push(
+                <li>
+                    Roll Number {index}:
+                    <br />
+                    Attack Roll: {item.attackroll} Defence Roll: {item.defenceroll}
+                    <br />
+                    Result: {item.finalresult} {item.finalsuccess}
+                </li>
+            );
+        });
+        return renderList;
     };
 
     return (
@@ -91,7 +111,13 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result }) {
                             </p>
                         </Form.Group>
                         <Form.Group as={Col}>
-                            <Button>Results</Button>
+                            <Button
+                                onClick={() => {
+                                    setResultBox(true);
+                                }}
+                            >
+                                Results
+                            </Button>
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Button
@@ -108,6 +134,14 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result }) {
                     </Row>
                 </Form>
             </Card.Body>
+            {resultBox && (
+                <Modal show={resultBox} onHide={() => setResultBox(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Rolls List</Modal.Title>
+                        <Modal.Body>{resultList(results)}</Modal.Body>
+                    </Modal.Header>
+                </Modal>
+            )}
         </Card>
     );
 }

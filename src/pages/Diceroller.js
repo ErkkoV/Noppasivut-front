@@ -21,6 +21,11 @@ function DiceRoller() {
         const targetRoll = rolls.filter((roll) => roll.id === Number(id));
 
         targetRoll[0].result = roller(targetRoll[0]);
+
+        const oldResults = [...targetRoll[0].results];
+        oldResults.push(targetRoll[0].result);
+        targetRoll[0].results = oldResults;
+
         restRolls.push(targetRoll[0]);
         restRolls.sort((a, b) => a.id - b.id);
         changeRolls(restRolls);
@@ -45,6 +50,7 @@ function DiceRoller() {
                     key={`diceroll${roll.id}`}
                     id={roll.id}
                     result={roll.result}
+                    results={roll.results}
                     diceRoll={diceRoll}
                     deleteRoll={deleteRoll}
                     adjustRoll={adjustRoll}
@@ -71,6 +77,7 @@ function DiceRoller() {
                 finalresult: '',
                 finalsuccess: '',
             },
+            results: [],
         });
         rollList.sort((a, b) => a.id - b.id);
         changeRolls(rollList);
