@@ -16,9 +16,11 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
 
     const resultList = (res) => {
         const renderList = [];
+        let num = 0;
         res.forEach((item, index) => {
+            num += 1;
             renderList.push(
-                <li>
+                <li key={`listitem${num}`}>
                     Roll Number {index}:
                     <br />
                     Attack Roll: {item.attackroll} Defence Roll: {item.defenceroll}
