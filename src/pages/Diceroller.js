@@ -79,7 +79,7 @@ function DiceRoller() {
     };
 
     useEffect(() => {
-        console.log(rolls);
+        console.table(rolls);
         setGenRoll(rollGen());
     }, [rolls]);
 
