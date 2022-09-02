@@ -3,15 +3,17 @@ import { Button } from 'react-bootstrap';
 
 import RollGen from '../components/RollGen';
 import roller from '../components/roller';
+import { readRolls, changeRolls } from '../components/storage';
 
 function DiceRoller() {
-    const [rolls, setRolls] = useState([]);
+    const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
     const [idNum, setIdNum] = useState(0);
 
     const deleteRoll = (id) => {
         const newRolls = rolls.filter((roll) => roll.id !== Number(id));
-        setRolls(newRolls);
+        changeRolls(newRolls);
+        setRolls(readRolls());
     };
 
     const diceRoll = (id) => {
@@ -21,7 +23,8 @@ function DiceRoller() {
         targetRoll[0].result = roller(targetRoll[0]);
         restRolls.push(targetRoll[0]);
         restRolls.sort((a, b) => a.id - b.id);
-        setRolls(restRolls);
+        changeRolls(restRolls);
+        setRolls(readRolls());
     };
 
     const adjustRoll = (id, value, key) => {
@@ -30,7 +33,8 @@ function DiceRoller() {
         targetRoll[0][key] = value;
         restRolls.push(targetRoll[0]);
         restRolls.sort((a, b) => a.id - b.id);
-        setRolls(restRolls);
+        changeRolls(restRolls);
+        setRolls(readRolls());
     };
 
     const rollGen = () => {
@@ -69,7 +73,8 @@ function DiceRoller() {
             },
         });
         rollList.sort((a, b) => a.id - b.id);
-        setRolls(rollList);
+        changeRolls(rollList);
+        setRolls(readRolls());
         setGenRoll(rollGen());
     };
 
