@@ -16,15 +16,12 @@ const roller = (roll) => {
                 rollList.push(result);
             }
         }
+        rollList.sort((a, b) => b - a);
         return rollList;
     };
 
     const resultNumber = (rolled, type, skill) => {
-        const list = [...rolled]
-        
-        list.sort((a, b) => b - a);
-
-        console.log(list);
+        const list = [...rolled];
 
         let result = 0;
 
@@ -51,10 +48,7 @@ const roller = (roll) => {
             });
         }
 
-        console.log(result);
         result += Number(roll[skill]);
-        console.log(result);
-
         return result;
     };
 
@@ -85,7 +79,7 @@ const roller = (roll) => {
         finalsuccess: String(finalSuccess(aResult - dResult)),
     };
 
-    console.log(results.finalsuccess);
+    console.table(results);
 
     return results;
 };
