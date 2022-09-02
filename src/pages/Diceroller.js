@@ -50,6 +50,7 @@ function DiceRoller() {
                     key={`diceroll${roll.id}`}
                     id={roll.id}
                     result={roll.result}
+                    results={roll.results}
                     diceRoll={diceRoll}
                     deleteRoll={deleteRoll}
                     adjustRoll={adjustRoll}
