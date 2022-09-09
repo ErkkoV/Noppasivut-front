@@ -1,4 +1,4 @@
-const rollCalc = (attskill, attroll) => {
+const rollCalc = (attskill, attroll, defskill, defroll) => {
     const results = [1, 2, 3, 4, 5, 6, 7, 8, 9, 15];
 
     const rollAmount = (dices) => {
@@ -72,7 +72,24 @@ const rollCalc = (attskill, attroll) => {
         return resultsList;
     };
 
-    console.table(resultCalc(7, 7));
+    const attack = resultCalc(attroll, attskill).sort((a, b) => b - a);
+    const defence = resultCalc(defroll, defskill).sort((a, b) => a - b);
+
+    const rollComparison = (att, def) => {
+        let success = 0;
+        for (let i = 0; i < att.length; i += 1) {
+            for (let a = 0; a < def.length; a += 1) {
+                if (att[i] > def[a]) {
+                    success += 1;
+                } else {
+                    break;
+                }
+            }
+        }
+        return success / (att.length * def.length);
+    };
+
+    console.log(rollComparison(attack, defence));
 
     return resultCalc(attroll, attskill);
 };
