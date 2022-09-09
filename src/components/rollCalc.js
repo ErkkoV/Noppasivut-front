@@ -89,9 +89,7 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
         return success / (att.length * def.length);
     };
 
-    console.log(rollComparison(attack, defence));
-
-    return resultCalc(attroll, attskill);
+    return rollComparison(attack, defence);
 };
 
 export default rollCalc;
