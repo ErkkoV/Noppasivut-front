@@ -40,62 +40,62 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
                         <Form.Group as={Col}>
                             <Form.Label>Att Skill</Form.Label>
                             <Form.Control
-                                id={id}
+                                id={`attskill${id}`}
                                 required
                                 type="number"
                                 placeholder="Attack Skill"
                                 defaultValue={0}
                                 onChange={(e) => {
-                                    adjustRoll(e.target.id, e.target.value, 'attackskill');
+                                    adjustRoll(id, e.target.value, 'attackskill');
                                 }}
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Def Skill</Form.Label>
                             <Form.Control
-                                id={id}
+                                id={`defskill${id}`}
                                 required
                                 type="number"
                                 placeholder="Defense Skill"
                                 defaultValue={0}
                                 onChange={(e) => {
-                                    adjustRoll(e.target.id, e.target.value, 'defenceskill');
+                                    adjustRoll(id, e.target.value, 'defenceskill');
                                 }}
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Att Roll</Form.Label>
                             <Form.Control
-                                id={id}
+                                id={`attroll${id}`}
                                 required
                                 type="number"
                                 placeholder="Attack Roll"
                                 defaultValue={0}
                                 onChange={(e) => {
-                                    adjustRoll(e.target.id, e.target.value, 'attackroll');
+                                    adjustRoll(id, e.target.value, 'attackroll');
                                 }}
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Def Roll</Form.Label>
                             <Form.Control
-                                id={id}
+                                id={`defroll${id}`}
                                 required
                                 type="number"
                                 placeholder="Defense Roll"
                                 defaultValue={0}
                                 onChange={(e) => {
-                                    adjustRoll(e.target.id, e.target.value, 'defenceroll');
+                                    adjustRoll(id, e.target.value, 'defenceroll');
                                 }}
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Button
                                 as={Col}
-                                id={id}
+                                id={`rollbutton${id}`}
                                 variant="success"
-                                onClick={(e) => {
-                                    diceRoll(e.target.id);
+                                onClick={() => {
+                                    diceRoll(id);
                                 }}
                             >
                                 Roll!
@@ -124,10 +124,10 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
                         <Form.Group as={Col}>
                             <Button
                                 as={Col}
-                                id={id}
+                                id={`delbutton${id}`}
                                 variant="danger"
-                                onClick={(e) => {
-                                    deleteRoll(e.target.id);
+                                onClick={() => {
+                                    deleteRoll(id);
                                 }}
                             >
                                 Delete Roll

@@ -8,7 +8,12 @@ import { readRolls, changeRolls } from '../components/storage';
 function DiceRoller() {
     const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
-    const [idNum, setIdNum] = useState(Date.now());
+    const [idNum, setIdNum] = useState(() => {
+        if (readRolls().length > 0) {
+            return readRolls[-1];
+        }
+        return 0;
+    });
 
     const deleteRoll = (id) => {
         const newRolls = rolls.filter((roll) => roll.id !== Number(id));
@@ -61,8 +66,8 @@ function DiceRoller() {
     };
 
     const addRoll = () => {
-        setIdNum(Date.now());
-        const rollList = rolls;
+        setIdNum((prevValue) => prevValue + 1);
+        const rollList = rolls.sort((a, b) => a.id - b.id);
         rollList.push({
             id: idNum,
             attackskill: 0,
@@ -86,7 +91,6 @@ function DiceRoller() {
     };
 
     useEffect(() => {
-        console.table(rolls);
         setGenRoll(rollGen());
     }, [rolls]);
 

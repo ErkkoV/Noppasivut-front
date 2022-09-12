@@ -91,7 +91,6 @@ function ProbCalc() {
     };
 
     useEffect(() => {
-        console.table(probs);
         setGenProb(probGen());
     }, [probs]);
 
