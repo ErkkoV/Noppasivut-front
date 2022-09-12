@@ -38,11 +38,9 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
         const rollResults = amountCalc(amount);
         const resultsList = [];
 
-        console.log(rollResults);
-
         if (amount < 1) {
             rollResults.forEach((each) => {
-                let result = Math.min(each);
+                let result = each.sort((a, b) => a - b)[0];
                 each.forEach((num) => {
                     if (num === 1) {
                         result -= 5;
@@ -72,24 +70,59 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
         return resultsList;
     };
 
-    const attack = resultCalc(attroll, attskill).sort((a, b) => b - a);
-    const defence = resultCalc(defroll, defskill).sort((a, b) => a - b);
-
-    const rollComparison = (att, def) => {
-        let success = 0;
-        for (let i = 0; i < att.length; i += 1) {
-            for (let a = 0; a < def.length; a += 1) {
-                if (att[i] > def[a]) {
-                    success += 1;
-                } else {
-                    break;
-                }
+    const arraySort = (numbers) => {
+        const rollTable = {};
+        numbers.forEach((num) => {
+            if (rollTable[num]) {
+                const prevNum = rollTable[num];
+                rollTable[num] = prevNum + 1;
+            } else {
+                rollTable[num] = 1;
             }
-        }
-        return success / (att.length * def.length);
+        });
+        return rollTable;
     };
 
-    return rollComparison(attack, defence);
+    const attack = resultCalc(attroll, attskill);
+    const defence = resultCalc(defroll, defskill);
+
+    const rollComparison = (att, def) => {
+        const resultArray = {};
+        Object.keys(att).forEach((attackval) => {
+            Object.keys(def).forEach((defenceval) => {
+                const result = attackval - defenceval;
+                if (resultArray[result]) {
+                    resultArray[result] += att[attackval] * def[defenceval];
+                } else {
+                    resultArray[result] = att[attackval] * def[defenceval];
+                }
+            });
+        });
+        return resultArray;
+    };
+
+    const resultPer = (arr) => {
+        let resultNum = 0;
+        Object.keys(arr).forEach((key) => {
+            if (key > 0) {
+                resultNum += arr[key];
+            }
+        });
+        return resultNum / (attack.length * defence.length);
+    };
+
+    const attackArray = arraySort(attack);
+    const defenceArray = arraySort(defence);
+
+    console.table(attackArray);
+    console.table(defenceArray);
+
+    const resultArray = rollComparison(attackArray, defenceArray);
+    const resultChange = resultPer(resultArray);
+
+    console.table(resultArray);
+
+    return [resultChange, resultArray];
 };
 
 export default rollCalc;
