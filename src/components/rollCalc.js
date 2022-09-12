@@ -42,7 +42,7 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
 
         if (amount < 1) {
             rollResults.forEach((each) => {
-                let result = Math.min(each);
+                let result = each.sort((a, b) => a - b)[0];
                 each.forEach((num) => {
                     if (num === 1) {
                         result -= 5;
@@ -74,6 +74,25 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
 
     const attack = resultCalc(attroll, attskill).sort((a, b) => b - a);
     const defence = resultCalc(defroll, defskill).sort((a, b) => a - b);
+
+    const arraySort = (numbers) => {
+        const rollTable = {};
+        numbers.forEach((num) => {
+            if (rollTable[num]) {
+                const prevNum = rollTable[num];
+                rollTable[num] = prevNum + 1;
+            } else {
+                rollTable[num] = 1;
+            }
+        });
+        return rollTable;
+    };
+
+    const attackArray = arraySort(attack);
+    const defenceArray = arraySort(defence);
+
+    console.table(attackArray);
+    console.table(defenceArray);
 
     const rollComparison = (att, def) => {
         let success = 0;
