@@ -7,7 +7,7 @@ function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
         deleteProb: PropTypes.func.isRequired,
         probCalculate: PropTypes.func.isRequired,
         adjustProb: PropTypes.func.isRequired,
-        result: PropTypes.arrayOf(PropTypes.num).isRequired,
+        result: PropTypes.number.isRequired,
     };
 
     return (
@@ -80,7 +80,7 @@ function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
                             </Button>
                         </Form.Group>
                         <Form.Group as={Col}>
-                            <h1>{result[0]}</h1>
+                            <h1>{result}</h1>
                         </Form.Group>
 
                         <Form.Group as={Col}>

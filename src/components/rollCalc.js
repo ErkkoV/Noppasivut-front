@@ -83,8 +83,8 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
         return rollTable;
     };
 
-    const attack = resultCalc(attroll, attskill);
-    const defence = resultCalc(defroll, defskill);
+    const attack = resultCalc(Number(attroll), Number(attskill));
+    const defence = resultCalc(Number(defroll), Number(defskill));
 
     const rollComparison = (att, def) => {
         const resultArray = {};
@@ -115,6 +115,8 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
     const defenceArray = arraySort(defence);
     const resultArray = rollComparison(attackArray, defenceArray);
     const resultChange = resultPer(resultArray);
+
+    console.table(resultArray);
 
     return [resultChange, resultArray];
 };

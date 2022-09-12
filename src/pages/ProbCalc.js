@@ -21,12 +21,17 @@ function ProbCalc() {
         const restProbs = probs.filter((prob) => prob.id !== Number(id));
         const targetProb = probs.filter((prob) => prob.id === Number(id));
 
-        targetProb[0].result = rollCalc(
+        const results = rollCalc(
             targetProb[0].attackskill,
             targetProb[0].attackroll,
             targetProb[0].defenceskill,
             targetProb[0].defenceskill
         );
+
+        // eslint-disable-next-line prefer-destructuring
+        targetProb[0].result = results[0];
+        // eslint-disable-next-line prefer-destructuring
+        targetProb[0].resultarray = results[1];
 
         restProbs.push(targetProb[0]);
         restProbs.sort((a, b) => a.id - b.id);
@@ -52,7 +57,7 @@ function ProbCalc() {
                     key={`diceroll${prob.id}`}
                     id={prob.id}
                     result={prob.result}
-                    results={prob.results}
+                    resultarray={prob.resultarray}
                     probCalculate={probCalculate}
                     deleteProb={deleteProb}
                     adjustProb={adjustProb}
@@ -80,6 +85,7 @@ function ProbCalc() {
     };
 
     useEffect(() => {
+        console.table(probs);
         setGenProb(probGen());
     }, [probs]);
 
