@@ -33,7 +33,7 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
     };
 
     return (
-        <Card id={id}>
+        <Card id={`rollcard${id}`}>
             <Card.Body>
                 <Form onSubmit={(e) => e.preventDefault}>
                     <Row className="mb-3">
