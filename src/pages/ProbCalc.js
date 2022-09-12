@@ -10,8 +10,10 @@ function ProbCalc() {
     const [probs, setProbs] = useState(readProbs());
     const [genProb, setGenProb] = useState();
     const [idNum, setIdNum] = useState(() => {
-        if (readProbs().length > 0) {
-            return readProbs[-1];
+        const initialProb = readProbs();
+        console.log(initialProb[0]);
+        if (initialProb.length > 0) {
+            return initialProb[0].id + 1;
         }
         return 0;
     });
@@ -39,7 +41,7 @@ function ProbCalc() {
         targetProb[0].resultarray = results[1];
 
         restProbs.push(targetProb[0]);
-        restProbs.sort((a, b) => a.id - b.id);
+        restProbs.sort((a, b) => b.id - a.id);
         changeProbs(restProbs);
         setProbs(readProbs());
     };
@@ -49,7 +51,7 @@ function ProbCalc() {
         const targetProb = probs.filter((prob) => prob.id === Number(id));
         targetProb[0][key] = value;
         restProbs.push(targetProb[0]);
-        restProbs.sort((a, b) => a.id - b.id);
+        restProbs.sort((a, b) => b.id - a.id);
         changeProbs(restProbs);
         setProbs(readProbs());
     };
@@ -59,7 +61,7 @@ function ProbCalc() {
         probs.forEach((prob) => {
             list.push(
                 <ProbGen
-                    key={`diceroll${prob.id}`}
+                    key={`probcalc${prob.id}`}
                     id={prob.id}
                     result={prob.result}
                     resultarray={prob.resultarray}
@@ -74,7 +76,7 @@ function ProbCalc() {
 
     const addProb = () => {
         setIdNum((prevValue) => prevValue + 1);
-        const probList = probs.sort((a, b) => a.id - b.id);
+        const probList = probs.sort((a, b) => b.id - a.id);
         probList.push({
             id: idNum,
             attackskill: 0,
@@ -84,7 +86,7 @@ function ProbCalc() {
             result: 0,
             resultarray: [],
         });
-        probList.sort((a, b) => a.id - b.id);
+        probList.sort((a, b) => b.id - a.id);
         changeProbs(probList);
         setProbs(readProbs());
         setGenProb(probGen());

@@ -9,8 +9,10 @@ function DiceRoller() {
     const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
     const [idNum, setIdNum] = useState(() => {
-        if (readRolls().length > 0) {
-            return readRolls[-1];
+        const initialRoll = readRolls();
+        console.log(initialRoll[0]);
+        if (initialRoll.length > 0) {
+            return initialRoll[0].id + 1;
         }
         return 0;
     });
@@ -32,7 +34,7 @@ function DiceRoller() {
         targetRoll[0].results = oldResults;
 
         restRolls.push(targetRoll[0]);
-        restRolls.sort((a, b) => a.id - b.id);
+        restRolls.sort((a, b) => b.id - a.id);
         changeRolls(restRolls);
         setRolls(readRolls());
     };
@@ -42,7 +44,7 @@ function DiceRoller() {
         const targetRoll = rolls.filter((roll) => roll.id === Number(id));
         targetRoll[0][key] = value;
         restRolls.push(targetRoll[0]);
-        restRolls.sort((a, b) => a.id - b.id);
+        restRolls.sort((a, b) => b.id - a.id);
         changeRolls(restRolls);
         setRolls(readRolls());
     };
@@ -67,7 +69,7 @@ function DiceRoller() {
 
     const addRoll = () => {
         setIdNum((prevValue) => prevValue + 1);
-        const rollList = rolls.sort((a, b) => a.id - b.id);
+        const rollList = rolls.sort((a, b) => b.id - a.id);
         rollList.push({
             id: idNum,
             attackskill: 0,
@@ -84,7 +86,7 @@ function DiceRoller() {
             },
             results: [],
         });
-        rollList.sort((a, b) => a.id - b.id);
+        rollList.sort((a, b) => b.id - a.id);
         changeRolls(rollList);
         setRolls(readRolls());
         setGenRoll(rollGen());
