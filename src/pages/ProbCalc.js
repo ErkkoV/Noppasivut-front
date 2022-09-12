@@ -9,7 +9,12 @@ import { readProbs, changeProbs } from '../components/storage';
 function ProbCalc() {
     const [probs, setProbs] = useState(readProbs());
     const [genProb, setGenProb] = useState();
-    const [idNum, setIdNum] = useState(Date.now());
+    const [idNum, setIdNum] = useState(() => {
+        if (readProbs().length > 0) {
+            return readProbs[-1];
+        }
+        return 0;
+    });
 
     const deleteProb = (id) => {
         const newProbs = probs.filter((prob) => prob.id !== Number(id));
@@ -25,7 +30,7 @@ function ProbCalc() {
             targetProb[0].attackskill,
             targetProb[0].attackroll,
             targetProb[0].defenceskill,
-            targetProb[0].defenceskill
+            targetProb[0].defenceroll
         );
 
         // eslint-disable-next-line prefer-destructuring
@@ -68,15 +73,16 @@ function ProbCalc() {
     };
 
     const addProb = () => {
-        setIdNum(Date.now());
-        const probList = probs;
+        setIdNum((prevValue) => prevValue + 1);
+        const probList = probs.sort((a, b) => a.id - b.id);
         probList.push({
             id: idNum,
             attackskill: 0,
             defenceskill: 0,
             attackroll: 0,
             defenceroll: 0,
-            result: [0, 0],
+            result: 0,
+            resultarray: [],
         });
         probList.sort((a, b) => a.id - b.id);
         changeProbs(probList);

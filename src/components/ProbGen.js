@@ -18,62 +18,62 @@ function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
                         <Form.Group as={Col}>
                             <Form.Label>Att Skill</Form.Label>
                             <Form.Control
-                                id={id}
+                                id={`attskill${id}`}
                                 required
                                 type="number"
                                 placeholder="Attack Skill"
                                 defaultValue={0}
                                 onChange={(e) => {
-                                    adjustProb(e.target.id, e.target.value, 'attackskill');
+                                    adjustProb(id, e.target.value, 'attackskill');
                                 }}
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Def Skill</Form.Label>
                             <Form.Control
-                                id={id}
+                                id={`defskill${id}`}
                                 required
                                 type="number"
                                 placeholder="Defense Skill"
                                 defaultValue={0}
                                 onChange={(e) => {
-                                    adjustProb(e.target.id, e.target.value, 'defenceskill');
+                                    adjustProb(id, e.target.value, 'defenceskill');
                                 }}
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Att Roll</Form.Label>
                             <Form.Control
-                                id={id}
+                                id={`attroll${id}`}
                                 required
                                 type="number"
                                 placeholder="Attack Roll"
                                 defaultValue={0}
                                 onChange={(e) => {
-                                    adjustProb(e.target.id, e.target.value, 'attackroll');
+                                    adjustProb(id, e.target.value, 'attackroll');
                                 }}
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Form.Label>Def Roll</Form.Label>
                             <Form.Control
-                                id={id}
+                                id={`defroll${id}`}
                                 required
                                 type="number"
                                 placeholder="Defense Roll"
                                 defaultValue={0}
                                 onChange={(e) => {
-                                    adjustProb(e.target.id, e.target.value, 'defenceroll');
+                                    adjustProb(id, e.target.value, 'defenceroll');
                                 }}
                             />
                         </Form.Group>
                         <Form.Group as={Col}>
                             <Button
                                 as={Col}
-                                id={id}
+                                id={`calculate${id}`}
                                 variant="success"
-                                onClick={(e) => {
-                                    probCalculate(e.target.id);
+                                onClick={() => {
+                                    probCalculate(id);
                                 }}
                             >
                                 Calculate!
@@ -86,10 +86,10 @@ function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
                         <Form.Group as={Col}>
                             <Button
                                 as={Col}
-                                id={id}
+                                id={`delbutton${id}`}
                                 variant="danger"
-                                onClick={(e) => {
-                                    deleteProb(e.target.id);
+                                onClick={() => {
+                                    deleteProb(id);
                                 }}
                             >
                                 Delete
