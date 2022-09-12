@@ -11,7 +11,7 @@ function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
     };
 
     return (
-        <Card id={id}>
+        <Card id={`probcard${id}`}>
             <Card.Body>
                 <Form onSubmit={(e) => e.preventDefault}>
                     <Row className="mb-3">
