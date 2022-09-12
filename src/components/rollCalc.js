@@ -38,8 +38,6 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
         const rollResults = amountCalc(amount);
         const resultsList = [];
 
-        console.log(rollResults);
-
         if (amount < 1) {
             rollResults.forEach((each) => {
                 let result = each.sort((a, b) => a - b)[0];
@@ -72,9 +70,6 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
         return resultsList;
     };
 
-    const attack = resultCalc(attroll, attskill);
-    const defence = resultCalc(defroll, defskill);
-
     const arraySort = (numbers) => {
         const rollTable = {};
         numbers.forEach((num) => {
@@ -88,8 +83,8 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
         return rollTable;
     };
 
-    const attackArray = arraySort(attack);
-    const defenceArray = arraySort(defence);
+    const attack = resultCalc(attroll, attskill);
+    const defence = resultCalc(defroll, defskill);
 
     const rollComparison = (att, def) => {
         const resultArray = {};
@@ -106,8 +101,6 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
         return resultArray;
     };
 
-    const resultArray = rollComparison(attackArray, defenceArray);
-
     const resultPer = (arr) => {
         let resultNum = 0;
         Object.keys(arr).forEach((key) => {
@@ -118,7 +111,12 @@ const rollCalc = (attskill, attroll, defskill, defroll) => {
         return resultNum / (attack.length * defence.length);
     };
 
-    return resultPer(resultArray);
+    const attackArray = arraySort(attack);
+    const defenceArray = arraySort(defence);
+    const resultArray = rollComparison(attackArray, defenceArray);
+    const resultChange = resultPer(resultArray);
+
+    return [resultChange, resultArray];
 };
 
 export default rollCalc;
