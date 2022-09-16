@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { io } from 'socket.io-client';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -12,6 +13,22 @@ const Home = React.lazy(() => import('./pages/Home'));
 const CharCreator = React.lazy(() => import('./pages/CharCreator'));
 
 function App() {
+    const socket = io('http://localhost:8000');
+
+    // const socket = io('https://server-domain.com');
+
+    socket.on('connect', () => {
+        console.log('connected', socket.id); // x8WIv7-mJelg7on_ALbx
+    });
+
+    socket.on('disconnect', () => {
+        console.log('disconnected', socket.id); // undefined
+    });
+
+    socket.on('connect_error', (err) => {
+        console.log(`connect_error due to ${err.message}`);
+    });
+
     return (
         <Routes>
             <Route path="/" element={<Base />}>
