@@ -13,12 +13,13 @@ const Home = React.lazy(() => import('./pages/Home'));
 const CharCreator = React.lazy(() => import('./pages/CharCreator'));
 
 function App() {
-    const socket = io('http://localhost:8000');
+    const socket = io('ws://localhost:8000');
 
     // const socket = io('https://server-domain.com');
 
     socket.on('connect', () => {
         console.log('connected', socket.id); // x8WIv7-mJelg7on_ALbx
+        console.log(socket.connected);
     });
 
     socket.on('disconnect', () => {
@@ -27,6 +28,7 @@ function App() {
 
     socket.on('connect_error', (err) => {
         console.log(`connect_error due to ${err.message}`);
+        console.log(socket.connected);
     });
 
     return (
