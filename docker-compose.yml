@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-    puu-front:
+    noppasivut-front:
         restart: unless-stopped
         build: .
         ports:
