@@ -11,7 +11,6 @@ function DiceRoller() {
     const [genRoll, setGenRoll] = useState();
     const [idNum, setIdNum] = useState(() => {
         const initialRoll = readRolls();
-        console.log(initialRoll[0]);
         if (initialRoll.length > 0) {
             return initialRoll[0].id + 1;
         }

@@ -29,7 +29,7 @@ socket.on('rolls-back', (args) => {
 });
 
 socket.on('probs-back', (args) => {
-    localStorage.Probs = JSON.stringify(args);
+    localStorage.probs = JSON.stringify(args);
 });
 
 export { changeRolls, readRolls, readProbs, changeProbs };
