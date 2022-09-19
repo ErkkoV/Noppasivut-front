@@ -1,14 +1,21 @@
-/* import { io } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
-const socket = io();
+const socket = io('ws://localhost:8000');
 
-const socket = io('https://server-domain.com');
+const connectIo = () => {
+    socket.on('connect', () => {
+        console.log('connected', socket.id); // x8WIv7-mJelg7on_ALbx
+        console.log(socket.connected);
+    });
 
-socket.on('connect', () => {
-    console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-});
+    socket.on('disconnect', () => {
+        console.log('disconnected', socket.id); // undefined
+    });
 
-socket.on('disconnect', () => {
-    console.log(socket.id); // undefined
-});
- */
+    socket.on('connect_error', (err) => {
+        console.log(`connect_error due to ${err.message}`);
+        console.log(socket.connected);
+    });
+};
+
+export { connectIo, socket };

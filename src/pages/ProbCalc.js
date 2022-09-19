@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
+import { socket } from '../socketio/connection';
+
 import rollCalc from '../components/rollCalc';
 import ProbGen from '../components/ProbGen';
 
@@ -11,11 +13,15 @@ function ProbCalc() {
     const [genProb, setGenProb] = useState();
     const [idNum, setIdNum] = useState(() => {
         const initialProb = readProbs();
-        console.log(initialProb[0]);
+
         if (initialProb.length > 0) {
             return initialProb[0].id + 1;
         }
         return 0;
+    });
+
+    socket.on('probs-back', () => {
+        setProbs(readProbs());
     });
 
     const deleteProb = (id) => {
