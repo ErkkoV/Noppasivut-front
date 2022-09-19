@@ -7,6 +7,6 @@ RUN npm ci && npm cache clean --force
 RUN npm install --global serve
 
 COPY . .
-RUN cd src 
+RUN npm run build 
 
-CMD [ "node" "server.js" ]
+CMD [ "serve", "-s", "build" ]
