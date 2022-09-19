@@ -1,7 +1,6 @@
 import { socket } from '../socketio/connection';
 
 const changeRolls = (rolled) => {
-    localStorage.rolls = JSON.stringify(rolled);
     socket.emit('rolls-front', rolled);
 };
 
@@ -14,8 +13,7 @@ const readRolls = () => {
 };
 
 const changeProbs = (probbed) => {
-    localStorage.probs = JSON.stringify(probbed);
-    socket.emit('rolls-front', probbed);
+    socket.emit('probs-front', probbed);
 };
 
 const readProbs = () => {
@@ -27,11 +25,11 @@ const readProbs = () => {
 };
 
 socket.on('rolls-back', (args) => {
-    console.log(args);
+    localStorage.rolls = JSON.stringify(args);
 });
 
 socket.on('probs-back', (args) => {
-    console.log(args);
+    localStorage.Probs = JSON.stringify(args);
 });
 
 export { changeRolls, readRolls, readProbs, changeProbs };

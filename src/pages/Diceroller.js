@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 
+import { socket } from '../socketio/connection';
 import RollGen from '../components/RollGen';
 import roller from '../components/roller';
 import { readRolls, changeRolls } from '../components/storage';
@@ -15,6 +16,10 @@ function DiceRoller() {
             return initialRoll[0].id + 1;
         }
         return 0;
+    });
+
+    socket.on('rolls-back', () => {
+        setRolls(readRolls());
     });
 
     const deleteRoll = (id) => {
