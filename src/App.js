@@ -20,6 +20,7 @@ function App() {
     socket.on('connect', () => {
         console.log('connected', socket.id); // x8WIv7-mJelg7on_ALbx
         console.log(socket.connected);
+        socket.emit('testi', '2');
     });
 
     socket.on('disconnect', () => {
@@ -29,6 +30,10 @@ function App() {
     socket.on('connect_error', (err) => {
         console.log(`connect_error due to ${err.message}`);
         console.log(socket.connected);
+    });
+
+    socket.on('data', (arg) => {
+        console.log(arg);
     });
 
     return (
