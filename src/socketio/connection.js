@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const socket = io('ws://localhost:8000');
+const socket = io('ws://10.69.168.88:8000');
 
 const connectIo = () => {
     socket.on('connect', () => {
