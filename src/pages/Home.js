@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Form, Button } from 'react-bootstrap';
 
@@ -23,6 +23,13 @@ function Home() {
     const sendMessage = () => {
         socket.emit('messages-front', `${name}: ${message}`);
     };
+
+    useEffect(() => {
+        socket.emit('load-messages');
+        socket.on('save-messages', (args) => {
+            console.log(args);
+        });
+    }, []);
 
     return (
         <>
