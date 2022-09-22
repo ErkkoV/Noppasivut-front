@@ -10,13 +10,13 @@ function Home() {
     const [messages, setMessages] = useState([]);
 
     socket.on('messages-back', (args) => {
-        const messageList = messages;
-        if (messageList.length > 10) {
-            messageList.shift();
-        }
-        if (!messageList.includes(args)) {
-            messageList.push(args);
-            setMessages([...messageList]);
+        const list = [];
+        Object.keys(args).forEach((key) => {
+            list.push({ message: args[key].message, time: args[key].time, id: key });
+        });
+        const newList = list.slice(-10);
+        if (messages !== newList) {
+            setMessages(newList);
         }
     });
 
@@ -27,7 +27,14 @@ function Home() {
     useEffect(() => {
         socket.emit('load-messages');
         socket.on('save-messages', (args) => {
-            console.log(args);
+            const list = [];
+            Object.keys(args).forEach((key) => {
+                list.push({ message: args[key].message, time: args[key].time, id: key });
+            });
+            const newList = list.slice(-10);
+            if (messages !== newList) {
+                setMessages(newList);
+            }
         });
     }, []);
 
@@ -49,7 +56,9 @@ function Home() {
                 </Form.Group>
             </Form>
             {messages.map((each) => (
-                <p key={each}>{each}</p>
+                <p key={`${each.id}`}>
+                    {each.time}: {each.message}
+                </p>
             ))}
             <Form onSubmit={(e) => e.preventDefault()}>
                 <Form.Group>
