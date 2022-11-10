@@ -7,6 +7,7 @@ const changeRolls = (rolled) => {
 const readRolls = () => {
     if (localStorage.rolls) {
         const rolled = JSON.parse(localStorage.rolls);
+        rolled.sort((a, b) => a.id - b.id);
         return rolled;
     }
     return [];

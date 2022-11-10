@@ -9,13 +9,6 @@ import { readRolls, changeRolls } from '../components/storage';
 function DiceRoller() {
     const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
-    const [idNum, setIdNum] = useState(() => {
-        const initialRoll = readRolls();
-        if (initialRoll.length > 0) {
-            return initialRoll[0].id + 1;
-        }
-        return 0;
-    });
 
     socket.on('rolls-back', () => {
         setRolls(readRolls());
@@ -28,7 +21,6 @@ function DiceRoller() {
     };
 
     const diceRoll = (id) => {
-        const restRolls = rolls.filter((roll) => roll.id !== Number(id));
         const targetRoll = rolls.filter((roll) => roll.id === Number(id));
 
         targetRoll[0].result = roller(targetRoll[0]);
@@ -37,28 +29,21 @@ function DiceRoller() {
         oldResults.push(targetRoll[0].result);
         targetRoll[0].results = oldResults;
 
-        restRolls.push(targetRoll[0]);
-        restRolls.sort((a, b) => b.id - a.id);
-        changeRolls(restRolls);
+        changeRolls(targetRoll[0]);
         setRolls(readRolls());
     };
 
     const adjustRoll = (id, value, key) => {
-        const restRolls = rolls.filter((roll) => roll.id !== Number(id));
-        const targetRoll = rolls.filter((roll) => roll.id === Number(id));
+        const targetRoll = rolls.filter((roll) => roll.id === id);
+        console.log(targetRoll);
         targetRoll[0][key] = value;
-        restRolls.push(targetRoll[0]);
-        restRolls.sort((a, b) => b.id - a.id);
-        changeRolls(restRolls);
+        changeRolls(targetRoll[0]);
         setRolls(readRolls());
     };
 
     const rollGen = () => {
         const list = [];
         rolls.forEach((roll) => {
-            console.log(roll.result);
-            console.log(roll.results);
-
             list.push(
                 <RollGen
                     key={`diceroll${roll.id}`}
@@ -75,10 +60,9 @@ function DiceRoller() {
     };
 
     const addRoll = () => {
-        setIdNum((prevValue) => prevValue + 1);
-        const rollList = rolls.sort((a, b) => b.id - a.id);
+        const rollList = rolls.sort((a, b) => a.id - b.id);
         rollList.push({
-            id: idNum,
+            id: 0,
             attackskill: 0,
             defenceskill: 0,
             attackroll: 0,
@@ -93,8 +77,8 @@ function DiceRoller() {
             },
             results: [],
         });
-        rollList.sort((a, b) => b.id - a.id);
-        changeRolls(rollList);
+        rollList.sort((a, b) => a.id - b.id);
+        changeRolls(rollList[0]);
         setRolls(readRolls());
         setGenRoll(rollGen());
     };
