@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { socket } from '../socketio/connection';
 import RollGen from '../components/RollGen';
 import roller from '../components/roller';
-import { readRolls, changeRolls } from '../components/storage';
+import { readRolls, changeRolls, deleteRolls } from '../components/storage';
 
 function DiceRoller() {
     const [rolls, setRolls] = useState(readRolls());
@@ -16,7 +16,7 @@ function DiceRoller() {
 
     const deleteRoll = (id) => {
         const newRolls = rolls.filter((roll) => roll.id !== Number(id));
-        changeRolls(newRolls);
+        deleteRolls(newRolls[0]);
         setRolls(readRolls());
     };
 

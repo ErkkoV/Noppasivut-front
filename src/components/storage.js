@@ -13,6 +13,10 @@ const readRolls = () => {
     return [];
 };
 
+const deleteRolls = (rolled) => {
+    socket.emit('rolls-front-del', rolled);
+};
+
 const changeProbs = (probbed) => {
     socket.emit('probs-front', probbed);
 };
