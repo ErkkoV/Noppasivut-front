@@ -35,7 +35,6 @@ function DiceRoller() {
 
     const adjustRoll = (id, value, key) => {
         const targetRoll = rolls.filter((roll) => roll.id === id);
-        console.log(targetRoll);
         targetRoll[0][key] = value;
         changeRolls(targetRoll[0]);
         setRolls(readRolls());
