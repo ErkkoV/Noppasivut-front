@@ -25,7 +25,12 @@ const readProbs = () => {
 };
 
 socket.on('rolls-back', (args) => {
-    localStorage.rolls = JSON.stringify(args);
+    const list = [];
+    args.forEach((each) => {
+        list.push(each);
+    });
+    console.log(list);
+    localStorage.rolls = JSON.stringify(list);
 });
 
 socket.on('probs-back', (args) => {

@@ -56,6 +56,9 @@ function DiceRoller() {
     const rollGen = () => {
         const list = [];
         rolls.forEach((roll) => {
+            console.log(roll.result);
+            console.log(roll.results);
+
             list.push(
                 <RollGen
                     key={`diceroll${roll.id}`}
