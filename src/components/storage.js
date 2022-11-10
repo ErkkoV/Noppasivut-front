@@ -42,4 +42,4 @@ socket.on('probs-back', (args) => {
     localStorage.probs = JSON.stringify(args);
 });
 
-export { changeRolls, readRolls, readProbs, changeProbs };
+export { changeRolls, readRolls, readProbs, changeProbs, deleteRolls };
