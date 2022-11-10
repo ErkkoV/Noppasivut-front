@@ -79,8 +79,6 @@ const roller = (roll) => {
         finalsuccess: String(finalSuccess(aResult - dResult)),
     };
 
-    console.table(results);
-
     return results;
 };
 
