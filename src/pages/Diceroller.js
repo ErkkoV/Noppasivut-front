@@ -16,7 +16,6 @@ function DiceRoller() {
 
     const deleteRoll = (id) => {
         const newRolls = rolls.filter((roll) => roll.id === Number(id));
-        console.log(newRolls[0]);
         deleteRolls(newRolls[0]);
         setRolls(readRolls());
     };

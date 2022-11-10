@@ -34,7 +34,6 @@ socket.on('rolls-back', (args) => {
     args.forEach((each) => {
         list.push(each);
     });
-    console.log(list);
     localStorage.rolls = JSON.stringify(list);
 });
 
