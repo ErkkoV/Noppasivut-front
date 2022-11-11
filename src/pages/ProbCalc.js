@@ -6,11 +6,15 @@ import { socket } from '../socketio/connection';
 import rollCalc from '../components/rollCalc';
 import ProbGen from '../components/ProbGen';
 
-import { readProbs, changeProbs, deleteProbs } from '../components/storage';
+import { readProbs, changeProbs, deleteProbs, loadData } from '../components/storage';
 
 function ProbCalc() {
     const [probs, setProbs] = useState(readProbs());
     const [genProb, setGenProb] = useState();
+
+    useEffect(() => {
+        loadData();
+    }, []);
 
     socket.on('probs-back', () => {
         setProbs(readProbs());

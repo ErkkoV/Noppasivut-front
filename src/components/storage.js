@@ -1,5 +1,9 @@
 import { socket } from '../socketio/connection';
 
+const loadData = () => {
+    socket.emit('load-data');
+};
+
 const changeRolls = (rolled) => {
     socket.emit('rolls-front', rolled);
 };
@@ -50,4 +54,4 @@ socket.on('probs-back', (args) => {
     localStorage.probs = JSON.stringify(list);
 });
 
-export { changeRolls, readRolls, readProbs, changeProbs, deleteRolls, deleteProbs };
+export { changeRolls, readRolls, readProbs, changeProbs, deleteRolls, deleteProbs, loadData };

@@ -4,11 +4,15 @@ import { Button } from 'react-bootstrap';
 import { socket } from '../socketio/connection';
 import RollGen from '../components/RollGen';
 import roller from '../components/roller';
-import { readRolls, changeRolls, deleteRolls } from '../components/storage';
+import { readRolls, changeRolls, deleteRolls, loadData } from '../components/storage';
 
 function DiceRoller() {
     const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
+
+    useEffect(() => {
+        loadData();
+    }, []);
 
     socket.on('rolls-back', () => {
         setRolls(readRolls());
