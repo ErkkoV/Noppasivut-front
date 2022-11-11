@@ -4,11 +4,15 @@ import { Button } from 'react-bootstrap';
 import { socket } from '../socketio/connection';
 import RollGen from '../components/RollGen';
 import roller from '../components/roller';
-import { readRolls, changeRolls, deleteRolls } from '../components/storage';
+import { readRolls, changeRolls, deleteRolls, loadData } from '../components/storage';
 
 function DiceRoller() {
     const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
+
+    useEffect(() => {
+        loadData();
+    }, []);
 
     socket.on('rolls-back', () => {
         setRolls(readRolls());
@@ -17,7 +21,6 @@ function DiceRoller() {
     const deleteRoll = (id) => {
         const newRolls = rolls.filter((roll) => roll.id === Number(id));
         deleteRolls(newRolls[0]);
-        setRolls(readRolls());
     };
 
     const diceRoll = (id) => {
@@ -30,14 +33,12 @@ function DiceRoller() {
         targetRoll[0].results = oldResults;
 
         changeRolls(targetRoll[0]);
-        setRolls(readRolls());
     };
 
     const adjustRoll = (id, value, key) => {
         const targetRoll = rolls.filter((roll) => roll.id === id);
         targetRoll[0][key] = value;
         changeRolls(targetRoll[0]);
-        setRolls(readRolls());
     };
 
     const rollGen = () => {
@@ -47,6 +48,10 @@ function DiceRoller() {
                 <RollGen
                     key={`diceroll${roll.id}`}
                     id={roll.id}
+                    attackroll={roll.attackroll}
+                    defenceroll={roll.defenceroll}
+                    attackskill={roll.attackskill}
+                    defenceskill={roll.defenceskill}
                     result={roll.result}
                     results={roll.results}
                     diceRoll={diceRoll}
@@ -78,8 +83,6 @@ function DiceRoller() {
         });
         rollList.sort((a, b) => a.id - b.id);
         changeRolls(rollList[0]);
-        setRolls(readRolls());
-        setGenRoll(rollGen());
     };
 
     useEffect(() => {

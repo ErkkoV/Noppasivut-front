@@ -1,5 +1,9 @@
 import { socket } from '../socketio/connection';
 
+const loadData = () => {
+    socket.emit('load-data');
+};
+
 const changeRolls = (rolled) => {
     socket.emit('rolls-front', rolled);
 };
@@ -24,9 +28,14 @@ const changeProbs = (probbed) => {
 const readProbs = () => {
     if (localStorage.probs) {
         const probbed = JSON.parse(localStorage.probs);
+        probbed.sort((a, b) => a.id - b.id);
         return probbed;
     }
     return [];
+};
+
+const deleteProbs = (probbed) => {
+    socket.emit('probs-front-del', probbed);
 };
 
 socket.on('rolls-back', (args) => {
@@ -38,7 +47,11 @@ socket.on('rolls-back', (args) => {
 });
 
 socket.on('probs-back', (args) => {
-    localStorage.probs = JSON.stringify(args);
+    const list = [];
+    args.forEach((each) => {
+        list.push(each);
+    });
+    localStorage.probs = JSON.stringify(list);
 });
 
-export { changeRolls, readRolls, readProbs, changeProbs, deleteRolls };
+export { changeRolls, readRolls, readProbs, changeProbs, deleteRolls, deleteProbs, loadData };
