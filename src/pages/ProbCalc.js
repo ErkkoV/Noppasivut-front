@@ -36,6 +36,8 @@ function ProbCalc() {
         // eslint-disable-next-line prefer-destructuring
         targetProb[0].resultarray = results[1];
 
+        console.log(targetProb[0]);
+
         changeProbs(targetProb[0]);
     };
 
@@ -76,7 +78,7 @@ function ProbCalc() {
             attackroll: 0,
             defenceroll: 0,
             result: 0,
-            resultarray: [],
+            resultarray: {},
         });
         probList.sort((a, b) => a.id - b.id);
         changeProbs(probList[0]);

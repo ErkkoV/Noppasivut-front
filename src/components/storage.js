@@ -47,7 +47,7 @@ socket.on('probs-back', (args) => {
     args.forEach((each) => {
         list.push(each);
     });
-    localStorage.rolls = JSON.stringify(list);
+    localStorage.probs = JSON.stringify(list);
 });
 
 export { changeRolls, readRolls, readProbs, changeProbs, deleteRolls, deleteProbs };
