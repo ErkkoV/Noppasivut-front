@@ -36,8 +36,6 @@ function ProbCalc() {
         // eslint-disable-next-line prefer-destructuring
         targetProb[0].resultarray = results[1];
 
-        console.log(targetProb[0]);
-
         changeProbs(targetProb[0]);
     };
 

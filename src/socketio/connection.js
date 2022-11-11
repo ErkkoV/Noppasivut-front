@@ -6,7 +6,6 @@ const socket = io(`ws://${window.location.hostname}:8000`);
 const connectIo = () => {
     socket.on('connect', () => {
         console.log('connected', socket.id); // x8WIv7-mJelg7on_ALbx
-        console.log(socket.connected);
     });
 
     socket.on('disconnect', () => {
@@ -15,7 +14,6 @@ const connectIo = () => {
 
     socket.on('connect_error', (err) => {
         console.log(`connect_error due to ${err.message}`);
-        console.log(socket.connected);
     });
 };
 
