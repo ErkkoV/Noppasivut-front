@@ -1,13 +1,27 @@
 import { Button, Card, Form, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
+function ProbGen({
+    id,
+    deleteProb,
+    probCalculate,
+    adjustProb,
+    result,
+    attackroll,
+    defenceroll,
+    attackskill,
+    defenceskill,
+}) {
     ProbGen.propTypes = {
         id: PropTypes.number.isRequired,
         deleteProb: PropTypes.func.isRequired,
         probCalculate: PropTypes.func.isRequired,
         adjustProb: PropTypes.func.isRequired,
         result: PropTypes.number.isRequired,
+        attackroll: PropTypes.number.isRequired,
+        defenceroll: PropTypes.number.isRequired,
+        attackskill: PropTypes.number.isRequired,
+        defenceskill: PropTypes.number.isRequired,
     };
 
     return (
@@ -22,7 +36,7 @@ function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
                                 required
                                 type="number"
                                 placeholder="Attack Skill"
-                                defaultValue={0}
+                                value={attackskill}
                                 onChange={(e) => {
                                     adjustProb(id, e.target.value, 'attackskill');
                                 }}
@@ -35,7 +49,7 @@ function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
                                 required
                                 type="number"
                                 placeholder="Defense Skill"
-                                defaultValue={0}
+                                value={defenceskill}
                                 onChange={(e) => {
                                     adjustProb(id, e.target.value, 'defenceskill');
                                 }}
@@ -48,7 +62,7 @@ function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
                                 required
                                 type="number"
                                 placeholder="Attack Roll"
-                                defaultValue={0}
+                                value={attackroll}
                                 onChange={(e) => {
                                     adjustProb(id, e.target.value, 'attackroll');
                                 }}
@@ -61,7 +75,7 @@ function ProbGen({ id, deleteProb, probCalculate, adjustProb, result }) {
                                 required
                                 type="number"
                                 placeholder="Defense Roll"
-                                defaultValue={0}
+                                value={defenceroll}
                                 onChange={(e) => {
                                     adjustProb(id, e.target.value, 'defenceroll');
                                 }}
