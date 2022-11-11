@@ -2,9 +2,24 @@ import { useState } from 'react';
 import { Button, Card, Form, Row, Col, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
+function RollGen({
+    id,
+    deleteRoll,
+    diceRoll,
+    adjustRoll,
+    result,
+    results,
+    attackroll,
+    defenceroll,
+    attackskill,
+    defenceskill,
+}) {
     RollGen.propTypes = {
         id: PropTypes.number.isRequired,
+        attackroll: PropTypes.number.isRequired,
+        defenceroll: PropTypes.number.isRequired,
+        attackskill: PropTypes.number.isRequired,
+        defenceskill: PropTypes.number.isRequired,
         deleteRoll: PropTypes.func.isRequired,
         diceRoll: PropTypes.func.isRequired,
         adjustRoll: PropTypes.func.isRequired,
@@ -44,7 +59,7 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
                                 required
                                 type="number"
                                 placeholder="Attack Skill"
-                                defaultValue={0}
+                                value={attackskill}
                                 onChange={(e) => {
                                     adjustRoll(id, e.target.value, 'attackskill');
                                 }}
@@ -57,7 +72,7 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
                                 required
                                 type="number"
                                 placeholder="Defense Skill"
-                                defaultValue={0}
+                                value={defenceskill}
                                 onChange={(e) => {
                                     adjustRoll(id, e.target.value, 'defenceskill');
                                 }}
@@ -70,7 +85,7 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
                                 required
                                 type="number"
                                 placeholder="Attack Roll"
-                                defaultValue={0}
+                                value={attackroll}
                                 onChange={(e) => {
                                     adjustRoll(id, e.target.value, 'attackroll');
                                 }}
@@ -83,7 +98,7 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
                                 required
                                 type="number"
                                 placeholder="Defense Roll"
-                                defaultValue={0}
+                                value={defenceroll}
                                 onChange={(e) => {
                                     adjustRoll(id, e.target.value, 'defenceroll');
                                 }}

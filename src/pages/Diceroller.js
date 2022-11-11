@@ -44,6 +44,10 @@ function DiceRoller() {
                 <RollGen
                     key={`diceroll${roll.id}`}
                     id={roll.id}
+                    attackroll={roll.attackroll}
+                    defenceroll={roll.defenceroll}
+                    attackskill={roll.attackskill}
+                    defenceskill={roll.defenceskill}
                     result={roll.result}
                     results={roll.results}
                     diceRoll={diceRoll}
