@@ -38,7 +38,6 @@ function RollGen({ id, deleteRoll, diceRoll, adjustRoll, result, results }) {
                 <Form onSubmit={(e) => e.preventDefault}>
                     <Row className="mb-3">
                         <Form.Group as={Col}>
-                            {id}
                             <Form.Label>Att Skill</Form.Label>
                             <Form.Control
                                 id={`attskill${id}`}
