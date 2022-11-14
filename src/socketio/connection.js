@@ -1,8 +1,8 @@
 import { io } from 'socket.io-client';
 
-// const socket = io(`ws://${window.location.hostname}:8000`);
+const socket = io(`ws://${window.location.hostname}:8000`);
 // const socket = io('ws://10.201.204.39:8000');
-const socket = io('ws://noppasivut-ser-prod-noppasivut-s5xa1s.mo5.mogenius.io:8000');
+// const socket = io('ws://noppasivut-ser-prod-noppasivut-s5xa1s.mo5.mogenius.io:8000');
 
 const connectIo = () => {
     socket.on('connect', () => {
