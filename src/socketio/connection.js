@@ -1,12 +1,21 @@
 import { io } from 'socket.io-client';
 
-const socket = io(`ws://${window.location.hostname}:8000`);
+const socket = io(`ws://${window.location.hostname}:8000`, {
+    auth: { username: 'noppa', password: 'noppa' },
+});
 // const socket = io('ws://10.201.204.39:8000');
 // const socket = io('ws://noppasivut-ser-prod-noppasivut-s5xa1s.mo5.mogenius.io:8000');
 
 const connectIo = () => {
     socket.on('connect', () => {
         console.log('connected', socket.id); // x8WIv7-mJelg7on_ALbx
+
+        const user = {
+            password: 'noppa',
+            username: 'noppa',
+        };
+
+        socket.emit('login', user);
     });
 
     socket.on('disconnect', () => {
