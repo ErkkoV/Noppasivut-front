@@ -9,13 +9,6 @@ const socket = io(`ws://${window.location.hostname}:8000`, {
 const connectIo = () => {
     socket.on('connect', () => {
         console.log('connected', socket.id); // x8WIv7-mJelg7on_ALbx
-
-        const user = {
-            password: 'noppa',
-            username: 'noppa',
-        };
-
-        socket.emit('login', user);
     });
 
     socket.on('disconnect', () => {
