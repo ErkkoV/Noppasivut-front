@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Button } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
-import socket from '../socketio/connection';
+import { socket } from '../socketio/connection';
 
 function LoginButton() {
     const { setUsedSocket } = useContext(SocketContext);
