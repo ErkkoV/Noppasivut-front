@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import { Form, Button } from 'react-bootstrap';
 
-import { usedSocket } from '../contexts/SocketContext';
+import SocketContext from '../contexts/SocketContext';
 
 function Home() {
+    const { usedSocket } = useContext(SocketContext);
     const socket = usedSocket;
 
     const [name, setName] = useState('kahvikostaja');

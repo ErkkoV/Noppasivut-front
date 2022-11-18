@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import LoadSpinner from './utils/LoadSpinner';
 import Base from './pages/Base';
-import { connectIo, socket } from './socketio/connection';
+import { socket, connectIo } from './socketio/connection';
 import SocketContext from './contexts/SocketContext';
 
 const Diceroller = React.lazy(() => import('./pages/Diceroller'));
@@ -17,7 +17,23 @@ function App() {
     const [usedSocket, setUsedSocket] = useState(socket('noppa', 'noppa'));
     const value = useMemo(() => ({ usedSocket, setUsedSocket }), [usedSocket]);
 
-    connectIo();
+    connectIo(usedSocket);
+
+    usedSocket.on('rolls-back', (args) => {
+        const list = [];
+        args.forEach((each) => {
+            list.push(each);
+        });
+        localStorage.rolls = JSON.stringify(list);
+    });
+
+    usedSocket.on('probs-back', (args) => {
+        const list = [];
+        args.forEach((each) => {
+            list.push(each);
+        });
+        localStorage.probs = JSON.stringify(list);
+    });
 
     return (
         <SocketContext.Provider value={value}>

@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Button } from 'react-bootstrap';
 
-import { usedSocket } from '../contexts/SocketContext';
+import SocketContext from '../contexts/SocketContext';
 
 import rollCalc from '../components/rollCalc';
 import ProbGen from '../components/ProbGen';
@@ -9,22 +9,21 @@ import ProbGen from '../components/ProbGen';
 import { readProbs, changeProbs, deleteProbs, loadData } from '../components/storage';
 
 function ProbCalc() {
-    const socket = usedSocket;
-
+    const { usedSocket } = useContext(SocketContext);
     const [probs, setProbs] = useState(readProbs());
     const [genProb, setGenProb] = useState();
 
     useEffect(() => {
-        loadData();
+        loadData(usedSocket);
     }, []);
 
-    socket.on('probs-back', () => {
+    usedSocket.on('probs-back', () => {
         setProbs(readProbs());
     });
 
     const deleteProb = (id) => {
         const newProbs = probs.filter((prob) => prob.id === Number(id));
-        deleteProbs(newProbs[0]);
+        deleteProbs(usedSocket, newProbs[0]);
     };
 
     const probCalculate = (id) => {
@@ -42,13 +41,13 @@ function ProbCalc() {
         // eslint-disable-next-line prefer-destructuring
         targetProb[0].resultarray = results[1];
 
-        changeProbs(targetProb[0]);
+        changeProbs(usedSocket, targetProb[0]);
     };
 
     const adjustProb = (id, value, key) => {
         const targetProb = probs.filter((prob) => prob.id === Number(id));
         targetProb[0][key] = value;
-        changeProbs(targetProb[0]);
+        changeProbs(usedSocket, targetProb[0]);
     };
 
     const probGen = () => {
@@ -85,7 +84,7 @@ function ProbCalc() {
             resultarray: {},
         });
         probList.sort((a, b) => a.id - b.id);
-        changeProbs(probList[0]);
+        changeProbs(usedSocket, probList[0]);
     };
 
     useEffect(() => {

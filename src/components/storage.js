@@ -1,12 +1,8 @@
-import { usedSocket } from '../contexts/SocketContext';
-
-const socket = usedSocket;
-
-const loadData = () => {
+const loadData = (socket) => {
     socket.emit('load-data');
 };
 
-const changeRolls = (rolled) => {
+const changeRolls = (socket, rolled) => {
     socket.emit('rolls-front', rolled);
 };
 
@@ -19,11 +15,11 @@ const readRolls = () => {
     return [];
 };
 
-const deleteRolls = (rolled) => {
+const deleteRolls = (socket, rolled) => {
     socket.emit('rolls-front-del', rolled);
 };
 
-const changeProbs = (probbed) => {
+const changeProbs = (socket, probbed) => {
     socket.emit('probs-front', probbed);
 };
 
@@ -36,24 +32,8 @@ const readProbs = () => {
     return [];
 };
 
-const deleteProbs = (probbed) => {
+const deleteProbs = (socket, probbed) => {
     socket.emit('probs-front-del', probbed);
 };
-
-socket.on('rolls-back', (args) => {
-    const list = [];
-    args.forEach((each) => {
-        list.push(each);
-    });
-    localStorage.rolls = JSON.stringify(list);
-});
-
-socket.on('probs-back', (args) => {
-    const list = [];
-    args.forEach((each) => {
-        list.push(each);
-    });
-    localStorage.probs = JSON.stringify(list);
-});
 
 export { changeRolls, readRolls, readProbs, changeProbs, deleteRolls, deleteProbs, loadData };
