@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Nav, Navbar, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function Header() {
@@ -68,6 +68,7 @@ function Header() {
                 >
                     Character Creator
                 </Nav.Link>
+                <Button variant="success">Login</Button>
             </Nav>
         </Navbar>
     );

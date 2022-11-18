@@ -1,4 +1,6 @@
-import { socket } from '../socketio/connection';
+import { usedSocket } from '../contexts/SocketContext';
+
+const socket = usedSocket;
 
 const loadData = () => {
     socket.emit('load-data');

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
-import { socket } from '../socketio/connection';
+import { usedSocket } from '../contexts/SocketContext';
 
 import rollCalc from '../components/rollCalc';
 import ProbGen from '../components/ProbGen';
@@ -9,6 +9,8 @@ import ProbGen from '../components/ProbGen';
 import { readProbs, changeProbs, deleteProbs, loadData } from '../components/storage';
 
 function ProbCalc() {
+    const socket = usedSocket;
+
     const [probs, setProbs] = useState(readProbs());
     const [genProb, setGenProb] = useState();
 

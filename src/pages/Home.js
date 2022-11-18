@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 
 import { Form, Button } from 'react-bootstrap';
 
-import { socket } from '../socketio/connection';
+import { usedSocket } from '../contexts/SocketContext';
 
 function Home() {
+    const socket = usedSocket;
+
     const [name, setName] = useState('kahvikostaja');
     const [message, setMessage] = useState();
     const [messages, setMessages] = useState([]);

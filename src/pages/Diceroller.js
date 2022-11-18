@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 
-import { socket } from '../socketio/connection';
+import { usedSocket } from '../contexts/SocketContext';
+
 import RollGen from '../components/RollGen';
 import roller from '../components/roller';
 import { readRolls, changeRolls, deleteRolls, loadData } from '../components/storage';
 
 function DiceRoller() {
+    const socket = usedSocket;
+
     const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
 
