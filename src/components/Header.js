@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import LoginButton from './LoginButton';
+
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -68,6 +70,7 @@ function Header() {
                 >
                     Character Creator
                 </Nav.Link>
+                <LoginButton style={{ align: 'right' }} />
             </Nav>
         </Navbar>
     );
