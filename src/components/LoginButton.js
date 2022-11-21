@@ -14,6 +14,10 @@ function LoginButton() {
         setUsedSocket(socket('new user', 'new user'));
     };
 
+    const createUser = () => {
+        usedSocket.emit('create-user', { username: 'testuser', password: 'testuser' });
+    };
+
     return (
         <>
             <Button variant="info" onClick={() => setLoginModal(true)}>
@@ -41,7 +45,7 @@ function LoginButton() {
                             variant="primary"
                             onClick={() => {
                                 if (newUser) {
-                                    login();
+                                    createUser();
                                 } else {
                                     login();
                                 }
