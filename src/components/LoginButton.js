@@ -11,7 +11,7 @@ function LoginButton() {
     const [newUser, setNewUser] = useState(false);
 
     const login = () => {
-        setUsedSocket(socket('new user', 'new user'));
+        setUsedSocket(socket('testuser', 'testuser'));
     };
 
     const createUser = () => {
@@ -32,7 +32,7 @@ function LoginButton() {
                         <Form submit={(e) => e.preventDefault}>
                             <Form.Group className="mb-3" controlId="formUser">
                                 <Form.Label>Username</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" />
+                                <Form.Control type="email" placeholder="Username" />
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formPassword">
