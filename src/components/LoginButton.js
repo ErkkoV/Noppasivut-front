@@ -10,13 +10,22 @@ function LoginButton() {
     const [loginModal, setLoginModal] = useState(false);
     const [newUser, setNewUser] = useState(false);
 
+    const [pass, setPass] = useState();
+    const [user, setUser] = useState();
+
+    const [message, setMessage] = useState(false);
+
     const login = () => {
-        setUsedSocket(socket('testuser', 'testuser'));
+        setUsedSocket(socket(user, pass));
     };
 
     const createUser = () => {
-        usedSocket.emit('create-user', { username: 'testuser', password: 'testuser' });
+        usedSocket.emit('create-user', { username: user, password: pass });
     };
+
+    usedSocket.on('create-back', (args) => {
+        setMessage(args);
+    });
 
     return (
         <>
@@ -32,12 +41,24 @@ function LoginButton() {
                         <Form submit={(e) => e.preventDefault}>
                             <Form.Group className="mb-3" controlId="formUser">
                                 <Form.Label>Username</Form.Label>
-                                <Form.Control type="email" placeholder="Username" />
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Username"
+                                    onChange={(e) => {
+                                        setUser(e.target.value);
+                                    }}
+                                />
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    onChange={(e) => {
+                                        setPass(e.target.value);
+                                    }}
+                                />
                             </Form.Group>
                         </Form>
 
@@ -53,7 +74,9 @@ function LoginButton() {
                         >
                             {newUser ? 'Create' : 'Login'}
                         </Button>
-
+                        <br />
+                        {message && <p>{message}</p>}
+                        <br />
                         <Button
                             onClick={() => {
                                 if (!newUser) {
