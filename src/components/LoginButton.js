@@ -14,6 +14,7 @@ function LoginButton() {
     const [user, setUser] = useState();
 
     const [message, setMessage] = useState(false);
+    const [logged, setLogged] = useState(false);
 
     const login = () => {
         setUsedSocket(socket(user, pass));
@@ -28,17 +29,17 @@ function LoginButton() {
     });
 
     usedSocket.on('user', (args) => {
-        setUser(args);
+        setLogged(args);
     });
 
     return (
         <>
             <h3 style={{ color: 'white', 'margin-left': '250px', 'margin-top': '2px' }}>
-                {user !== 'noppa' && user !== 'random' ? user : 'No User'} &nbsp;
+                {logged !== 'noppa' && logged !== 'random' ? logged : 'No User'} &nbsp;
             </h3>
 
             <Button variant="info" onClick={() => setLoginModal(true)}>
-                {user !== 'noppa' && user !== 'random' ? 'Change User' : 'Login User'}
+                {logged !== 'noppa' && logged !== 'random' ? 'Change User' : 'Login User'}
             </Button>
             {loginModal && (
                 <Modal
