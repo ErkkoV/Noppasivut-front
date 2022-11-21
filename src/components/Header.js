@@ -70,7 +70,7 @@ function Header() {
                 >
                     Character Creator
                 </Nav.Link>
-                <LoginButton style={{ align: 'right' }} />
+                <LoginButton />
             </Nav>
         </Navbar>
     );
