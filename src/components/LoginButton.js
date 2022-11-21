@@ -34,7 +34,7 @@ function LoginButton() {
     return (
         <>
             <h3 style={{ color: 'white', 'margin-left': '250px', 'margin-top': '2px' }}>
-                {user !== 'noppa' && user !== 'random' ? user : 'No User'}
+                {user !== 'noppa' && user !== 'random' ? user : 'No User'} &nbsp;
             </h3>
 
             <Button variant="info" onClick={() => setLoginModal(true)}>
