@@ -33,7 +33,13 @@ function LoginButton() {
                 Login
             </Button>
             {loginModal && (
-                <Modal show={loginModal} onHide={() => setLoginModal(false)}>
+                <Modal
+                    show={loginModal}
+                    onHide={() => {
+                        setLoginModal(false);
+                        setMessage(false);
+                    }}
+                >
                     <Modal.Header closeButton>
                         <Modal.Title>{newUser ? 'Create New User' : 'Login'}</Modal.Title>
                     </Modal.Header>
@@ -87,6 +93,7 @@ function LoginButton() {
                         <br />
                         <Button
                             onClick={() => {
+                                setMessage(false);
                                 if (!newUser) {
                                     setNewUser(true);
                                 } else {
