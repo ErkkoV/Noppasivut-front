@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form, Alert } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
 import { socket } from '../socketio/connection';
@@ -75,7 +75,15 @@ function LoginButton() {
                             {newUser ? 'Create' : 'Login'}
                         </Button>
                         <br />
-                        {message && <p>{message}</p>}
+                        {message && (
+                            <Alert
+                                variant={
+                                    message === 'Login succeeded' || message === 'User added' ? 'success' : 'danger'
+                                }
+                            >
+                                {message}
+                            </Alert>
+                        )}
                         <br />
                         <Button
                             onClick={() => {
