@@ -27,10 +27,18 @@ function LoginButton() {
         setMessage(args);
     });
 
+    usedSocket.on('user', (args) => {
+        setUser(args);
+    });
+
     return (
         <>
+            <h3 style={{ color: 'white', 'margin-left': '250px', 'margin-top': '2px' }}>
+                {user !== 'noppa' && user !== 'random' ? user : 'No User'}
+            </h3>
+
             <Button variant="info" onClick={() => setLoginModal(true)}>
-                Login
+                {user !== 'noppa' && user !== 'random' ? 'Change User' : 'Login User'}
             </Button>
             {loginModal && (
                 <Modal
