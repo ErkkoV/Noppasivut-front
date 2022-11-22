@@ -62,11 +62,8 @@ function LoginButton() {
 
     usedSocket.on('create-back', (args) => {
         if (args === 'User added') {
-            setMessage('User added. Logging in...');
-            setTimeout(() => {
-                setNewUser(false);
-                login();
-            }, 500);
+            setMessage('User added. Please Login.');
+            setNewUser(false);
         } else {
             setMessage(args);
         }
@@ -154,7 +151,9 @@ function LoginButton() {
                         {message && (
                             <Alert
                                 variant={
-                                    message === 'Login succeeded' || message === 'User added' ? 'success' : 'danger'
+                                    message === 'Login succeeded' || message === 'User added. Please Login.'
+                                        ? 'success'
+                                        : 'danger'
                                 }
                             >
                                 {message}
