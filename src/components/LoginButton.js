@@ -32,6 +32,8 @@ function LoginButton() {
         setLogged(args);
     });
 
+    on;
+
     return (
         <>
             <h3 style={{ color: 'white', 'margin-left': '250px', 'margin-top': '2px' }}>
@@ -53,19 +55,34 @@ function LoginButton() {
                         <Modal.Title>{newUser ? 'Create New User' : 'Login'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Form submit={(e) => e.preventDefault}>
-                            <Form.Group className="mb-3" controlId="formUser">
+                        <Form
+                            noValidate
+                            onSubmit={(e) => e.preventDefault}
+                            onKeyPress={(e) => {
+                                if (e.key === 'enter' && loginModal) {
+                                    if (newUser) {
+                                        createUser();
+                                    } else {
+                                        login();
+                                    }
+                                }
+                            }}
+                        >
+                            <Form.Group className="mb-3" controlId="validationCustom01">
                                 <Form.Label>Username</Form.Label>
                                 <Form.Control
-                                    type="email"
+                                    type="text"
                                     placeholder="Username"
                                     onChange={(e) => {
                                         setUser(e.target.value);
                                     }}
+                                    required
+                                    isValid
+                                    isInvalid
                                 />
                             </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formPassword">
+                            <Form.Group className="mb-3" controlId="validationCustom02">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
                                     type="password"
@@ -73,6 +90,9 @@ function LoginButton() {
                                     onChange={(e) => {
                                         setPass(e.target.value);
                                     }}
+                                    required
+                                    isValid={false}
+                                    isInvalid
                                 />
                             </Form.Group>
                         </Form>
