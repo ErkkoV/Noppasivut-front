@@ -15,7 +15,8 @@
         "react-router-dom": "^6.3.0",
         "react-script": "^2.0.5",
         "react-scripts": "^5.0.1",
-        "socket.io-client": "^4.5.2"
+        "socket.io-client": "^4.5.2",
+        "validator": "^13.7.0"
     },
     "scripts": {
         "start": "npm install && react-scripts start",
