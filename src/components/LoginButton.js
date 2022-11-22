@@ -61,7 +61,15 @@ function LoginButton() {
     };
 
     usedSocket.on('create-back', (args) => {
-        setMessage(args);
+        if (args === 'User added') {
+            setMessage('User added. Logging in...');
+            setTimeout(() => {
+                setNewUser(false);
+                login();
+            }, 500);
+        } else {
+            setMessage(args);
+        }
     });
 
     usedSocket.on('user', (args) => {
