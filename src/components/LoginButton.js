@@ -21,7 +21,6 @@ function LoginButton() {
 
     useEffect(() => {
         const newValid = { username: false, password: false };
-        console.log(user, pass);
 
         if (user.length > 4 && user.length < 30 && user !== 'noppa' && user !== 'random') {
             newValid.username = true;
@@ -35,7 +34,6 @@ function LoginButton() {
             minSymbols: 0,
         });
         setValidate(newValid);
-        console.log(validate);
 
         if (newValid.password && newValid.username) {
             setMessage(false);
@@ -85,9 +83,10 @@ function LoginButton() {
                     onHide={() => {
                         setLoginModal(false);
                         setMessage(false);
+                        setUser('');
+                        setPass('');
                     }}
                     onKeyPress={(e) => {
-                        console.log(e.key);
                         if (e.key === 'Enter' && loginModal) {
                             if (newUser) {
                                 createUser();
