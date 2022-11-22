@@ -23,8 +23,9 @@ function LoginButton() {
         const newValid = { username: false, password: false };
         console.log(user, pass);
 
-        newValid.username =
-            validator.isLength(user, { minLength: 5, maxLength: 30 }) && user !== 'noppa' && user !== 'random';
+        if (user.length > 4 && user.length < 30 && user !== 'noppa' && user !== 'random') {
+            newValid.username = true;
+        }
 
         newValid.password = validator.isStrongPassword(pass, {
             minLength: 8,
@@ -35,17 +36,29 @@ function LoginButton() {
         });
         setValidate(newValid);
         console.log(validate);
+
+        if (newValid.password && newValid.username) {
+            setMessage(false);
+        }
     }, [pass, user]);
 
     const login = () => {
         if (validate.username && validate.password) {
             setUsedSocket(socket(user, pass));
+        } else {
+            setMessage(
+                'Enter a valid Username and Password. Username needs to be at least 5 characters long. Password needs to be 8 characters long, and contain upper- and lowercase letters, and numbers.'
+            );
         }
     };
 
     const createUser = () => {
         if (validate.username && validate.password) {
             usedSocket.emit('create-user', { username: user, password: pass });
+        } else {
+            setMessage(
+                'Enter a valid Username and Password. Username needs to be at least 5 characters long. Password needs to be 8 characters long, and contain upper- and lowercase letters, and numbers.'
+            );
         }
     };
 
@@ -75,7 +88,7 @@ function LoginButton() {
                     }}
                     onKeyPress={(e) => {
                         console.log(e.key);
-                        if (e.key === 'enter' && loginModal) {
+                        if (e.key === 'Enter' && loginModal) {
                             if (newUser) {
                                 createUser();
                             } else {
