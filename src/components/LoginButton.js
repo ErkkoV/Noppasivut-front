@@ -1,5 +1,6 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button, Modal, Form, Alert } from 'react-bootstrap';
+import validator from 'validator';
 
 import SocketContext from '../contexts/SocketContext';
 import { socket } from '../socketio/connection';
@@ -10,18 +11,42 @@ function LoginButton() {
     const [loginModal, setLoginModal] = useState(false);
     const [newUser, setNewUser] = useState(false);
 
-    const [pass, setPass] = useState();
-    const [user, setUser] = useState();
+    const [pass, setPass] = useState('');
+    const [user, setUser] = useState('');
 
     const [message, setMessage] = useState(false);
     const [logged, setLogged] = useState(false);
 
+    const [validate, setValidate] = useState({ username: false, password: false });
+
+    useEffect(() => {
+        const newValid = { username: false, password: false };
+        console.log(user, pass);
+
+        newValid.username =
+            validator.isLength(user, { minLength: 5, maxLength: 30 }) && user !== 'noppa' && user !== 'random';
+
+        newValid.password = validator.isStrongPassword(pass, {
+            minLength: 8,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 0,
+        });
+        setValidate(newValid);
+        console.log(validate);
+    }, [pass, user]);
+
     const login = () => {
-        setUsedSocket(socket(user, pass));
+        if (validate.username && validate.password) {
+            setUsedSocket(socket(user, pass));
+        }
     };
 
     const createUser = () => {
-        usedSocket.emit('create-user', { username: user, password: pass });
+        if (validate.username && validate.password) {
+            usedSocket.emit('create-user', { username: user, password: pass });
+        }
     };
 
     usedSocket.on('create-back', (args) => {
@@ -31,8 +56,6 @@ function LoginButton() {
     usedSocket.on('user', (args) => {
         setLogged(args);
     });
-
-    on;
 
     return (
         <>
@@ -50,24 +73,22 @@ function LoginButton() {
                         setLoginModal(false);
                         setMessage(false);
                     }}
+                    onKeyPress={(e) => {
+                        console.log(e.key);
+                        if (e.key === 'enter' && loginModal) {
+                            if (newUser) {
+                                createUser();
+                            } else {
+                                login();
+                            }
+                        }
+                    }}
                 >
                     <Modal.Header closeButton>
                         <Modal.Title>{newUser ? 'Create New User' : 'Login'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Form
-                            noValidate
-                            onSubmit={(e) => e.preventDefault}
-                            onKeyPress={(e) => {
-                                if (e.key === 'enter' && loginModal) {
-                                    if (newUser) {
-                                        createUser();
-                                    } else {
-                                        login();
-                                    }
-                                }
-                            }}
-                        >
+                        <Form noValidate onSubmit={(e) => e.preventDefault}>
                             <Form.Group className="mb-3" controlId="validationCustom01">
                                 <Form.Label>Username</Form.Label>
                                 <Form.Control
@@ -77,8 +98,8 @@ function LoginButton() {
                                         setUser(e.target.value);
                                     }}
                                     required
-                                    isValid
-                                    isInvalid
+                                    isValid={validate.username}
+                                    isInvalid={!validate.username}
                                 />
                             </Form.Group>
 
@@ -91,8 +112,8 @@ function LoginButton() {
                                         setPass(e.target.value);
                                     }}
                                     required
-                                    isValid={false}
-                                    isInvalid
+                                    isValid={validate.password}
+                                    isInvalid={!validate.password}
                                 />
                             </Form.Group>
                         </Form>
