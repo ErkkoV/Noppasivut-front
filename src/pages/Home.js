@@ -50,7 +50,14 @@ function Home() {
                     {each.user}: {each.message}
                 </p>
             ))}
-            <Form onSubmit={(e) => e.preventDefault()}>
+            <Form
+                onSubmit={(e) => e.preventDefault()}
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                }}
+            >
                 <Form.Group>
                     <Form.Label>Message</Form.Label>
                     <Form.Control
