@@ -3,28 +3,27 @@ import { useState, useEffect, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
+import UserContext from '../contexts/UserContext';
 
 function Home() {
     const { usedSocket } = useContext(SocketContext);
-    const socket = usedSocket;
+    const { user } = useContext(UserContext);
 
-    const [name, setName] = useState('kahvikostaja');
     const [message, setMessage] = useState();
     const [messages, setMessages] = useState([]);
 
-    socket.on('messages-back', (args) => {
+    usedSocket.on('messages-back', (args) => {
         const list = [];
         Object.keys(args).forEach((key) => {
-            list.push({ message: args[key].message, time: args[key].time, id: key });
+            list.push({ message: args[key].message, time: args[key].time, id: args[key].id, user: args.key.username });
         });
-        const newList = list.slice(-10);
-        if (messages !== newList) {
-            setMessages(newList);
+        if (messages !== list) {
+            setMessages(list);
         }
     });
 
     const sendMessage = () => {
-        socket.emit('messages-front', `${name}: ${message}`);
+        usedSocket.emit('messages-front', [user, message]);
     };
 
     useEffect(() => {
@@ -43,21 +42,10 @@ function Home() {
 
     return (
         <>
-            <Form onSubmit={(e) => e.preventDefault()}>
-                <Form.Group>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                        id="name"
-                        required
-                        type="string"
-                        placeholder="kahvikostaja"
-                        defaultValue="kahvikostaja"
-                        onChange={(e) => {
-                            setName(e.target.value);
-                        }}
-                    />
-                </Form.Group>
-            </Form>
+            <p>Logged in as {user}</p>
+            <br />
+            <p>Messages:</p>
+            <br />
             {messages.map((each) => (
                 <p key={`${each.id}`}>
                     {each.time}: {each.message}
