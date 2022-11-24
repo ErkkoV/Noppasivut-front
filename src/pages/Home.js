@@ -45,8 +45,6 @@ function Home() {
         <>
             <p>Logged in as {user}</p>
             <br />
-            <p>Messages:</p>
-            <br />
             {messages.map((each) => (
                 <p key={`${each.id}`}>
                     {each.user}: {each.message}
