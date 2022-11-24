@@ -3,10 +3,12 @@ import { Button, Modal, Form, Alert } from 'react-bootstrap';
 import validator from 'validator';
 
 import SocketContext from '../contexts/SocketContext';
+import UserContext from '../contexts/UserContext';
 import { socket } from '../socketio/connection';
 
 function LoginButton() {
     const { usedSocket, setUsedSocket } = useContext(SocketContext);
+    const logged = useContext(UserContext);
 
     const [loginModal, setLoginModal] = useState(false);
     const [newUser, setNewUser] = useState(false);
@@ -15,7 +17,6 @@ function LoginButton() {
     const [user, setUser] = useState('');
 
     const [message, setMessage] = useState(false);
-    const [logged, setLogged] = useState(false);
 
     const [validate, setValidate] = useState({ username: false, password: false });
 
@@ -69,18 +70,14 @@ function LoginButton() {
         }
     });
 
-    usedSocket.on('user', (args) => {
-        setLogged(args);
-    });
-
     return (
         <>
             <h3 style={{ color: 'white', 'margin-left': '250px', 'margin-top': '2px' }}>
-                {logged !== 'noppa' && logged !== 'random' ? logged : 'No User'} &nbsp;
+                {logged.user !== 'noppa' && logged.user !== 'random' ? logged.user : 'No User'} &nbsp;
             </h3>
 
             <Button variant="info" onClick={() => setLoginModal(true)}>
-                {logged !== 'noppa' && logged !== 'random' ? 'Change User' : 'Login User'}
+                {logged.user !== 'noppa' && logged.user !== 'random' ? 'Change User' : 'Login User'}
             </Button>
             {loginModal && (
                 <Modal

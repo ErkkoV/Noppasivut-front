@@ -12,12 +12,20 @@ import CharCreator from './pages/CharCreator';
 
 import { socket, connectIo } from './socketio/connection';
 import SocketContext from './contexts/SocketContext';
+import UserContext from './contexts/UserContext';
 
 function App() {
     const [usedSocket, setUsedSocket] = useState(socket('noppa', 'noppa'));
     const value = useMemo(() => ({ usedSocket, setUsedSocket }), [usedSocket]);
 
+    const [user, setUser] = useState('noppa');
+    const usedUser = useMemo(() => ({ user, setUser }), [user]);
+
     connectIo(usedSocket);
+
+    usedSocket.on('user', (args) => {
+        setUser(args);
+    });
 
     usedSocket.on('rolls-back', (args) => {
         const list = [];
@@ -62,7 +70,9 @@ function App() {
 
     return (
         <SocketContext.Provider value={value}>
-            <RouterProvider router={router} fallbackElement={<LoadSpinner />} />
+            <UserContext.Provider value={usedUser}>
+                <RouterProvider router={router} fallbackElement={<LoadSpinner />} />
+            </UserContext.Provider>
         </SocketContext.Provider>
     );
 }
