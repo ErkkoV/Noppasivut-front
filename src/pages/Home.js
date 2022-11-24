@@ -32,7 +32,7 @@ function Home() {
     });
 
     const sendMessage = () => {
-        if (user && message) {
+        if (user !== 'noppa' && message && message.length <= 1000 && message.length > 0) {
             setWarning(false);
             usedSocket.emit('messages-front', [user, message]);
             setMessage('');
@@ -85,13 +85,17 @@ function Home() {
                     </Button>
                 </Form.Group>
             </Form>
-            {warning && (message.length > 1000 || user === 'noppa' || message.length < 1) && (
-                <Alert variant="danger">
-                    {message.length > 1000 && 'Please write message under 1000 characters.'}
-                    {message.length < 1 && 'Please write a message.'}
-                    {user === 'noppa' && 'Please log in or create a new user'}
-                </Alert>
-            )}
+            {warning &&
+                (user === 'noppa' ||
+                    (message && message.length > 1000) ||
+                    (message && message.length < 1) ||
+                    !message) && (
+                    <Alert variant="danger">
+                        {message && message.length > 1000 && 'Please write message under 1000 characters.'}
+                        {!message && message.length < 1 && 'Please write a message.'}
+                        {user === 'noppa' && 'Please log in or create a new user'}
+                    </Alert>
+                )}
         </div>
     );
 }
