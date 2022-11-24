@@ -14,16 +14,26 @@ function Home() {
 
     usedSocket.on('messages-back', (args) => {
         const list = [];
-        Object.keys(args).forEach((key) => {
-            list.push({ message: args[key].message, time: args[key].time, id: args[key].id, user: args.key.username });
-        });
+        if (args) {
+            Object.keys(args).forEach((key) => {
+                list.push({
+                    message: args[key].message,
+                    time: args[key].time,
+                    id: args[key].id,
+                    user: args.key.username,
+                });
+            });
+        }
+
         if (messages !== list) {
             setMessages(list);
         }
     });
 
     const sendMessage = () => {
-        usedSocket.emit('messages-front', [user, message]);
+        if (user && message) {
+            usedSocket.emit('messages-front', [user, message]);
+        }
     };
 
     useEffect(() => {
