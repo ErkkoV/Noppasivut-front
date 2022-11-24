@@ -77,7 +77,7 @@ function LoginButton() {
             </h3>
 
             <Button variant="info" onClick={() => setLoginModal(true)}>
-                {logged !== 'noppa' && logged !== 'random' ? 'Change User' : 'Login User'}
+                {logged.user !== 'noppa' && logged.user !== 'random' ? 'Change User' : 'Login User'}
             </Button>
             {loginModal && (
                 <Modal
