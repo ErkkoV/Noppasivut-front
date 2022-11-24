@@ -26,7 +26,6 @@ function Home() {
             });
         }
         list.sort((a, b) => a.id - b.id);
-
         if (messages !== list) {
             setMessages(list);
         }
@@ -50,7 +49,7 @@ function Home() {
             <br />
             {messages.map((each) => (
                 <p key={`${each.id}`}>
-                    {each.id} {each.user}: {each.message}
+                    {each.user}: {each.message}
                 </p>
             ))}
             <Form onSubmit={(e) => e.preventDefault()}>
