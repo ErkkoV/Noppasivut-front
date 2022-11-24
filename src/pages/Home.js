@@ -28,6 +28,7 @@ function Home() {
         list.sort((a, b) => a.id - b.id);
         if (messages !== list) {
             setMessages(list);
+            setMessage();
         }
     });
 
