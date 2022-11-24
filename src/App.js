@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, UNSAFE_RouteContext } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -12,6 +12,7 @@ import CharCreator from './pages/CharCreator';
 
 import { socket, connectIo } from './socketio/connection';
 import SocketContext from './contexts/SocketContext';
+import UserContext from './contexts/UserContext';
 
 function App() {
     const [usedSocket, setUsedSocket] = useState(socket('noppa', 'noppa'));
@@ -62,7 +63,9 @@ function App() {
 
     return (
         <SocketContext.Provider value={value}>
-            <RouterProvider router={router} fallbackElement={<LoadSpinner />} />
+            <UserContext.Provider value={user}>
+                <RouterProvider router={router} fallbackElement={<LoadSpinner />} />
+            </UserContext.Provider>
         </SocketContext.Provider>
     );
 }
