@@ -43,7 +43,7 @@ function Home() {
     }, []);
 
     return (
-        <>
+        <div style={{ 'margin-left': '20px', width: '90%' }}>
             <p>Logged in as {user}</p>
             <br />
             {messages.map((each) => (
@@ -74,7 +74,7 @@ function Home() {
                     <Button onClick={() => sendMessage()}>Send</Button>
                 </Form.Group>
             </Form>
-        </>
+        </div>
     );
 }
 
