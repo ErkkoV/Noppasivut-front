@@ -69,6 +69,8 @@ function Home() {
                         onChange={(e) => {
                             setMessage(e.target.value);
                         }}
+                        isValid={message && message.length > 0 && message.length <= 1000}
+                        isInvalid={!message || message.length < 1 || message.length > 1000}
                     />
                     <Button
                         onClick={() => {
