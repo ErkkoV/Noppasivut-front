@@ -14,7 +14,6 @@ function Home() {
 
     usedSocket.on('messages-back', (args) => {
         const list = [];
-        console.log(args);
         if (args) {
             Object.keys(args).forEach((key) => {
                 list.push({
@@ -28,7 +27,6 @@ function Home() {
         list.sort((a, b) => a.id - b.id);
         if (messages !== list) {
             setMessages(list);
-            setMessage('');
         }
     });
 
@@ -56,6 +54,7 @@ function Home() {
                 onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                         sendMessage();
+                        setMessage('');
                     }
                 }}
             >
@@ -71,7 +70,14 @@ function Home() {
                             setMessage(e.target.value);
                         }}
                     />
-                    <Button onClick={() => sendMessage()}>Send</Button>
+                    <Button
+                        onClick={() => {
+                            sendMessage();
+                            setMessage('');
+                        }}
+                    >
+                        Send
+                    </Button>
                 </Form.Group>
             </Form>
         </div>
