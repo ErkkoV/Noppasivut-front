@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
 import UserContext from '../contexts/UserContext';
@@ -11,6 +11,7 @@ function Home() {
 
     const [message, setMessage] = useState();
     const [messages, setMessages] = useState([]);
+    const [warning, setWarning] = useState(false);
 
     usedSocket.on('messages-back', (args) => {
         const list = [];
@@ -32,7 +33,11 @@ function Home() {
 
     const sendMessage = () => {
         if (user && message) {
+            setWarning(false);
             usedSocket.emit('messages-front', [user, message]);
+            setMessage('');
+        } else {
+            setWarning(true);
         }
     };
 
@@ -54,7 +59,6 @@ function Home() {
                 onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                         sendMessage();
-                        setMessage('');
                     }
                 }}
             >
@@ -75,13 +79,19 @@ function Home() {
                     <Button
                         onClick={() => {
                             sendMessage();
-                            setMessage('');
                         }}
                     >
                         Send
                     </Button>
                 </Form.Group>
             </Form>
+            {warning && (message.length > 1000 || user === 'noppa' || message.length < 1) && (
+                <Alert variant="danger">
+                    {message.length > 1000 && 'Please write message under 1000 characters.'}
+                    {message.length < 1 && 'Please write a message.'}
+                    {user === 'noppa' && 'Please log in or create a new user'}
+                </Alert>
+            )}
         </div>
     );
 }
