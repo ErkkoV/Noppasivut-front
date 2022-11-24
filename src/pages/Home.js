@@ -59,7 +59,7 @@ function Home() {
                 }}
             >
                 <Form.Group>
-                    <Form.Label>Message [{message.length}/1000]</Form.Label>
+                    <Form.Label>Message {message ? `${message.length}/1000` : '0/1000'}</Form.Label>
                     <Form.Control
                         id="message"
                         required
