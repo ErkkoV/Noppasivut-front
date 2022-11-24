@@ -66,7 +66,7 @@ function Home() {
                         required
                         type="string"
                         placeholder=""
-                        defaultValue=""
+                        value={message}
                         onChange={(e) => {
                             setMessage(e.target.value);
                         }}
