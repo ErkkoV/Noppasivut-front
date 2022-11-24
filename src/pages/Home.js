@@ -27,17 +27,7 @@ function Home() {
     };
 
     useEffect(() => {
-        socket.emit('load-messages');
-        socket.on('save-messages', (args) => {
-            const list = [];
-            Object.keys(args).forEach((key) => {
-                list.push({ message: args[key].message, time: args[key].time, id: key });
-            });
-            const newList = list.slice(-10);
-            if (messages !== newList) {
-                setMessages(newList);
-            }
-        });
+        usedSocket.emit('load-messages');
     }, []);
 
     return (
@@ -48,7 +38,7 @@ function Home() {
             <br />
             {messages.map((each) => (
                 <p key={`${each.id}`}>
-                    {each.time}: {each.message}
+                    {each.id} {each.user}: {each.message}
                 </p>
             ))}
             <Form onSubmit={(e) => e.preventDefault()}>
