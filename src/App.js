@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { createBrowserRouter, RouterProvider, UNSAFE_RouteContext } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,7 +18,14 @@ function App() {
     const [usedSocket, setUsedSocket] = useState(socket('noppa', 'noppa'));
     const value = useMemo(() => ({ usedSocket, setUsedSocket }), [usedSocket]);
 
+    const [user, setUser] = useState('noppa');
+    const usedUser = useMemo(() => ({ user, setUser }), [user]);
+
     connectIo(usedSocket);
+
+    usedSocket.on('user', (args) => {
+        setUser(args);
+    });
 
     usedSocket.on('rolls-back', (args) => {
         const list = [];
@@ -63,7 +70,7 @@ function App() {
 
     return (
         <SocketContext.Provider value={value}>
-            <UserContext.Provider value={user}>
+            <UserContext.Provider value={usedUser}>
                 <RouterProvider router={router} fallbackElement={<LoadSpinner />} />
             </UserContext.Provider>
         </SocketContext.Provider>
