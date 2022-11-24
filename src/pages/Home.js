@@ -14,16 +14,18 @@ function Home() {
 
     usedSocket.on('messages-back', (args) => {
         const list = [];
+        console.log(args);
         if (args) {
             Object.keys(args).forEach((key) => {
                 list.push({
                     message: args[key].message,
                     time: args[key].time,
                     id: args[key].id,
-                    user: args.key.username,
+                    user: args[key].username,
                 });
             });
         }
+        list.sort((a, b) => a.id - b.id);
 
         if (messages !== list) {
             setMessages(list);
