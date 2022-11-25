@@ -26,7 +26,7 @@ function ProbCalc() {
 
     const deleteProb = (id) => {
         const newProbs = probs.filter((prob) => prob.id === Number(id));
-        deleteProbs(usedSocket, newProbs[0]);
+        deleteProbs(usedSocket, session, newProbs[0]);
     };
 
     const probCalculate = (id) => {
@@ -44,13 +44,13 @@ function ProbCalc() {
         // eslint-disable-next-line prefer-destructuring
         targetProb[0].resultarray = results[1];
 
-        changeProbs(usedSocket, targetProb[0]);
+        changeProbs(usedSocket, session, targetProb[0]);
     };
 
     const adjustProb = (id, value, key) => {
         const targetProb = probs.filter((prob) => prob.id === Number(id));
         targetProb[0][key] = value;
-        changeProbs(usedSocket, targetProb[0]);
+        changeProbs(usedSocket, session, targetProb[0]);
     };
 
     const probGen = () => {
@@ -87,7 +87,7 @@ function ProbCalc() {
             resultarray: {},
         });
         probList.sort((a, b) => a.id - b.id);
-        changeProbs(usedSocket, probList[0]);
+        changeProbs(usedSocket, session, probList[0]);
     };
 
     useEffect(() => {

@@ -4,10 +4,12 @@ import { Form, Button, Alert } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
 import UserContext from '../contexts/UserContext';
+import SessionContext from '../contexts/SessionContext';
 
 function Home() {
     const { usedSocket } = useContext(SocketContext);
     const { user } = useContext(UserContext);
+    const { session } = useContext(SessionContext);
 
     const [message, setMessage] = useState();
     const [messages, setMessages] = useState([]);
@@ -34,7 +36,7 @@ function Home() {
     const sendMessage = () => {
         if (user !== 'noppa' && message && message.length <= 1000 && message.length > 0) {
             setWarning(false);
-            usedSocket.emit('messages-front', [user, message]);
+            usedSocket.emit('messages-front', [session, [user, message, session]]);
             setMessage('');
         } else {
             setWarning(true);
@@ -42,7 +44,7 @@ function Home() {
     };
 
     useEffect(() => {
-        usedSocket.emit('load-messages');
+        usedSocket.emit('load-messages', session);
     }, []);
 
     return (

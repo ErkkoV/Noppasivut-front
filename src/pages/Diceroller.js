@@ -25,7 +25,7 @@ function DiceRoller() {
 
     const deleteRoll = (id) => {
         const newRolls = rolls.filter((roll) => roll.id === Number(id));
-        deleteRolls(usedSocket, newRolls[0]);
+        deleteRolls(usedSocket, session, newRolls[0]);
     };
 
     const diceRoll = (id) => {
@@ -37,13 +37,13 @@ function DiceRoller() {
         oldResults.push(targetRoll[0].result);
         targetRoll[0].results = oldResults;
 
-        changeRolls(usedSocket, targetRoll[0]);
+        changeRolls(usedSocket, session, targetRoll[0]);
     };
 
     const adjustRoll = (id, value, key) => {
         const targetRoll = rolls.filter((roll) => roll.id === id);
         targetRoll[0][key] = value;
-        changeRolls(usedSocket, targetRoll[0]);
+        changeRolls(usedSocket, session, targetRoll[0]);
     };
 
     const rollGen = () => {
@@ -87,7 +87,7 @@ function DiceRoller() {
             results: [],
         });
         rollList.sort((a, b) => a.id - b.id);
-        changeRolls(usedSocket, rollList[0]);
+        changeRolls(usedSocket, session, rollList[0]);
     };
 
     useEffect(() => {
