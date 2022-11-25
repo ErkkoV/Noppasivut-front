@@ -62,7 +62,7 @@ function App() {
     });
 
     usedSocket.on('users', (args) => {
-        localStorage.users = args;
+        setUsers(args);
     });
 
     const router = createBrowserRouter([

@@ -5,10 +5,12 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import SocketContext from '../contexts/SocketContext';
 import UserContext from '../contexts/UserContext';
 import SessionContext from '../contexts/SessionContext';
+import UsersContext from '../contexts/UsersContext';
 
 function Home() {
     const { usedSocket } = useContext(SocketContext);
     const { user } = useContext(UserContext);
+    const { users } = useContext(UsersContext);
     const { session } = useContext(SessionContext);
 
     const [message, setMessage] = useState();
@@ -102,6 +104,7 @@ function Home() {
             </div>
             <div style={{ 'margin-left': '20px', width: '30%', float: 'left' }}>
                 <p>Users:</p>
+                {users && users.map((entry) => <li>{entry}</li>)}
             </div>
         </div>
     );
