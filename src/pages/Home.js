@@ -49,6 +49,10 @@ function Home() {
         usedSocket.emit('load-messages', session);
     }, []);
 
+    const inviteUser = (inv) => {
+        usedSocket.emit('invite', { session, user, inv });
+    };
+
     return (
         <div style={{ overflow: 'hidden' }}>
             <div style={{ 'margin-left': '20px', width: '65%', float: 'left' }}>
@@ -103,6 +107,9 @@ function Home() {
                     )}
             </div>
             <div style={{ 'margin-left': '20px', width: '30%', float: 'left' }}>
+                <Button variant="success" onClick={() => inviteUser('tonipal')}>
+                    Invite Users
+                </Button>
                 <p>Users:</p>
                 {users && users.map((entry) => <li>{entry}</li>)}
             </div>
