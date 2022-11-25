@@ -85,6 +85,7 @@ function DiceRoller() {
                 finalsuccess: '',
             },
             results: [],
+            sessionname: session,
         });
         rollList.sort((a, b) => a.id - b.id);
         changeRolls(usedSocket, session, rollList[0]);

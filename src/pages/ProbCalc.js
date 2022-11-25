@@ -85,6 +85,7 @@ function ProbCalc() {
             defenceroll: 0,
             result: 0,
             resultarray: {},
+            sessionname: session,
         });
         probList.sort((a, b) => a.id - b.id);
         changeProbs(usedSocket, session, probList[0]);
