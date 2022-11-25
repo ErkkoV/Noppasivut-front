@@ -32,19 +32,23 @@ function App() {
     });
 
     usedSocket.on('rolls-back', (args) => {
-        const list = [];
-        args.forEach((each) => {
-            list.push(each);
-        });
-        localStorage.rolls = JSON.stringify(list);
+        if (args[0] === session) {
+            const list = [];
+            args[1].forEach((each) => {
+                list.push(each);
+            });
+            localStorage.rolls = JSON.stringify(list);
+        }
     });
 
     usedSocket.on('probs-back', (args) => {
-        const list = [];
-        args.forEach((each) => {
-            list.push(each);
-        });
-        localStorage.probs = JSON.stringify(list);
+        if (args[0] === session) {
+            const list = [];
+            args[1].forEach((each) => {
+                list.push(each);
+            });
+            localStorage.probs = JSON.stringify(list);
+        }
     });
 
     // testing
