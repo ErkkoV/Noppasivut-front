@@ -43,6 +43,11 @@ function App() {
         localStorage.probs = JSON.stringify(list);
     });
 
+    // testing
+    usedSocket.on('join', (args) => {
+        console.log(args);
+    });
+
     const router = createBrowserRouter([
         {
             path: '/',

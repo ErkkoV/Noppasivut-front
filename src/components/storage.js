@@ -1,5 +1,5 @@
-const loadData = (socket) => {
-    socket.emit('load-data');
+const loadData = (socket, user) => {
+    socket.emit('load-data', user);
 };
 
 const changeRolls = (socket, rolled) => {

@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { Button } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
+import UserContext from '../contexts/UserContext';
 
 import RollGen from '../components/RollGen';
 import roller from '../components/roller';
@@ -9,12 +10,13 @@ import { readRolls, changeRolls, deleteRolls, loadData } from '../components/sto
 
 function DiceRoller() {
     const { usedSocket } = useContext(SocketContext);
+    const { user } = useContext(UserContext);
 
     const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
 
     useEffect(() => {
-        loadData(usedSocket);
+        loadData(usedSocket, user);
     }, []);
 
     usedSocket.on('rolls-back', () => {

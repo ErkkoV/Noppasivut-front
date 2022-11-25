@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Button } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
+import UserContext from '../contexts/UserContext';
 
 import rollCalc from '../components/rollCalc';
 import ProbGen from '../components/ProbGen';
@@ -10,11 +11,13 @@ import { readProbs, changeProbs, deleteProbs, loadData } from '../components/sto
 
 function ProbCalc() {
     const { usedSocket } = useContext(SocketContext);
+    const { user } = useContext(UserContext);
+
     const [probs, setProbs] = useState(readProbs());
     const [genProb, setGenProb] = useState();
 
     useEffect(() => {
-        loadData(usedSocket);
+        loadData(usedSocket, user);
     }, []);
 
     usedSocket.on('probs-back', () => {
