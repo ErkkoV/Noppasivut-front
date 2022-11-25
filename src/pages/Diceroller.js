@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { Button } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
+import SessionContext from '../contexts/SessionContext';
 
 import RollGen from '../components/RollGen';
 import roller from '../components/roller';
@@ -9,12 +10,13 @@ import { readRolls, changeRolls, deleteRolls, loadData } from '../components/sto
 
 function DiceRoller() {
     const { usedSocket } = useContext(SocketContext);
+    const { session } = useContext(SessionContext);
 
     const [rolls, setRolls] = useState(readRolls());
     const [genRoll, setGenRoll] = useState();
 
     useEffect(() => {
-        loadData(usedSocket);
+        loadData(usedSocket, session);
     }, []);
 
     usedSocket.on('rolls-back', () => {
@@ -23,7 +25,7 @@ function DiceRoller() {
 
     const deleteRoll = (id) => {
         const newRolls = rolls.filter((roll) => roll.id === Number(id));
-        deleteRolls(usedSocket, newRolls[0]);
+        deleteRolls(usedSocket, session, newRolls[0]);
     };
 
     const diceRoll = (id) => {
@@ -35,13 +37,13 @@ function DiceRoller() {
         oldResults.push(targetRoll[0].result);
         targetRoll[0].results = oldResults;
 
-        changeRolls(usedSocket, targetRoll[0]);
+        changeRolls(usedSocket, session, targetRoll[0]);
     };
 
     const adjustRoll = (id, value, key) => {
         const targetRoll = rolls.filter((roll) => roll.id === id);
         targetRoll[0][key] = value;
-        changeRolls(usedSocket, targetRoll[0]);
+        changeRolls(usedSocket, session, targetRoll[0]);
     };
 
     const rollGen = () => {
@@ -83,9 +85,10 @@ function DiceRoller() {
                 finalsuccess: '',
             },
             results: [],
+            session,
         });
         rollList.sort((a, b) => a.id - b.id);
-        changeRolls(usedSocket, rollList[0]);
+        changeRolls(usedSocket, session, rollList[0]);
     };
 
     useEffect(() => {

@@ -4,10 +4,14 @@ import { Form, Button, Alert } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
 import UserContext from '../contexts/UserContext';
+import SessionContext from '../contexts/SessionContext';
+import UsersContext from '../contexts/UsersContext';
 
 function Home() {
     const { usedSocket } = useContext(SocketContext);
     const { user } = useContext(UserContext);
+    const { users } = useContext(UsersContext);
+    const { session } = useContext(SessionContext);
 
     const [message, setMessage] = useState();
     const [messages, setMessages] = useState([]);
@@ -34,7 +38,7 @@ function Home() {
     const sendMessage = () => {
         if (user !== 'noppa' && message && message.length <= 1000 && message.length > 0) {
             setWarning(false);
-            usedSocket.emit('messages-front', [user, message]);
+            usedSocket.emit('messages-front', [session, [user, message, session]]);
             setMessage('');
         } else {
             setWarning(true);
@@ -42,8 +46,12 @@ function Home() {
     };
 
     useEffect(() => {
-        usedSocket.emit('load-messages');
+        usedSocket.emit('load-messages', session);
     }, []);
+
+    const inviteUser = (inv) => {
+        usedSocket.emit('invite', { session, user, inv });
+    };
 
     return (
         <div style={{ overflow: 'hidden' }}>
@@ -99,7 +107,11 @@ function Home() {
                     )}
             </div>
             <div style={{ 'margin-left': '20px', width: '30%', float: 'left' }}>
+                <Button variant="success" onClick={() => inviteUser('tonipal')}>
+                    Invite Users
+                </Button>
                 <p>Users:</p>
+                {users && users.map((entry) => <li>{entry}</li>)}
             </div>
         </div>
     );
