@@ -14,6 +14,7 @@ import { socket, connectIo } from './socketio/connection';
 import SocketContext from './contexts/SocketContext';
 import UserContext from './contexts/UserContext';
 import SessionContext from './contexts/SessionContext';
+import UsersContext from './contexts/UsersContext';
 
 function App() {
     const [usedSocket, setUsedSocket] = useState(socket('noppa', 'noppa'));
@@ -24,6 +25,9 @@ function App() {
 
     const [session, setSession] = useState('noppa');
     const usedSession = useMemo(() => ({ session, setSession }), [session]);
+
+    const [users, setUsers] = useState([]);
+    const usedUsers = useMemo(() => ({ users, setUsers }), [users]);
 
     connectIo(usedSocket);
 
@@ -90,7 +94,9 @@ function App() {
         <SocketContext.Provider value={value}>
             <UserContext.Provider value={usedUser}>
                 <SessionContext.Provider value={usedSession}>
-                    <RouterProvider router={router} fallbackElement={<LoadSpinner />} />
+                    <UsersContext.Provider value={usedUsers}>
+                        <RouterProvider router={router} fallbackElement={<LoadSpinner />} />
+                    </UsersContext.Provider>
                 </SessionContext.Provider>
             </UserContext.Provider>
         </SocketContext.Provider>
