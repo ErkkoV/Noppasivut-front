@@ -51,11 +51,14 @@ function App() {
         }
     });
 
-    // testing
     usedSocket.on('join', (args) => {
         console.log(args);
         setSession(args);
         usedSocket.emit('load-data', args);
+    });
+
+    usedSocket.on('users', (args) => {
+        localStorage.users = args;
     });
 
     const router = createBrowserRouter([
