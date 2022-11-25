@@ -1,9 +1,9 @@
-const loadData = (socket, user) => {
-    socket.emit('load-data', user);
+const loadData = (socket, session) => {
+    socket.emit('load-data', session);
 };
 
-const changeRolls = (socket, rolled) => {
-    socket.emit('rolls-front', rolled);
+const changeRolls = (socket, session, rolled) => {
+    socket.emit('rolls-front', [session, rolled]);
 };
 
 const readRolls = () => {
@@ -15,12 +15,12 @@ const readRolls = () => {
     return [];
 };
 
-const deleteRolls = (socket, rolled) => {
-    socket.emit('rolls-front-del', rolled);
+const deleteRolls = (socket, session, rolled) => {
+    socket.emit('rolls-front-del', [session, rolled]);
 };
 
-const changeProbs = (socket, probbed) => {
-    socket.emit('probs-front', probbed);
+const changeProbs = (socket, session, probbed) => {
+    socket.emit('probs-front', [session, probbed]);
 };
 
 const readProbs = () => {
@@ -32,8 +32,8 @@ const readProbs = () => {
     return [];
 };
 
-const deleteProbs = (socket, probbed) => {
-    socket.emit('probs-front-del', probbed);
+const deleteProbs = (socket, session, probbed) => {
+    socket.emit('probs-front-del', [session, probbed]);
 };
 
 export { changeRolls, readRolls, readProbs, changeProbs, deleteRolls, deleteProbs, loadData };
