@@ -13,6 +13,7 @@ import CharCreator from './pages/CharCreator';
 import { socket, connectIo } from './socketio/connection';
 import SocketContext from './contexts/SocketContext';
 import UserContext from './contexts/UserContext';
+import SessionContext from './contexts/SessionContext';
 
 function App() {
     const [usedSocket, setUsedSocket] = useState(socket('noppa', 'noppa'));
@@ -20,6 +21,9 @@ function App() {
 
     const [user, setUser] = useState('noppa');
     const usedUser = useMemo(() => ({ user, setUser }), [user]);
+
+    const [session, setSession] = useState('noppa');
+    const usedSession = useMemo(() => ({ session, setSession }), [session]);
 
     connectIo(usedSocket);
 
@@ -46,6 +50,7 @@ function App() {
     // testing
     usedSocket.on('join', (args) => {
         console.log(args);
+        setSession(args);
     });
 
     const router = createBrowserRouter([
@@ -76,7 +81,9 @@ function App() {
     return (
         <SocketContext.Provider value={value}>
             <UserContext.Provider value={usedUser}>
-                <RouterProvider router={router} fallbackElement={<LoadSpinner />} />
+                <SessionContext.Provider value={usedSession}>
+                    <RouterProvider router={router} fallbackElement={<LoadSpinner />} />
+                </SessionContext.Provider>
             </UserContext.Provider>
         </SocketContext.Provider>
     );
