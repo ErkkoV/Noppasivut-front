@@ -65,7 +65,9 @@ function SessionMenu() {
             <Button
                 variant="success"
                 onClick={() => {
-                    setAddSession(!addSession);
+                    if (user !== 'noppa') {
+                        setAddSession(!addSession);
+                    }
                 }}
             >
                 +
