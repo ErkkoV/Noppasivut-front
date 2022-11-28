@@ -17,7 +17,6 @@ function SessionMenu() {
     const [warning, setWarning] = useState(false);
 
     usedSocket.on('join', (args) => {
-        console.log(args);
         if (!sessionList.includes(args)) {
             const list = sessionList;
             list.push(args);
@@ -26,7 +25,6 @@ function SessionMenu() {
     });
 
     usedSocket.on('add-session', (args) => {
-        console.log(args);
         if (warning !== args) {
             setWarning(args);
         }
@@ -38,6 +36,8 @@ function SessionMenu() {
             if (warning === 'Session added') {
                 setWarning(false);
                 setAddSession(false);
+            } else {
+                setWarning(false);
             }
         }, 2000);
     };
@@ -82,7 +82,6 @@ function SessionMenu() {
                                     value={newSession}
                                     onChange={(e) => {
                                         setNewSession(e.target.value);
-                                        setWarning(false);
                                     }}
                                     required
                                 />

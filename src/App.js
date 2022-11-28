@@ -56,13 +56,11 @@ function App() {
     });
 
     usedSocket.on('join', (args) => {
-        console.log(args);
         setSession(args);
         usedSocket.emit('load-data', args);
     });
 
     usedSocket.on('users', (args) => {
-        console.log(args);
         setUsers(args);
     });
 
