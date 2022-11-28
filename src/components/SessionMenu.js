@@ -28,7 +28,7 @@ function SessionMenu() {
         if (warning !== args) {
             setWarning(args);
             setTimeout(() => {
-                if (warning === 'Session added') {
+                if (args === 'Session added') {
                     setWarning(false);
                     setAddSession(false);
                 } else {
