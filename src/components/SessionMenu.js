@@ -3,10 +3,12 @@ import { Dropdown, Button, ButtonGroup, Modal, Form, Alert } from 'react-bootstr
 
 import SessionContext from '../contexts/SessionContext';
 import SocketContext from '../contexts/SocketContext';
+import UserContext from '../contexts/UserContext';
 
 function SessionMenu() {
     const { session, setSession } = useContext(SessionContext);
     const { usedSocket } = useContext(SocketContext);
+    const { user } = useContext(UserContext);
 
     const [addSession, setAddSession] = useState(false);
 
@@ -65,7 +67,7 @@ function SessionMenu() {
             <Button
                 variant="success"
                 onClick={() => {
-                    if (user !== 'noppa') {
+                    if (user !== 'noppa' && user !== 'random') {
                         setAddSession(!addSession);
                     }
                 }}
