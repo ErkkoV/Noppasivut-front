@@ -3,6 +3,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import LoginButton from './LoginButton';
+import SessionMenu from './SessionMenu';
 
 function Header() {
     const navigate = useNavigate();
@@ -70,6 +71,7 @@ function Header() {
                 >
                     Character Creator
                 </Nav.Link>
+                <SessionMenu />
                 <LoginButton />
             </Nav>
         </Navbar>
