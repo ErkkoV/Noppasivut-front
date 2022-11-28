@@ -27,19 +27,19 @@ function SessionMenu() {
     usedSocket.on('add-session', (args) => {
         if (warning !== args) {
             setWarning(args);
+            setTimeout(() => {
+                if (warning === 'Session added') {
+                    setWarning(false);
+                    setAddSession(false);
+                } else {
+                    setWarning(false);
+                }
+            }, 2000);
         }
     });
 
     const createSession = () => {
         usedSocket.emit('create-session', newSession);
-        setTimeout(() => {
-            if (warning === 'Session added') {
-                setWarning(false);
-                setAddSession(false);
-            } else {
-                setWarning(false);
-            }
-        }, 2000);
     };
 
     return (
@@ -69,38 +69,35 @@ function SessionMenu() {
             >
                 +
             </Button>
-            {addSession && (
-                <Modal show={addSession} onHide={() => setAddSession(false)}>
-                    <Modal.Header closeButton>Add Session</Modal.Header>
-                    <Modal.Body>
-                        <Form noValidate onSubmit={(e) => e.preventDefault}>
-                            <Form.Group className="mb-3" controlId="validationCustom03">
-                                <Form.Label>Session</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="New Session"
-                                    value={newSession}
-                                    onChange={(e) => {
-                                        setNewSession(e.target.value);
-                                    }}
-                                    required
-                                />
-                            </Form.Group>
-                        </Form>
-                        <Button
-                            variant="success"
-                            onClick={() => {
-                                createSession();
-                            }}
-                        >
-                            Create Session
-                        </Button>
-                        {warning && (
-                            <Alert variant={warning === 'Session added' ? 'success' : 'danger'}>{warning}</Alert>
-                        )}
-                    </Modal.Body>
-                </Modal>
-            )}
+
+            <Modal show={addSession} onHide={() => setAddSession(false)}>
+                <Modal.Header closeButton>Add Session</Modal.Header>
+                <Modal.Body>
+                    <Form noValidate onSubmit={(e) => e.preventDefault}>
+                        <Form.Group className="mb-3" controlId="validationCustom03">
+                            <Form.Label>Session</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="New Session"
+                                value={newSession}
+                                onChange={(e) => {
+                                    setNewSession(e.target.value);
+                                }}
+                                required
+                            />
+                        </Form.Group>
+                    </Form>
+                    <Button
+                        variant="success"
+                        onClick={() => {
+                            createSession();
+                        }}
+                    >
+                        Create Session
+                    </Button>
+                    {warning && <Alert variant={warning === 'Session added' ? 'success' : 'danger'}>{warning}</Alert>}
+                </Modal.Body>
+            </Modal>
         </>
     );
 }
