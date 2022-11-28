@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Dropdown, Button, ButtonGroup } from 'react-bootstrap';
+import { Dropdown, Button, ButtonGroup, Modal } from 'react-bootstrap';
 
 import SessionContext from '../contexts/SessionContext';
 import SocketContext from '../contexts/SocketContext';
@@ -7,6 +7,8 @@ import SocketContext from '../contexts/SocketContext';
 function SessionMenu() {
     const { session, setSession } = useContext(SessionContext);
     const { usedSocket } = useContext(SocketContext);
+
+    const [addSession, setAddSession] = useState(false);
 
     const [sessionList, setSessionList] = useState([]);
 
@@ -38,7 +40,19 @@ function SessionMenu() {
                     ))}
                 </Dropdown.Menu>
             </Dropdown>
-            <Button variant="success">+</Button>
+            <Button
+                variant="success"
+                onClick={() => {
+                    setAddSession(!addSession);
+                }}
+            >
+                +
+            </Button>
+            {addSession && (
+                <Modal show={addSession} onClose={() => setAddSession(false)} closeButton>
+                    <Modal.Body>Test</Modal.Body>
+                </Modal>
+            )}
         </>
     );
 }
