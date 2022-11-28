@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
+
 import { Dropdown, Button, ButtonGroup, Modal, Form, Alert } from 'react-bootstrap';
 
 import SessionContext from '../contexts/SessionContext';
@@ -17,6 +18,10 @@ function SessionMenu() {
     const [newSession, setNewSession] = useState('');
 
     const [warning, setWarning] = useState(false);
+
+    useEffect(() => {
+        setSessionList([]);
+    }, [user]);
 
     usedSocket.on('join', (args) => {
         if (!sessionList.includes(args)) {
