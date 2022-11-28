@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Dropdown, Button, ButtonGroup, Modal, Form } from 'react-bootstrap';
+import { Dropdown, Button, ButtonGroup, Modal, Form, Alert } from 'react-bootstrap';
 
 import SessionContext from '../contexts/SessionContext';
 import SocketContext from '../contexts/SocketContext';
@@ -14,6 +14,8 @@ function SessionMenu() {
 
     const [newSession, setNewSession] = useState('');
 
+    const [warning, setWarning] = useState(false);
+
     usedSocket.on('join', (args) => {
         console.log(args);
         if (!sessionList.includes(args)) {
@@ -23,8 +25,11 @@ function SessionMenu() {
         }
     });
 
-    usedSocket.on('session-add', (args) => {
+    usedSocket.on('add-session', (args) => {
         console.log(args);
+        if (warning !== args) {
+            setWarning(args);
+        }
     });
 
     const createSession = () => {
@@ -84,6 +89,9 @@ function SessionMenu() {
                         >
                             Create Session
                         </Button>
+                        {warning && (
+                            <Alert variant={warning === 'Session Added' ? 'success' : 'danger'}>{warning}</Alert>
+                        )}
                     </Modal.Body>
                 </Modal>
             )}
