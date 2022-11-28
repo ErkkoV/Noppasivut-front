@@ -34,6 +34,12 @@ function SessionMenu() {
 
     const createSession = () => {
         usedSocket.emit('create-session', newSession);
+        setTimeout(() => {
+            if (warning === 'Session added') {
+                setWarning(false);
+                setAddSession(false);
+            }
+        }, 2000);
     };
 
     return (
@@ -76,6 +82,7 @@ function SessionMenu() {
                                     value={newSession}
                                     onChange={(e) => {
                                         setNewSession(e.target.value);
+                                        setWarning(false);
                                     }}
                                     required
                                 />
@@ -90,7 +97,7 @@ function SessionMenu() {
                             Create Session
                         </Button>
                         {warning && (
-                            <Alert variant={warning === 'Session Added' ? 'success' : 'danger'}>{warning}</Alert>
+                            <Alert variant={warning === 'Session added' ? 'success' : 'danger'}>{warning}</Alert>
                         )}
                     </Modal.Body>
                 </Modal>
