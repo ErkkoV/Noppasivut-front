@@ -31,6 +31,7 @@ function SessionMenu() {
                 if (args === 'Session added') {
                     setWarning(false);
                     setAddSession(false);
+                    setNewSession('');
                 } else {
                     setWarning(false);
                 }
