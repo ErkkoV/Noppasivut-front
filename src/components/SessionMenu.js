@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Dropdown, Button, ButtonGroup, Modal } from 'react-bootstrap';
+import { Dropdown, Button, ButtonGroup, Modal, Form } from 'react-bootstrap';
 
 import SessionContext from '../contexts/SessionContext';
 import SocketContext from '../contexts/SocketContext';
@@ -11,6 +11,8 @@ function SessionMenu() {
     const [addSession, setAddSession] = useState(false);
 
     const [sessionList, setSessionList] = useState([]);
+
+    const [newSession, setNewSession] = useState('');
 
     usedSocket.on('join', (args) => {
         console.log(args);
@@ -49,8 +51,25 @@ function SessionMenu() {
                 +
             </Button>
             {addSession && (
-                <Modal show={addSession} onClose={() => setAddSession(false)} closeButton>
-                    <Modal.Body>Test</Modal.Body>
+                <Modal show={addSession} onHide={() => setAddSession(false)}>
+                    <Modal.Header closeButton>Add Session</Modal.Header>
+                    <Modal.Body>
+                        <Form noValidate onSubmit={(e) => e.preventDefault}>
+                            <Form.Group className="mb-3" controlId="validationCustom03">
+                                <Form.Label>Session</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="New Session"
+                                    value={newSession}
+                                    onChange={(e) => {
+                                        setNewSession(e.target.value);
+                                    }}
+                                    required
+                                />
+                            </Form.Group>
+                        </Form>
+                        <Button variant="success">Create Session</Button>
+                    </Modal.Body>
                 </Modal>
             )}
         </>
