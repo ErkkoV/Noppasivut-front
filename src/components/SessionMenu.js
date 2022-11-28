@@ -23,6 +23,10 @@ function SessionMenu() {
         }
     });
 
+    usedSocket.on('session-add', (args) => {
+        console.log(args);
+    });
+
     const createSession = () => {
         usedSocket.emit('create-session', newSession);
     };
