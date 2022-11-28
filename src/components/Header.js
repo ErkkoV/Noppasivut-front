@@ -71,8 +71,8 @@ function Header() {
                 >
                     Character Creator
                 </Nav.Link>
-                <LoginButton />
                 <SessionMenu />
+                <LoginButton />
             </Nav>
         </Navbar>
     );
