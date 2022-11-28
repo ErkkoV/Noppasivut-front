@@ -72,7 +72,7 @@ function LoginButton() {
 
     return (
         <>
-            <h3 style={{ color: 'white', 'margin-left': '250px', 'margin-top': '2px' }}>
+            <h3 style={{ color: 'white', 'margin-left': '50px', 'margin-top': '2px' }}>
                 {logged.user !== 'noppa' && logged.user !== 'random' ? logged.user : 'No User'} &nbsp;
             </h3>
 
