@@ -23,6 +23,10 @@ function SessionMenu() {
         }
     });
 
+    const createSession = () => {
+        usedSocket.emit('create-session', newSession);
+    };
+
     return (
         <>
             <Dropdown
@@ -68,7 +72,14 @@ function SessionMenu() {
                                 />
                             </Form.Group>
                         </Form>
-                        <Button variant="success">Create Session</Button>
+                        <Button
+                            variant="success"
+                            onClick={() => {
+                                createSession();
+                            }}
+                        >
+                            Create Session
+                        </Button>
                     </Modal.Body>
                 </Modal>
             )}
