@@ -19,8 +19,9 @@ function UserWindow() {
     };
 
     usedSocket.on('all-users', (args) => {
-        console.log(args);
-        setAllUsers([...args]);
+        if (args !== allUsers) {
+            setAllUsers([...args]);
+        }
     });
 
     return (
