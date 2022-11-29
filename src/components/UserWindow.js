@@ -37,9 +37,6 @@ function UserWindow() {
                 Add User
             </Button>
 
-            <Button variant="success" onClick={() => inviteUser('tonipal')}>
-                Invite Users
-            </Button>
             <h3>Users:</h3>
             {users && users.map((entry) => <Card variant="success">{entry}</Card>)}
             <Modal
@@ -50,18 +47,21 @@ function UserWindow() {
             >
                 <Modal.Header closeButton>User List:</Modal.Header>
                 <Modal.Body>
-                    {allUsers.map((listedUser) => (
-                        <Card variant="success">
-                            <Button
-                                variant="info"
-                                onClick={() => {
-                                    console.log(listedUser);
-                                }}
-                            >
-                                Invite {listedUser}
-                            </Button>
-                        </Card>
-                    ))}
+                    {allUsers.map(
+                        (listedUser) =>
+                            listedUser !== user && (
+                                <Card variant="success">
+                                    <Button
+                                        variant="info"
+                                        onClick={() => {
+                                            inviteUser(listedUser);
+                                        }}
+                                    >
+                                        Invite {listedUser}
+                                    </Button>
+                                </Card>
+                            )
+                    )}
                 </Modal.Body>
             </Modal>
         </>
