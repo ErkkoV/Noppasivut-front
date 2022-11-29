@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { Dropdown, Button, ButtonGroup, Modal, Form, Alert } from 'react-bootstrap';
 
@@ -19,16 +19,9 @@ function SessionMenu() {
 
     const [warning, setWarning] = useState(false);
 
-    useEffect(() => {
+    usedSocket.on('sessions', (args) => {
         setSessionList([]);
-    }, [user]);
-
-    usedSocket.on('join', (args) => {
-        if (!sessionList.includes(args)) {
-            const list = sessionList;
-            list.push(args);
-            setSessionList(list);
-        }
+        setSessionList([...args]);
     });
 
     usedSocket.on('add-session', (args) => {
@@ -59,11 +52,18 @@ function SessionMenu() {
                     setSession(e);
                 }}
             >
-                <Button variant="info">{session}</Button>
+                <Button variant="info" disabled={user === 'noppa' || user === 'random'}>
+                    {session}
+                </Button>
 
-                <Dropdown.Toggle split variant="info" id="dropdown-split-basic" />
+                <Dropdown.Toggle
+                    split
+                    variant="info"
+                    id="dropdown-split-basic"
+                    disabled={user === 'noppa' || user === 'random'}
+                />
 
-                <Dropdown.Menu>
+                <Dropdown.Menu disabled={user === 'noppa' || user === 'random'}>
                     {sessionList.map((sess) => (
                         <Dropdown.Item eventKey={sess}>{sess}</Dropdown.Item>
                     ))}

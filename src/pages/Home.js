@@ -5,12 +5,12 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import SocketContext from '../contexts/SocketContext';
 import UserContext from '../contexts/UserContext';
 import SessionContext from '../contexts/SessionContext';
-import UsersContext from '../contexts/UsersContext';
+
+import UserWindow from '../components/UserWindow';
 
 function Home() {
     const { usedSocket } = useContext(SocketContext);
     const { user } = useContext(UserContext);
-    const { users } = useContext(UsersContext);
     const { session } = useContext(SessionContext);
 
     const [message, setMessage] = useState();
@@ -47,72 +47,73 @@ function Home() {
 
     useEffect(() => {
         usedSocket.emit('load-messages', session);
-    }, []);
-
-    const inviteUser = (inv) => {
-        usedSocket.emit('invite', { session, user, inv });
-    };
+    }, [session]);
 
     return (
         <div style={{ overflow: 'hidden' }}>
             <div style={{ 'margin-left': '20px', width: '65%', float: 'left' }}>
-                <p>Logged in as {user}</p>
-                <br />
-                {messages.map((each) => (
-                    <p key={`${each.id}`}>
-                        {each.user}: {each.message}
-                    </p>
-                ))}
-                <Form
-                    onSubmit={(e) => e.preventDefault()}
-                    onKeyPress={(e) => {
-                        if (e.key === 'Enter') {
-                            sendMessage();
-                        }
-                    }}
-                >
-                    <Form.Group>
-                        <Form.Label>Message {message ? `${message.length}/1000` : '0/1000'}</Form.Label>
-                        <Form.Control
-                            id="message"
-                            required
-                            type="string"
-                            placeholder=""
-                            value={message}
-                            onChange={(e) => {
-                                setMessage(e.target.value);
-                            }}
-                            isValid={message && message.length > 0 && message.length <= 1000}
-                            isInvalid={!message || message.length < 1 || message.length > 1000}
-                        />
-                        <Button
-                            onClick={() => {
-                                sendMessage();
+                {user !== 'noppa' && user !== 'random' ? (
+                    <>
+                        <p>Logged in as {user}</p>
+                        <br />
+                        {messages.map((each) => (
+                            <p key={`${each.id}`}>
+                                {each.user}: {each.message}
+                            </p>
+                        ))}
+                        <Form
+                            onSubmit={(e) => e.preventDefault()}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    sendMessage();
+                                }
                             }}
                         >
-                            Send
-                        </Button>
-                    </Form.Group>
-                </Form>
-                {warning &&
-                    (user === 'noppa' ||
-                        (message && message.length > 1000) ||
-                        (message && message.length < 1) ||
-                        !message) && (
-                        <Alert variant="danger">
-                            {message && message.length > 1000 && 'Please write message under 1000 characters.'}
-                            {!message || (message.length < 1 && 'Please write a message.')}
-                            {user === 'noppa' && 'Please log in or create a new user'}
-                        </Alert>
-                    )}
+                            <Form.Group>
+                                <Form.Label>Message {message ? `${message.length}/1000` : '0/1000'}</Form.Label>
+                                <Form.Control
+                                    id="message"
+                                    required
+                                    type="string"
+                                    placeholder=""
+                                    value={message}
+                                    onChange={(e) => {
+                                        setMessage(e.target.value);
+                                    }}
+                                    isValid={message && message.length > 0 && message.length <= 1000}
+                                    isInvalid={!message || message.length < 1 || message.length > 1000}
+                                />
+                                <Button
+                                    onClick={() => {
+                                        sendMessage();
+                                    }}
+                                >
+                                    Send
+                                </Button>
+                            </Form.Group>
+                        </Form>
+                    </>
+                ) : (
+                    <Alert variant="danger">Login in order to use chat.</Alert>
+                )}
             </div>
             <div style={{ 'margin-left': '20px', width: '30%', float: 'left' }}>
-                <Button variant="success" onClick={() => inviteUser('tonipal')}>
-                    Invite Users
-                </Button>
-                <p>Users:</p>
-                {users && users.map((entry) => <li>{entry}</li>)}
+                <UserWindow />
+                {(user === 'noppa' || user === 'random') && (
+                    <Alert variant="danger">Login in order to edit session.</Alert>
+                )}
             </div>
+            {warning &&
+                (user === 'noppa' ||
+                    (message && message.length > 1000) ||
+                    (message && message.length < 1) ||
+                    !message) && (
+                    <Alert variant="danger">
+                        {message && message.length > 1000 && 'Please write message under 1000 characters.'}
+                        {!message || (message.length < 1 && 'Please write a message.')}
+                        {user === 'noppa' && 'Please log in or create a new user'}
+                    </Alert>
+                )}
         </div>
     );
 }

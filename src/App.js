@@ -56,8 +56,10 @@ function App() {
     });
 
     usedSocket.on('join', (args) => {
-        setSession(args);
-        usedSocket.emit('load-data', args);
+        if (args !== 'Private session') {
+            setSession(args);
+            usedSocket.emit('load-data', args);
+        }
     });
 
     usedSocket.on('users', (args) => {
