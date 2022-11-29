@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { Dropdown, Button, ButtonGroup, Modal, Form, Alert } from 'react-bootstrap';
 
@@ -19,18 +19,9 @@ function SessionMenu() {
 
     const [warning, setWarning] = useState(false);
 
-    useEffect(() => {
-        console.log(user);
+    usedSocket.on('sessions', (args) => {
         setSessionList([]);
-    }, [user]);
-
-    usedSocket.on('join', (args) => {
-        console.log(args);
-        if (!sessionList.includes(args) && args !== 'Private session') {
-            const list = sessionList;
-            list.push(args);
-            setSessionList(list);
-        }
+        setSessionList([...args]);
     });
 
     usedSocket.on('add-session', (args) => {
