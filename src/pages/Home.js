@@ -5,12 +5,12 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import SocketContext from '../contexts/SocketContext';
 import UserContext from '../contexts/UserContext';
 import SessionContext from '../contexts/SessionContext';
-import UsersContext from '../contexts/UsersContext';
+
+import UserWindow from '../components/UserWindow';
 
 function Home() {
     const { usedSocket } = useContext(SocketContext);
     const { user } = useContext(UserContext);
-    const { users } = useContext(UsersContext);
     const { session } = useContext(SessionContext);
 
     const [message, setMessage] = useState();
@@ -48,10 +48,6 @@ function Home() {
     useEffect(() => {
         usedSocket.emit('load-messages', session);
     }, [session]);
-
-    const inviteUser = (inv) => {
-        usedSocket.emit('invite', { session, user, inv });
-    };
 
     return (
         <div style={{ overflow: 'hidden' }}>
@@ -107,11 +103,7 @@ function Home() {
                     )}
             </div>
             <div style={{ 'margin-left': '20px', width: '30%', float: 'left' }}>
-                <Button variant="success" onClick={() => inviteUser('tonipal')}>
-                    Invite Users
-                </Button>
-                <p>Users:</p>
-                {users && users.map((entry) => <li>{entry}</li>)}
+                <UserWindow />
             </div>
         </div>
     );
