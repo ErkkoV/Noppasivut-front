@@ -29,7 +29,7 @@ function UserWindow() {
     return (
         <>
             <Button
-                disabled={session === user}
+                disabled={session === user || user === 'noppa' || user === 'random'}
                 variant="info"
                 onClick={() => {
                     setUsersModal(!usersModal);

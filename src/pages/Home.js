@@ -98,9 +98,8 @@ function Home() {
                 )}
             </div>
             <div style={{ 'margin-left': '20px', width: '30%', float: 'left' }}>
-                {user !== 'noppa' && user !== 'random' ? (
-                    <UserWindow />
-                ) : (
+                <UserWindow />
+                {(user === 'noppa' || user === 'random') && (
                     <Alert variant="danger">Login in order to edit session.</Alert>
                 )}
             </div>
