@@ -52,11 +52,18 @@ function SessionMenu() {
                     setSession(e);
                 }}
             >
-                <Button variant="info">{session}</Button>
+                <Button variant="info" disabled={user === 'noppa' || user === 'random'}>
+                    {session}
+                </Button>
 
-                <Dropdown.Toggle split variant="info" id="dropdown-split-basic" />
+                <Dropdown.Toggle
+                    split
+                    variant="info"
+                    id="dropdown-split-basic"
+                    disabled={user === 'noppa' || user === 'random'}
+                />
 
-                <Dropdown.Menu>
+                <Dropdown.Menu disabled={user === 'noppa' || user === 'random'}>
                     {sessionList.map((sess) => (
                         <Dropdown.Item eventKey={sess}>{sess}</Dropdown.Item>
                     ))}

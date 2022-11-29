@@ -1,8 +1,6 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
-
-import UserContext from '../contexts/UserContext';
 
 import LoginButton from './LoginButton';
 import SessionMenu from './SessionMenu';
@@ -10,8 +8,6 @@ import SessionMenu from './SessionMenu';
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
-
-    const { user } = useContext(UserContext);
 
     const setStart = () => {
         const keys = { home: false, DiceRoller: false, ProbCalc: false, CharCreator: false };
@@ -75,11 +71,8 @@ function Header() {
                 >
                     Character Creator
                 </Nav.Link>
-                {user !== 'noppa' && user !== 'random' ? (
-                    <SessionMenu />
-                ) : (
-                    <h3 style={{ color: 'white', 'margin-left': '100px', 'margin-top': '2px' }}>No session</h3>
-                )}
+
+                <SessionMenu />
                 <LoginButton />
             </Nav>
         </Navbar>

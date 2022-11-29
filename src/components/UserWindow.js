@@ -29,6 +29,7 @@ function UserWindow() {
     return (
         <>
             <Button
+                disabled={session === user}
                 variant="info"
                 onClick={() => {
                     setUsersModal(!usersModal);

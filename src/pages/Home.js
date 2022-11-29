@@ -94,14 +94,14 @@ function Home() {
                         </Form>
                     </>
                 ) : (
-                    <Alert variant="danger">Please Login in order to use chat.</Alert>
+                    <Alert variant="danger">Login in order to use chat.</Alert>
                 )}
             </div>
             <div style={{ 'margin-left': '20px', width: '30%', float: 'left' }}>
                 {user !== 'noppa' && user !== 'random' ? (
                     <UserWindow />
                 ) : (
-                    <Alert variant="danger">Log in in order to edit session.</Alert>
+                    <Alert variant="danger">Login in order to edit session.</Alert>
                 )}
             </div>
             {warning &&
