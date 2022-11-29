@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Modal, Card } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
 import UserContext from '../contexts/UserContext';
@@ -14,6 +14,8 @@ function UserWindow() {
 
     const [allUsers, setAllUsers] = useState([]);
 
+    const [usersModal, setUsersModal] = useState(false);
+
     const inviteUser = (inv) => {
         usedSocket.emit('invite', { session, user, inv });
     };
@@ -26,12 +28,42 @@ function UserWindow() {
 
     return (
         <>
-            {allUsers}
+            <Button
+                variant="info"
+                onClick={() => {
+                    setUsersModal(!usersModal);
+                }}
+            >
+                Add User
+            </Button>
+
             <Button variant="success" onClick={() => inviteUser('tonipal')}>
                 Invite Users
             </Button>
-            <p>Users:</p>
-            {users && users.map((entry) => <li>{entry}</li>)}
+            <h3>Users:</h3>
+            {users && users.map((entry) => <Card variant="success">{entry}</Card>)}
+            <Modal
+                show={usersModal}
+                onHide={() => {
+                    setUsersModal(false);
+                }}
+            >
+                <Modal.Header closeButton>User List:</Modal.Header>
+                <Modal.Body>
+                    {allUsers.map((listedUser) => (
+                        <Card variant="success">
+                            <Button
+                                variant="info"
+                                onClick={() => {
+                                    console.log(listedUser);
+                                }}
+                            >
+                                Invite {listedUser}
+                            </Button>
+                        </Card>
+                    ))}
+                </Modal.Body>
+            </Modal>
         </>
     );
 }
