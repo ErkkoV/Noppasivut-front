@@ -20,11 +20,13 @@ function SessionMenu() {
     const [warning, setWarning] = useState(false);
 
     useEffect(() => {
+        console.log(user);
         setSessionList([]);
     }, [user]);
 
     usedSocket.on('join', (args) => {
-        if (!sessionList.includes(args)) {
+        console.log(args);
+        if (!sessionList.includes(args) && args !== 'Private session') {
             const list = sessionList;
             list.push(args);
             setSessionList(list);
