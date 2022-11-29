@@ -47,7 +47,7 @@ function Home() {
 
     useEffect(() => {
         usedSocket.emit('load-messages', session);
-    }, []);
+    }, [session]);
 
     const inviteUser = (inv) => {
         usedSocket.emit('invite', { session, user, inv });
