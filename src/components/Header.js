@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+
+import SocketContext from '../contexts/SocketContext';
 
 import LoginButton from './LoginButton';
 import SessionMenu from './SessionMenu';
@@ -8,6 +10,8 @@ import SessionMenu from './SessionMenu';
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
+
+    const { usedSocket } = useContext(SocketContext);
 
     const setStart = () => {
         const keys = { home: false, DiceRoller: false, ProbCalc: false, CharCreator: false };
@@ -31,6 +35,11 @@ function Header() {
         keys[key] = true;
         setActiveKey(keys);
     };
+
+    usedSocket.on('invited-to', (args) => {
+        console.log(`${args[1]} asked you to join into ${args[1]}`);
+        usedSocket.emit('join-session', args[0]);
+    });
 
     return (
         <Navbar bg="dark" variant="dark">

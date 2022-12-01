@@ -66,11 +66,6 @@ function App() {
         setUsers(args);
     });
 
-    usedSocket.on('invited-to', (args) => {
-        console.log(`${args[1]} asked you to join into ${args[1]}`);
-        usedSocket.emit('join-session', args[0]);
-    });
-
     useEffect(() => {
         usedSocket.emit('load-data', session);
     }, [session]);
