@@ -67,7 +67,9 @@ function SessionMenu() {
 
                 <Dropdown.Menu disabled={user === 'noppa' || user === 'random'}>
                     {sessionList.map((sess) => (
-                        <Dropdown.Item eventKey={sess}>{sess}</Dropdown.Item>
+                        <Dropdown.Item eventKey={sess} style={{ 'white-space': 'pre-wrap' }}>
+                            {sess}
+                        </Dropdown.Item>
                     ))}
                 </Dropdown.Menu>
             </Dropdown>
