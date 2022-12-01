@@ -14,6 +14,7 @@ function Header() {
     const { usedSocket } = useContext(SocketContext);
 
     const [invite, setInvite] = useState(false);
+    const [answer, setAnswer] = useState(false);
 
     const setStart = () => {
         const keys = { home: false, DiceRoller: false, ProbCalc: false, CharCreator: false };
@@ -52,8 +53,12 @@ function Header() {
         if (!invite) {
             setInvite(args);
         } else {
-            answerNo('pending');
+            answerNo('was too busy to join');
         }
+    });
+
+    usedSocket.on('answer', (args) => {
+        setAnswer(args);
     });
 
     return (
@@ -105,12 +110,18 @@ function Header() {
                 <Modal.Header closeButton>Invite</Modal.Header>
                 <Modal.Body>
                     <p>{`${invite[1]} asked you to join into ${invite[0]}`}</p>
-                    <Button variant="success" onClick={() => answerYes()}>
+                    <Button variant="success" onClick={() => answerYes('joined to')}>
                         Join {invite[0]}
                     </Button>
-                    <Button variant="danger" onClick={() => answerNo('denied')}>
+                    <Button variant="danger" onClick={() => answerNo('denied joining to')}>
                         Do not Join
                     </Button>
+                </Modal.Body>
+            </Modal>
+            <Modal show={answer} onHide={() => setAnswer(false)}>
+                <Modal.Header closeButton>Answer to Invite</Modal.Header>
+                <Modal.Body>
+                    <p>{`${answer[1]} ${answer[2]} ${answer[0]}`}</p>
                 </Modal.Body>
             </Modal>
         </>
