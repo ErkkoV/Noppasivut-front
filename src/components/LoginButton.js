@@ -134,6 +134,7 @@ function LoginButton() {
 
                         <Button
                             variant="primary"
+                            disabled={!validate.username || !validate.password}
                             onClick={() => {
                                 if (newUser) {
                                     createUser();

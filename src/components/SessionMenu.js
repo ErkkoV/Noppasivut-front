@@ -40,7 +40,7 @@ function SessionMenu() {
     });
 
     const createSession = () => {
-        if (newSession.replace(/\s+/g, '').length > 4) {
+        if (newSession.replace(/\s+/g, '').length > 4 && newSession.length <= 50) {
             usedSocket.emit('create-session', newSession);
         }
     };
@@ -95,8 +95,8 @@ function SessionMenu() {
                                 onChange={(e) => {
                                     setNewSession(e.target.value);
                                 }}
-                                isValid={newSession.replace(/\s+/g, '').length > 4}
-                                isInvalid={newSession.replace(/\s+/g, '').length < 5}
+                                isValid={newSession.replace(/\s+/g, '').length > 4 && newSession.length <= 50}
+                                isInvalid={newSession.replace(/\s+/g, '').length < 5 || newSession.length > 50}
                                 required
                             />
                         </Form.Group>
@@ -106,9 +106,11 @@ function SessionMenu() {
                         onClick={() => {
                             createSession();
                         }}
+                        disabled={newSession.replace(/\s+/g, '').length < 5 || newSession.length > 50}
                     >
                         Create Session
                     </Button>
+
                     {warning && <Alert variant={warning === 'Session added' ? 'success' : 'danger'}>{warning}</Alert>}
                 </Modal.Body>
             </Modal>
