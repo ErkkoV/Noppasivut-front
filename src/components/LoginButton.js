@@ -23,7 +23,7 @@ function LoginButton() {
     useEffect(() => {
         const newValid = { username: false, password: false };
 
-        if (user.length > 4 && user.length < 30 && user !== 'noppa' && user !== 'random') {
+        if (user.replace(/\s+/g, '').length > 4 && user.length < 30 && user !== 'noppa' && user !== 'random') {
             newValid.username = true;
         }
 
