@@ -41,12 +41,13 @@ function Header() {
 
     const answerNo = (ans) => {
         setInvite(false);
-        usedSocket.emit('invite-no', [...invite, ans]);
+        usedSocket.emit('invite-answer', [...invite, ans]);
     };
 
-    const answerYes = () => {
+    const answerYes = (ans) => {
         setInvite(false);
         usedSocket.emit('join-session', invite[0]);
+        usedSocket.emit('invite-answer', [...invite, ans]);
     };
 
     usedSocket.on('invited-to', (args) => {
@@ -58,7 +59,9 @@ function Header() {
     });
 
     usedSocket.on('answer', (args) => {
-        setAnswer(args);
+        if (!answer) {
+            setAnswer(args);
+        }
     });
 
     return (
