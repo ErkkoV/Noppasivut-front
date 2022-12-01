@@ -105,8 +105,10 @@ function Header() {
                 <Modal.Header>Invite</Modal.Header>
                 <Modal.Body>
                     <p>{`${invite[1]} asked you to join into ${invite[0]}`}</p>
-                    <Button>Join {invite[0]}</Button>
-                    <Button>Do not Join</Button>
+                    <Button variant="success" onClick>
+                        Join {invite[0]}
+                    </Button>
+                    <Button variant="danger">Do not Join</Button>
                 </Modal.Body>
             </Modal>
         </>
