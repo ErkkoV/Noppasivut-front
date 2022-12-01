@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
+import { useState, useContext } from 'react';
+import { Nav, Navbar, Modal, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
+
+import SocketContext from '../contexts/SocketContext';
 
 import LoginButton from './LoginButton';
 import SessionMenu from './SessionMenu';
@@ -8,6 +10,11 @@ import SessionMenu from './SessionMenu';
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
+
+    const { usedSocket } = useContext(SocketContext);
+
+    const [invite, setInvite] = useState(false);
+    const [answer, setAnswer] = useState(false);
 
     const setStart = () => {
         const keys = { home: false, DiceRoller: false, ProbCalc: false, CharCreator: false };
@@ -32,50 +39,95 @@ function Header() {
         setActiveKey(keys);
     };
 
-    return (
-        <Navbar bg="dark" variant="dark">
-            <Nav>
-                <Nav.Link
-                    onClick={() => {
-                        navigate('/', { replace: false });
-                        setAct('home');
-                    }}
-                    active={activeKey.home}
-                >
-                    Home
-                </Nav.Link>
-                <Nav.Link
-                    onClick={() => {
-                        navigate('/DiceRoller', { replace: false });
-                        setAct('DiceRoller');
-                    }}
-                    active={activeKey.DiceRoller}
-                >
-                    Dice Roller
-                </Nav.Link>
-                <Nav.Link
-                    onClick={() => {
-                        navigate('/ProbCalc', { replace: false });
-                        setAct('ProbCalc');
-                    }}
-                    active={activeKey.ProbCalc}
-                >
-                    Probability Calculator
-                </Nav.Link>
-                <Nav.Link
-                    onClick={() => {
-                        navigate('/CharCreator', { replace: false });
-                        setAct('CharCreator');
-                    }}
-                    active={activeKey.CharCreator}
-                >
-                    Character Creator
-                </Nav.Link>
+    const answerNo = (ans) => {
+        setInvite(false);
+        usedSocket.emit('invite-answer', [...invite, ans]);
+    };
 
-                <SessionMenu />
-                <LoginButton />
-            </Nav>
-        </Navbar>
+    const answerYes = (ans) => {
+        setInvite(false);
+        usedSocket.emit('join-session', invite[0]);
+        usedSocket.emit('invite-answer', [...invite, ans]);
+    };
+
+    usedSocket.on('invited-to', (args) => {
+        if (!invite) {
+            setInvite(args);
+        } else {
+            answerNo('was too busy to join');
+        }
+    });
+
+    usedSocket.on('answer', (args) => {
+        if (!answer) {
+            setAnswer(args);
+        }
+    });
+
+    return (
+        <>
+            <Navbar bg="dark" variant="dark">
+                <Nav>
+                    <Nav.Link
+                        onClick={() => {
+                            navigate('/', { replace: false });
+                            setAct('home');
+                        }}
+                        active={activeKey.home}
+                    >
+                        Home
+                    </Nav.Link>
+                    <Nav.Link
+                        onClick={() => {
+                            navigate('/DiceRoller', { replace: false });
+                            setAct('DiceRoller');
+                        }}
+                        active={activeKey.DiceRoller}
+                    >
+                        Dice Roller
+                    </Nav.Link>
+                    <Nav.Link
+                        onClick={() => {
+                            navigate('/ProbCalc', { replace: false });
+                            setAct('ProbCalc');
+                        }}
+                        active={activeKey.ProbCalc}
+                    >
+                        Probability Calculator
+                    </Nav.Link>
+                    <Nav.Link
+                        onClick={() => {
+                            navigate('/CharCreator', { replace: false });
+                            setAct('CharCreator');
+                        }}
+                        active={activeKey.CharCreator}
+                    >
+                        Character Creator
+                    </Nav.Link>
+
+                    <SessionMenu />
+                    <LoginButton />
+                </Nav>
+            </Navbar>
+            <Modal show={invite} onHide={() => answerNo()}>
+                <Modal.Header closeButton>Invite</Modal.Header>
+                <Modal.Body>
+                    <p>{`${invite[1]} asked you to join into ${invite[0]}`}</p>
+                    <Button variant="success" onClick={() => answerYes('joined to')}>
+                        Join {invite[0]}
+                    </Button>
+                    <Button variant="danger" onClick={() => answerNo('denied joining to')}>
+                        Do not Join
+                    </Button>
+                </Modal.Body>
+            </Modal>
+            <Modal show={answer} onHide={() => setAnswer(false)}>
+                <Modal.Header closeButton>Answer to Invite</Modal.Header>
+                <Modal.Body>
+                    <p>{`${answer[1]} ${answer[2]} ${answer[0]}`}</p>
+                </Modal.Body>
+            </Modal>
+        </>
     );
 }
 
