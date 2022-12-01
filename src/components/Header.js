@@ -38,9 +38,9 @@ function Header() {
         setActiveKey(keys);
     };
 
-    const answerNo = () => {
+    const answerNo = (ans) => {
         setInvite(false);
-        usedSocket.emit('invite-no', invite);
+        usedSocket.emit('invite-no', [...invite, ans]);
     };
 
     const answerYes = () => {
@@ -102,13 +102,15 @@ function Header() {
                 </Nav>
             </Navbar>
             <Modal show={invite} onHide={() => answerNo()}>
-                <Modal.Header>Invite</Modal.Header>
+                <Modal.Header closeButton>Invite</Modal.Header>
                 <Modal.Body>
                     <p>{`${invite[1]} asked you to join into ${invite[0]}`}</p>
-                    <Button variant="success" onClick>
+                    <Button variant="success" onClick={() => answerYes()}>
                         Join {invite[0]}
                     </Button>
-                    <Button variant="danger">Do not Join</Button>
+                    <Button variant="danger" onClick={() => answerNo('denied')}>
+                        Do not Join
+                    </Button>
                 </Modal.Body>
             </Modal>
         </>
