@@ -41,7 +41,10 @@ function UserWindow() {
             <h3>Users:</h3>
             {users &&
                 users.map((entry) => (
-                    <Card variant="success" style={{ 'white-space': 'pre-wrap' }}>
+                    <Card
+                        bg={allUsers.map((all) => all[1] && all[0]).includes(entry) ? 'success' : 'danger'}
+                        style={{ 'white-space': 'pre-wrap' }}
+                    >
                         {entry}
                     </Card>
                 ))}
@@ -55,15 +58,19 @@ function UserWindow() {
                 <Modal.Body>
                     {allUsers.map(
                         (listedUser) =>
-                            listedUser !== user && (
-                                <Card variant="success" style={{ 'white-space': 'pre-wrap' }}>
+                            listedUser[0] !== user && (
+                                <Card
+                                    variant={listedUser[1] ? 'success' : 'danger'}
+                                    style={{ 'white-space': 'pre-wrap' }}
+                                >
                                     <Button
-                                        variant="info"
+                                        variant={listedUser[1] ? 'success' : 'danger'}
                                         onClick={() => {
-                                            inviteUser(listedUser);
+                                            inviteUser(listedUser[0]);
                                         }}
+                                        disabled={!listedUser[1]}
                                     >
-                                        Invite {listedUser}
+                                        Invite {listedUser[0]}
                                     </Button>
                                 </Card>
                             )
