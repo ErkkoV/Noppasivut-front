@@ -23,7 +23,11 @@ function LoginButton() {
     useEffect(() => {
         const newValid = { username: false, password: false };
 
-        if (user.replace(/\s+/g, '').length > 4 && user.length < 30 && user !== 'noppa' && user !== 'random') {
+        console.log(user);
+
+        const testUser = user;
+
+        if (testUser.replace(/\s+/g, '').length > 4 && user.length < 30 && user !== 'noppa' && user !== 'random') {
             newValid.username = true;
         }
 
@@ -53,6 +57,7 @@ function LoginButton() {
 
     const createUser = () => {
         if (validate.username && validate.password) {
+            console.log(user);
             usedSocket.emit('create-user', { username: user, password: pass });
         } else {
             setMessage(
