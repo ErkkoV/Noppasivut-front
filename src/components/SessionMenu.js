@@ -40,7 +40,9 @@ function SessionMenu() {
     });
 
     const createSession = () => {
-        usedSocket.emit('create-session', newSession);
+        if (newSession.replace(/\s+/g, '').length > 4) {
+            usedSocket.emit('create-session', newSession);
+        }
     };
 
     return (
@@ -93,6 +95,8 @@ function SessionMenu() {
                                 onChange={(e) => {
                                     setNewSession(e.target.value);
                                 }}
+                                isValid={newSession.replace(/\s+/g, '').length > 4}
+                                isInvalid={newSession.replace(/\s+/g, '').length < 5}
                                 required
                             />
                         </Form.Group>
