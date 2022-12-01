@@ -54,10 +54,9 @@ function Home() {
             <div style={{ 'margin-left': '20px', width: '65%', float: 'left' }}>
                 {user !== 'noppa' && user !== 'random' ? (
                     <>
-                        <p>Logged in as {user}</p>
                         <br />
                         {messages.map((each) => (
-                            <p key={`${each.id}`}>
+                            <p key={`${each.id}`} style={{ 'white-space': 'pre-wrap' }}>
                                 {each.user}: {each.message}
                             </p>
                         ))}
