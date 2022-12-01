@@ -49,7 +49,7 @@ function SessionMenu() {
         <>
             <Dropdown
                 as={ButtonGroup}
-                style={{ 'margin-left': '100px' }}
+                style={{ 'margin-left': '100px', 'white-space': 'pre-wrap' }}
                 onSelect={(e) => {
                     setSession(e);
                 }}
