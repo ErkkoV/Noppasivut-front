@@ -39,7 +39,12 @@ function UserWindow() {
             </Button>
 
             <h3>Users:</h3>
-            {users && users.map((entry) => <Card variant="success">{entry}</Card>)}
+            {users &&
+                users.map((entry) => (
+                    <Card variant="success" style={{ 'white-space': 'pre-wrap' }}>
+                        {entry}
+                    </Card>
+                ))}
             <Modal
                 show={usersModal}
                 onHide={() => {
@@ -51,7 +56,7 @@ function UserWindow() {
                     {allUsers.map(
                         (listedUser) =>
                             listedUser !== user && (
-                                <Card variant="success">
+                                <Card variant="success" style={{ 'white-space': 'pre-wrap' }}>
                                     <Button
                                         variant="info"
                                         onClick={() => {

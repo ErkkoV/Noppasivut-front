@@ -23,7 +23,11 @@ function LoginButton() {
     useEffect(() => {
         const newValid = { username: false, password: false };
 
-        if (user.length > 4 && user.length < 30 && user !== 'noppa' && user !== 'random') {
+        console.log(user);
+
+        const testUser = user;
+
+        if (testUser.replace(/\s+/g, '').length > 4 && user.length < 30 && user !== 'noppa' && user !== 'random') {
             newValid.username = true;
         }
 
@@ -72,106 +76,106 @@ function LoginButton() {
 
     return (
         <>
-            <h3 style={{ color: 'white', 'margin-left': '50px', 'margin-top': '2px' }}>
+            <h3 style={{ color: 'white', 'margin-left': '50px', 'margin-top': '2px', 'white-space': 'pre-wrap' }}>
                 {logged.user !== 'noppa' && logged.user !== 'random' ? logged.user : 'No User'} &nbsp;
             </h3>
 
             <Button variant="info" onClick={() => setLoginModal(true)}>
                 {logged.user !== 'noppa' && logged.user !== 'random' ? 'Change User' : 'Login User'}
             </Button>
-            {loginModal && (
-                <Modal
-                    show={loginModal}
-                    onHide={() => {
-                        setLoginModal(false);
-                        setMessage(false);
-                        setUser('');
-                        setPass('');
-                    }}
-                    onKeyPress={(e) => {
-                        if (e.key === 'Enter' && loginModal) {
+
+            <Modal
+                show={loginModal}
+                onHide={() => {
+                    setLoginModal(false);
+                    setMessage(false);
+                    setUser('');
+                    setPass('');
+                }}
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter' && loginModal) {
+                        if (newUser) {
+                            createUser();
+                        } else {
+                            login();
+                        }
+                    }
+                }}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>{newUser ? 'Create New User' : 'Login'}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form noValidate onSubmit={(e) => e.preventDefault}>
+                        <Form.Group className="mb-3" controlId="validationCustom01">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Username"
+                                onChange={(e) => {
+                                    setUser(e.target.value);
+                                }}
+                                required
+                                isValid={validate.username}
+                                isInvalid={!validate.username}
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="validationCustom02">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                placeholder="Password"
+                                onChange={(e) => {
+                                    setPass(e.target.value);
+                                }}
+                                required
+                                isValid={validate.password}
+                                isInvalid={!validate.password}
+                            />
+                        </Form.Group>
+                    </Form>
+
+                    <Button
+                        variant="primary"
+                        disabled={!validate.username || !validate.password}
+                        onClick={() => {
                             if (newUser) {
                                 createUser();
                             } else {
                                 login();
                             }
-                        }
-                    }}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>{newUser ? 'Create New User' : 'Login'}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form noValidate onSubmit={(e) => e.preventDefault}>
-                            <Form.Group className="mb-3" controlId="validationCustom01">
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Username"
-                                    onChange={(e) => {
-                                        setUser(e.target.value);
-                                    }}
-                                    required
-                                    isValid={validate.username}
-                                    isInvalid={!validate.username}
-                                />
-                            </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="validationCustom02">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Password"
-                                    onChange={(e) => {
-                                        setPass(e.target.value);
-                                    }}
-                                    required
-                                    isValid={validate.password}
-                                    isInvalid={!validate.password}
-                                />
-                            </Form.Group>
-                        </Form>
-
-                        <Button
-                            variant="primary"
-                            onClick={() => {
-                                if (newUser) {
-                                    createUser();
-                                } else {
-                                    login();
-                                }
-                            }}
+                        }}
+                    >
+                        {newUser ? 'Create' : 'Login'}
+                    </Button>
+                    <br />
+                    {message && (
+                        <Alert
+                            variant={
+                                message === 'Login succeeded' || message === 'User added. Please Login.'
+                                    ? 'success'
+                                    : 'danger'
+                            }
                         >
-                            {newUser ? 'Create' : 'Login'}
-                        </Button>
-                        <br />
-                        {message && (
-                            <Alert
-                                variant={
-                                    message === 'Login succeeded' || message === 'User added. Please Login.'
-                                        ? 'success'
-                                        : 'danger'
-                                }
-                            >
-                                {message}
-                            </Alert>
-                        )}
-                        <br />
-                        <Button
-                            onClick={() => {
-                                setMessage(false);
-                                if (!newUser) {
-                                    setNewUser(true);
-                                } else {
-                                    setNewUser(false);
-                                }
-                            }}
-                        >
-                            {newUser ? 'Return to Login' : 'Create User'}
-                        </Button>
-                    </Modal.Body>
-                </Modal>
-            )}
+                            {message}
+                        </Alert>
+                    )}
+                    <br />
+                    <Button
+                        onClick={() => {
+                            setMessage(false);
+                            if (!newUser) {
+                                setNewUser(true);
+                            } else {
+                                setNewUser(false);
+                            }
+                        }}
+                    >
+                        {newUser ? 'Return to Login' : 'Create User'}
+                    </Button>
+                </Modal.Body>
+            </Modal>
         </>
     );
 }

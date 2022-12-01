@@ -40,14 +40,16 @@ function SessionMenu() {
     });
 
     const createSession = () => {
-        usedSocket.emit('create-session', newSession);
+        if (newSession.replace(/\s+/g, '').length > 4 && newSession.length <= 50) {
+            usedSocket.emit('create-session', newSession);
+        }
     };
 
     return (
         <>
             <Dropdown
                 as={ButtonGroup}
-                style={{ 'margin-left': '100px' }}
+                style={{ 'margin-left': '100px', 'white-space': 'pre-wrap' }}
                 onSelect={(e) => {
                     setSession(e);
                 }}
@@ -65,7 +67,9 @@ function SessionMenu() {
 
                 <Dropdown.Menu disabled={user === 'noppa' || user === 'random'}>
                     {sessionList.map((sess) => (
-                        <Dropdown.Item eventKey={sess}>{sess}</Dropdown.Item>
+                        <Dropdown.Item eventKey={sess} style={{ 'white-space': 'pre-wrap' }}>
+                            {sess}
+                        </Dropdown.Item>
                     ))}
                 </Dropdown.Menu>
             </Dropdown>
@@ -93,6 +97,8 @@ function SessionMenu() {
                                 onChange={(e) => {
                                     setNewSession(e.target.value);
                                 }}
+                                isValid={newSession.replace(/\s+/g, '').length > 4 && newSession.length <= 50}
+                                isInvalid={newSession.replace(/\s+/g, '').length < 5 || newSession.length > 50}
                                 required
                             />
                         </Form.Group>
@@ -102,9 +108,11 @@ function SessionMenu() {
                         onClick={() => {
                             createSession();
                         }}
+                        disabled={newSession.replace(/\s+/g, '').length < 5 || newSession.length > 50}
                     >
                         Create Session
                     </Button>
+
                     {warning && <Alert variant={warning === 'Session added' ? 'success' : 'danger'}>{warning}</Alert>}
                 </Modal.Body>
             </Modal>
