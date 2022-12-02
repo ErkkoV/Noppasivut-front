@@ -77,7 +77,7 @@ function SessionMenu() {
                     split
                     variant="info"
                     id="dropdown-split-basic"
-                    disabled={user === 'noppa' || user === 'random'}
+                    disabled={user === 'noppa' || user === 'random' || disableChange}
                 />
 
                 <Dropdown.Menu disabled={user === 'noppa' || user === 'random' || disableChange}>
