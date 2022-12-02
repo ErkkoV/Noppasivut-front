@@ -39,8 +39,8 @@ function UserWindow() {
             </Button>
 
             <h3>Users:</h3>
-            {users &&
-                users.map((entry) => (
+            {users.users &&
+                users.users.map((entry) => (
                     <Card
                         bg={allUsers.map((all) => all[1] && all[0]).includes(entry) ? 'success' : 'danger'}
                         style={{ 'white-space': 'pre-wrap' }}
