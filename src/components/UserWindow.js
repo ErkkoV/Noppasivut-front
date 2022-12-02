@@ -36,7 +36,6 @@ function UserWindow() {
         if (users.admins.includes(username)) {
             iniUser.admin = true;
         }
-        console.log(iniUser);
         setClickedUser(iniUser);
     };
 
@@ -98,8 +97,21 @@ function UserWindow() {
             <Modal show={clickedUser} onHide={() => setClickedUser(false)}>
                 <Modal.Header closeButton>{clickedUser.name}</Modal.Header>
                 <Modal.Body>
+                    {clickedUser.owner && <h3>Owner</h3>}
+                    {!clickedUser.owner && clickedUser.admin && <h3>Admin</h3>}
+                    <Button
+                        variant={clickedUser.admin ? 'danger' : 'success'}
+                        disabled={
+                            clickedUser.owner ||
+                            (user !== users.owner && clickedUser.admin) ||
+                            !users.admins.includes(user)
+                        }
+                    >
+                        {clickedUser.admin ? 'Remove Admin' : 'Create Admin'}
+                    </Button>
+
                     {user === clickedUser.name && (
-                        <Button variant="danger" disabled={session === user || clickedUser.owner === user}>
+                        <Button variant="warning" disabled={session === user || clickedUser.owner}>
                             Leave
                         </Button>
                     )}
