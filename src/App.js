@@ -63,7 +63,6 @@ function App() {
     });
 
     usedSocket.on('users', (args) => {
-        console.log(args);
         setUsers(args);
     });
 
