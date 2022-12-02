@@ -65,6 +65,9 @@ function UserWindow() {
                         {entry !== users.owner && users.admins.includes(entry) && '[Admin]'}
                     </Card>
                 ))}
+            <Button variant="warning" disabled={session === user || clickedUser.owner}>
+                Leave Session
+            </Button>
             <Modal
                 show={usersModal}
                 onHide={() => {
@@ -112,7 +115,7 @@ function UserWindow() {
 
                     {user === clickedUser.name && (
                         <Button variant="warning" disabled={session === user || clickedUser.owner}>
-                            Leave
+                            Leave Session
                         </Button>
                     )}
                 </Modal.Body>

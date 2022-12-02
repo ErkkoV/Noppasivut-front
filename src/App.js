@@ -63,7 +63,10 @@ function App() {
     });
 
     usedSocket.on('users', (args) => {
-        setUsers(args);
+        console.log(args.name);
+        if (args.name === session) {
+            setUsers(args);
+        }
     });
 
     useEffect(() => {
