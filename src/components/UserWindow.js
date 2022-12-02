@@ -135,7 +135,7 @@ function UserWindow() {
                             (user !== users.owner && clickedUser.admin) ||
                             !users.admins.includes(user)
                         }
-                        onClick={() => leaveSession()}
+                        onClick={() => leaveSession(session, clickedUser.name)}
                     >
                         Kick User
                     </Button>
