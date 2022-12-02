@@ -122,7 +122,7 @@ function UserWindow() {
                             (user !== users.owner && clickedUser.admin) ||
                             !users.admins.includes(user)
                         }
-                        onClick={() => adminAdjust()}
+                        onClick={() => adminAdjust(session, clickedUser.name, !clickedUser.admin)}
                     >
                         {clickedUser.admin ? 'Remove Admin' : 'Create Admin'}
                     </Button>
