@@ -16,6 +16,8 @@ function UserWindow() {
 
     const [usersModal, setUsersModal] = useState(false);
 
+    const [clickedUser, setClickedUser] = useState(false);
+
     const inviteUser = (inv) => {
         usedSocket.emit('invite', { session, user, inv });
     };
@@ -25,6 +27,18 @@ function UserWindow() {
             setAllUsers([...args]);
         }
     });
+
+    const clickUser = (username) => {
+        const iniUser = { name: username, admin: false, owner: false };
+        if (username === users.owner) {
+            iniUser.owner = true;
+        }
+        if (users.admins.includes(username)) {
+            iniUser.admin = true;
+        }
+        console.log(iniUser);
+        setClickedUser(iniUser);
+    };
 
     return (
         <>
@@ -44,8 +58,11 @@ function UserWindow() {
                     <Card
                         bg={allUsers.map((all) => all[1] && all[0]).includes(entry) ? 'success' : 'danger'}
                         style={{ 'white-space': 'pre-wrap' }}
+                        onClick={() => {
+                            clickUser(entry);
+                        }}
                     >
-                        {entry} &nbsp; {entry === users.owner && '[Owner]'}{' '}
+                        {entry} &nbsp; {entry === users.owner && '[Owner]'}
                         {entry !== users.owner && users.admins.includes(entry) && '[Admin]'}
                     </Card>
                 ))}
@@ -75,6 +92,16 @@ function UserWindow() {
                                     </Button>
                                 </Card>
                             )
+                    )}
+                </Modal.Body>
+            </Modal>
+            <Modal show={clickedUser} onHide={() => setClickedUser(false)}>
+                <Modal.Header closeButton>{clickedUser.name}</Modal.Header>
+                <Modal.Body>
+                    {user === clickedUser.name && (
+                        <Button variant="danger" disabled={session === user || clickedUser.owner === user}>
+                            Leave
+                        </Button>
                     )}
                 </Modal.Body>
             </Modal>
