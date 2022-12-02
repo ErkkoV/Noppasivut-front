@@ -65,6 +65,7 @@ function UserWindow() {
                         {entry !== users.owner && users.admins.includes(entry) && '[Admin]'}
                     </Card>
                 ))}
+            <br />
             <Button variant="warning" disabled={session === user || clickedUser.owner}>
                 Leave Session
             </Button>
@@ -111,6 +112,17 @@ function UserWindow() {
                         }
                     >
                         {clickedUser.admin ? 'Remove Admin' : 'Create Admin'}
+                    </Button>
+                    <Button
+                        variant={clickedUser.admin ? 'danger' : 'success'}
+                        disabled={
+                            clickedUser === user ||
+                            clickedUser.owner ||
+                            (user !== users.owner && clickedUser.admin) ||
+                            !users.admins.includes(user)
+                        }
+                    >
+                        Kick User
                     </Button>
 
                     {user === clickedUser.name && (
