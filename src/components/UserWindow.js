@@ -39,6 +39,14 @@ function UserWindow() {
         setClickedUser(iniUser);
     };
 
+    const leaveSession = (sess, username) => {
+        usedSocket.emit('leave-session', { session: sess, user: username });
+    };
+
+    const adminAdjust = (sess, username, mod) => {
+        usedSocket.emit('admin', { session: sess, user: username, status: mod });
+    };
+
     return (
         <>
             <Button
@@ -66,7 +74,11 @@ function UserWindow() {
                     </Card>
                 ))}
             <br />
-            <Button variant="warning" disabled={session === user || clickedUser.owner}>
+            <Button
+                variant="warning"
+                disabled={session === user || user === users.owner}
+                onClick={() => leaveSession(session, user)}
+            >
                 Leave Session
             </Button>
             <Modal
@@ -110,23 +122,29 @@ function UserWindow() {
                             (user !== users.owner && clickedUser.admin) ||
                             !users.admins.includes(user)
                         }
+                        onClick={() => adminAdjust()}
                     >
                         {clickedUser.admin ? 'Remove Admin' : 'Create Admin'}
                     </Button>
+                    &nbsp;
                     <Button
-                        variant={clickedUser.admin ? 'danger' : 'success'}
+                        variant="warning"
                         disabled={
                             clickedUser === user ||
                             clickedUser.owner ||
                             (user !== users.owner && clickedUser.admin) ||
                             !users.admins.includes(user)
                         }
+                        onClick={() => leaveSession()}
                     >
                         Kick User
                     </Button>
-
                     {user === clickedUser.name && (
-                        <Button variant="warning" disabled={session === user || clickedUser.owner}>
+                        <Button
+                            variant="warning"
+                            disabled={session === user || clickedUser.owner}
+                            onClick={() => leaveSession(session, user)}
+                        >
                             Leave Session
                         </Button>
                     )}
