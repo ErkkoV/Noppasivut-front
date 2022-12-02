@@ -1,15 +1,17 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
 import { Dropdown, Button, ButtonGroup, Modal, Form, Alert } from 'react-bootstrap';
 
 import SessionContext from '../contexts/SessionContext';
 import SocketContext from '../contexts/SocketContext';
 import UserContext from '../contexts/UserContext';
+import UsersContext from '../contexts/UsersContext';
 
 function SessionMenu() {
     const { session, setSession } = useContext(SessionContext);
     const { usedSocket } = useContext(SocketContext);
     const { user } = useContext(UserContext);
+    const { users } = useContext(UsersContext);
 
     const [addSession, setAddSession] = useState(false);
 
@@ -45,13 +47,26 @@ function SessionMenu() {
         }
     };
 
+    const [disableChange, setDisableChange] = useState(false);
+
+    const sessionChange = (sess) => {
+        if (sess !== session) {
+            setDisableChange(true);
+            setSession(sess);
+        }
+    };
+
+    useEffect(() => {
+        setDisableChange(false);
+    }, [users]);
+
     return (
         <>
             <Dropdown
                 as={ButtonGroup}
                 style={{ 'margin-left': '100px', 'white-space': 'pre-wrap' }}
                 onSelect={(e) => {
-                    setSession(e);
+                    sessionChange(e);
                 }}
             >
                 <Button variant="info" disabled={user === 'noppa' || user === 'random'}>
@@ -65,7 +80,7 @@ function SessionMenu() {
                     disabled={user === 'noppa' || user === 'random'}
                 />
 
-                <Dropdown.Menu disabled={user === 'noppa' || user === 'random'}>
+                <Dropdown.Menu disabled={user === 'noppa' || user === 'random' || disableChange}>
                     {sessionList.map((sess) => (
                         <Dropdown.Item eventKey={sess} style={{ 'white-space': 'pre-wrap' }}>
                             {sess}
