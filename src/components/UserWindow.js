@@ -16,6 +16,8 @@ function UserWindow() {
 
     const [usersModal, setUsersModal] = useState(false);
 
+    const [clickedUser, setClickedUser] = useState(false);
+
     const inviteUser = (inv) => {
         usedSocket.emit('invite', { session, user, inv });
     };
@@ -25,6 +27,25 @@ function UserWindow() {
             setAllUsers([...args]);
         }
     });
+
+    const clickUser = (username) => {
+        const iniUser = { name: username, admin: false, owner: false };
+        if (username === users.owner) {
+            iniUser.owner = true;
+        }
+        if (users.admins.includes(username)) {
+            iniUser.admin = true;
+        }
+        setClickedUser(iniUser);
+    };
+
+    const leaveSession = (sess, username) => {
+        usedSocket.emit('leave-session', { session: sess, user: username });
+    };
+
+    const adminAdjust = (sess, username, mod) => {
+        usedSocket.emit('admin', { session: sess, user: username, status: mod });
+    };
 
     return (
         <>
@@ -39,15 +60,27 @@ function UserWindow() {
             </Button>
 
             <h3>Users:</h3>
-            {users &&
-                users.map((entry) => (
+            {users.users &&
+                users.users.map((entry) => (
                     <Card
                         bg={allUsers.map((all) => all[1] && all[0]).includes(entry) ? 'success' : 'danger'}
                         style={{ 'white-space': 'pre-wrap' }}
+                        onClick={() => {
+                            clickUser(entry);
+                        }}
                     >
-                        {entry}
+                        {entry} &nbsp; {entry === users.owner && '[Owner]'}
+                        {entry !== users.owner && users.admins.includes(entry) && '[Admin]'}
                     </Card>
                 ))}
+            <br />
+            <Button
+                variant="warning"
+                disabled={session === user || user === users.owner}
+                onClick={() => leaveSession(session, user)}
+            >
+                Leave Session
+            </Button>
             <Modal
                 show={usersModal}
                 onHide={() => {
@@ -74,6 +107,46 @@ function UserWindow() {
                                     </Button>
                                 </Card>
                             )
+                    )}
+                </Modal.Body>
+            </Modal>
+            <Modal show={clickedUser} onHide={() => setClickedUser(false)}>
+                <Modal.Header closeButton>{clickedUser.name}</Modal.Header>
+                <Modal.Body>
+                    {clickedUser.owner && <h3>Owner</h3>}
+                    {!clickedUser.owner && clickedUser.admin && <h3>Admin</h3>}
+                    <Button
+                        variant={clickedUser.admin ? 'danger' : 'success'}
+                        disabled={
+                            clickedUser.owner ||
+                            (user !== users.owner && clickedUser.admin) ||
+                            !users.admins.includes(user)
+                        }
+                        onClick={() => adminAdjust(session, clickedUser.name, !clickedUser.admin)}
+                    >
+                        {clickedUser.admin ? 'Remove Admin' : 'Create Admin'}
+                    </Button>
+                    &nbsp;
+                    <Button
+                        variant="warning"
+                        disabled={
+                            clickedUser === user ||
+                            clickedUser.owner ||
+                            (user !== users.owner && clickedUser.admin) ||
+                            !users.admins.includes(user)
+                        }
+                        onClick={() => leaveSession(session, clickedUser.name)}
+                    >
+                        Kick User
+                    </Button>
+                    {user === clickedUser.name && (
+                        <Button
+                            variant="warning"
+                            disabled={session === user || clickedUser.owner}
+                            onClick={() => leaveSession(session, user)}
+                        >
+                            Leave Session
+                        </Button>
                     )}
                 </Modal.Body>
             </Modal>

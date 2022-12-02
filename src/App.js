@@ -26,7 +26,7 @@ function App() {
     const [session, setSession] = useState('noppa');
     const usedSession = useMemo(() => ({ session, setSession }), [session]);
 
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState({ name: '', owner: '', admins: [], users: [], private: true });
     const usedUsers = useMemo(() => ({ users, setUsers }), [users]);
 
     connectIo(usedSocket);
@@ -63,7 +63,9 @@ function App() {
     });
 
     usedSocket.on('users', (args) => {
-        setUsers(args);
+        if (args.name === session) {
+            setUsers(args);
+        }
     });
 
     useEffect(() => {
