@@ -91,7 +91,8 @@ function UserWindow() {
                 <Modal.Body>
                     {allUsers.map(
                         (listedUser) =>
-                            listedUser[0] !== user && (
+                            listedUser[0] !== user &&
+                            !users.users.includes(listedUser[0])(
                                 <Card
                                     variant={listedUser[1] ? 'success' : 'danger'}
                                     style={{ 'white-space': 'pre-wrap' }}
