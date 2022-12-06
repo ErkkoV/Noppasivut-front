@@ -29,8 +29,10 @@ function App() {
     const [users, setUsers] = useState({ name: '', owner: '', admins: [], users: [], private: true });
     const usedUsers = useMemo(() => ({ users, setUsers }), [users]);
 
-    connectIo(usedSocket);
-
+    useEffect(() => {
+        connectIo(usedSocket);
+    },[usedSocket])
+    
     usedSocket.on('user', (args) => {
         setUser(args);
     });
