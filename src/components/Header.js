@@ -116,8 +116,21 @@ function Header() {
                     <LoginButton />
                 </Nav>
             </Navbar>
-            <Modal show={invite} onHide={() => answerNo()}>
-                <Modal.Header closeButton>Invite</Modal.Header>
+            <Modal
+                show={invite}
+                onHide={() => {
+                    answerNo();
+                    answerNo('denied joining to');
+                }}
+            >
+                <Modal.Header
+                    closeButton={() => {
+                        setInvite(false);
+                        answerNo('denied joining to');
+                    }}
+                >
+                    Invite
+                </Modal.Header>
                 <Modal.Body>
                     <p>{`${invite[1]} asked you to join into ${invite[0]}`}</p>
                     <Button variant="success" onClick={() => answerYes('joined to')}>
@@ -129,13 +142,13 @@ function Header() {
                 </Modal.Body>
             </Modal>
             <Modal show={answer} onHide={() => setAnswer(false)}>
-                <Modal.Header closeButton>Answer to Invite</Modal.Header>
+                <Modal.Header closeButton={() => setAnswer(false)}>Answer to Invite</Modal.Header>
                 <Modal.Body>
                     <p>{`${answer[1]} ${answer[2]} ${answer[0]}`}</p>
                 </Modal.Body>
             </Modal>
             <Modal show={kicked} onHide={() => setKicked(false)}>
-                <Modal.Header closeButton>Kicked from {kicked}!</Modal.Header>
+                <Modal.Header closeButton={() => setKicked(false)}>Kicked from {kicked}!</Modal.Header>
             </Modal>
         </>
     );
