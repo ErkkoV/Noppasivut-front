@@ -30,9 +30,10 @@ function App() {
     const usedUsers = useMemo(() => ({ users, setUsers }), [users]);
 
     useEffect(() => {
+        usedSocket.connect();
         connectIo(usedSocket);
-    },[usedSocket])
-    
+    }, [usedSocket]);
+
     usedSocket.on('user', (args) => {
         setUser(args);
     });
