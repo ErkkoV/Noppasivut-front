@@ -136,6 +136,7 @@ function UserWindow() {
                         onClick={() => {
                             adminAdjust(session, clickedUser.name, !clickedUser.admin);
                             clickUser(clickedUser.name);
+                            setClickedUser(false);
                         }}
                     >
                         {clickedUser.admin ? 'Remove Admin' : 'Create Admin'}
