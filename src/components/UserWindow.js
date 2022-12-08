@@ -29,7 +29,6 @@ function UserWindow() {
 
     usedSocket.on('all-users', (args) => {
         if (args !== allUsers) {
-            console.log(args);
             setAllUsers([...args]);
         }
     });
@@ -52,10 +51,6 @@ function UserWindow() {
     const adminAdjust = (sess, username, mod) => {
         usedSocket.emit('admin', { session: sess, user: username, status: mod });
     };
-
-    useEffect(() => {
-        console.log(allUsers);
-    }, [allUsers]);
 
     return (
         <>
