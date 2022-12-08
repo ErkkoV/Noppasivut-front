@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Button, Modal, Card } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
@@ -22,8 +22,13 @@ function UserWindow() {
         usedSocket.emit('invite', { session, user, inv });
     };
 
+    useEffect(() => {
+        usedSocket.emit('all-users-send');
+    }, []);
+
     usedSocket.on('all-users', (args) => {
         if (args !== allUsers) {
+            console.log(args);
             setAllUsers([...args]);
         }
     });
@@ -46,6 +51,10 @@ function UserWindow() {
     const adminAdjust = (sess, username, mod) => {
         usedSocket.emit('admin', { session: sess, user: username, status: mod });
     };
+
+    useEffect(() => {
+        console.log(allUsers);
+    }, [allUsers]);
 
     return (
         <>

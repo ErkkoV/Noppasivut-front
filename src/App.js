@@ -67,6 +67,7 @@ function App() {
 
     usedSocket.on('users', (args) => {
         if (args.name === session) {
+            console.log(args);
             setUsers(args);
         }
     });
