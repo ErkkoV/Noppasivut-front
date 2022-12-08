@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Button, Modal, Card } from 'react-bootstrap';
 
 import SocketContext from '../contexts/SocketContext';
@@ -20,10 +20,16 @@ function UserWindow() {
 
     const inviteUser = (inv) => {
         usedSocket.emit('invite', { session, user, inv });
+        setUsersModal(false);
     };
+
+    useEffect(() => {
+        usedSocket.emit('all-users-send');
+    }, []);
 
     usedSocket.on('all-users', (args) => {
         if (args !== allUsers) {
+            console.log(args);
             setAllUsers([...args]);
         }
     });
@@ -46,6 +52,10 @@ function UserWindow() {
     const adminAdjust = (sess, username, mod) => {
         usedSocket.emit('admin', { session: sess, user: username, status: mod });
     };
+
+    useEffect(() => {
+        console.log(allUsers);
+    }, [allUsers]);
 
     return (
         <>
@@ -91,7 +101,8 @@ function UserWindow() {
                 <Modal.Body>
                     {allUsers.map(
                         (listedUser) =>
-                            listedUser[0] !== user && (
+                            listedUser[0] !== user &&
+                            !users.users.includes(listedUser[0]) && (
                                 <Card
                                     variant={listedUser[1] ? 'success' : 'danger'}
                                     style={{ 'white-space': 'pre-wrap' }}
@@ -122,7 +133,11 @@ function UserWindow() {
                             (user !== users.owner && clickedUser.admin) ||
                             !users.admins.includes(user)
                         }
-                        onClick={() => adminAdjust(session, clickedUser.name, !clickedUser.admin)}
+                        onClick={() => {
+                            adminAdjust(session, clickedUser.name, !clickedUser.admin);
+                            clickUser(clickedUser.name);
+                            setClickedUser(false);
+                        }}
                     >
                         {clickedUser.admin ? 'Remove Admin' : 'Create Admin'}
                     </Button>
@@ -135,7 +150,10 @@ function UserWindow() {
                             (user !== users.owner && clickedUser.admin) ||
                             !users.admins.includes(user)
                         }
-                        onClick={() => leaveSession(session, clickedUser.name)}
+                        onClick={() => {
+                            leaveSession(session, clickedUser.name);
+                            setClickedUser(false);
+                        }}
                     >
                         Kick User
                     </Button>
@@ -143,7 +161,10 @@ function UserWindow() {
                         <Button
                             variant="warning"
                             disabled={session === user || clickedUser.owner}
-                            onClick={() => leaveSession(session, user)}
+                            onClick={() => {
+                                leaveSession(session, user);
+                                setClickedUser(false);
+                            }}
                         >
                             Leave Session
                         </Button>

@@ -43,6 +43,7 @@ function LoginButton() {
 
     const login = () => {
         if (validate.username && validate.password) {
+            usedSocket.disconnect();
             setUsedSocket(socket(user, pass));
         } else {
             setMessage(

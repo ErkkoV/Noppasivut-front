@@ -29,7 +29,10 @@ function App() {
     const [users, setUsers] = useState({ name: '', owner: '', admins: [], users: [], private: true });
     const usedUsers = useMemo(() => ({ users, setUsers }), [users]);
 
-    connectIo(usedSocket);
+    useEffect(() => {
+        usedSocket.connect();
+        connectIo(usedSocket);
+    }, [usedSocket]);
 
     usedSocket.on('user', (args) => {
         setUser(args);
@@ -64,7 +67,15 @@ function App() {
 
     usedSocket.on('users', (args) => {
         if (args.name === session) {
-            setUsers(args);
+            console.log(args);
+            setUsers({ ...args });
+        }
+    });
+
+    usedSocket.on('kicked', (args) => {
+        if (session !== user) {
+            setSession(user);
+            usedSocket.emit('session-check', args);
         }
     });
 
