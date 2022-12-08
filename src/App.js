@@ -73,7 +73,10 @@ function App() {
     });
 
     usedSocket.on('kicked', () => {
-        setSession(user);
+        if (session !== user) {
+            setSession(user);
+            usedSocket.emit('session-check');
+        }
     });
 
     useEffect(() => {
