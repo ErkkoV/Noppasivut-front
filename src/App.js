@@ -72,10 +72,10 @@ function App() {
         }
     });
 
-    usedSocket.on('kicked', () => {
+    usedSocket.on('kicked', (args) => {
         if (session !== user) {
             setSession(user);
-            usedSocket.emit('session-check');
+            usedSocket.emit('session-check', args);
         }
     });
 
