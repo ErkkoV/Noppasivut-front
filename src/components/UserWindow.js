@@ -20,6 +20,7 @@ function UserWindow() {
 
     const inviteUser = (inv) => {
         usedSocket.emit('invite', { session, user, inv });
+        setUsersModal(false);
     };
 
     useEffect(() => {
@@ -132,7 +133,10 @@ function UserWindow() {
                             (user !== users.owner && clickedUser.admin) ||
                             !users.admins.includes(user)
                         }
-                        onClick={() => adminAdjust(session, clickedUser.name, !clickedUser.admin)}
+                        onClick={() => {
+                            adminAdjust(session, clickedUser.name, !clickedUser.admin);
+                            clickUser(clickedUser.name);
+                        }}
                     >
                         {clickedUser.admin ? 'Remove Admin' : 'Create Admin'}
                     </Button>
@@ -145,7 +149,10 @@ function UserWindow() {
                             (user !== users.owner && clickedUser.admin) ||
                             !users.admins.includes(user)
                         }
-                        onClick={() => leaveSession(session, clickedUser.name)}
+                        onClick={() => {
+                            leaveSession(session, clickedUser.name);
+                            setClickedUser(false);
+                        }}
                     >
                         Kick User
                     </Button>
@@ -153,7 +160,10 @@ function UserWindow() {
                         <Button
                             variant="warning"
                             disabled={session === user || clickedUser.owner}
-                            onClick={() => leaveSession(session, user)}
+                            onClick={() => {
+                                leaveSession(session, user);
+                                setClickedUser(false);
+                            }}
                         >
                             Leave Session
                         </Button>
